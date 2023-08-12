@@ -68,7 +68,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
         lblBotonBarraLateral = new javax.swing.JLabel();
         contConfiguracion = new javax.swing.JPanel();
         lblConfiguracion = new javax.swing.JLabel();
-        btnCerrarSesion = new javax.swing.JLabel();
+        contCerrarSesion = new javax.swing.JPanel();
+        lblCerrarSesion = new javax.swing.JLabel();
         panelFondo = new javax.swing.JPanel();
         panelVentana = new javax.swing.JPanel();
         panelBarraLateral = new javax.swing.JLayeredPane();
@@ -252,10 +253,39 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
         barraLateral.add(contBarraLateral, java.awt.BorderLayout.NORTH);
 
-        btnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/iconos_barra_lateral/icons8-sign-out-30-white.png"))); // NOI18N
-        btnCerrarSesion.setPreferredSize(new java.awt.Dimension(70, 70));
-        barraLateral.add(btnCerrarSesion, java.awt.BorderLayout.SOUTH);
+        contCerrarSesion.setBackground(new java.awt.Color(56, 33, 165));
+
+        lblCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/iconos_barra_lateral/icons8-sign-out-30-white.png"))); // NOI18N
+        lblCerrarSesion.setPreferredSize(new java.awt.Dimension(70, 70));
+        lblCerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCerrarSesionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCerrarSesionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCerrarSesionMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contCerrarSesionLayout = new javax.swing.GroupLayout(contCerrarSesion);
+        contCerrarSesion.setLayout(contCerrarSesionLayout);
+        contCerrarSesionLayout.setHorizontalGroup(
+            contCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contCerrarSesionLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        contCerrarSesionLayout.setVerticalGroup(
+            contCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contCerrarSesionLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        barraLateral.add(contCerrarSesion, java.awt.BorderLayout.PAGE_END);
 
         getContentPane().add(barraLateral, java.awt.BorderLayout.LINE_START);
 
@@ -786,6 +816,24 @@ public class MenuAdminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_botonProductosMouseClicked
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Animaciones y eventos del botón de cerrar sesión">
+    private void lblCerrarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarSesionMouseEntered
+        contCerrarSesion.setBackground(new Color(75, 50, 188));
+    }//GEN-LAST:event_lblCerrarSesionMouseEntered
+
+    private void lblCerrarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarSesionMouseExited
+        contCerrarSesion.setBackground(new Color(56,33,165));
+    }//GEN-LAST:event_lblCerrarSesionMouseExited
+
+    private void lblCerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarSesionMouseClicked
+        LoginForm loginForm = new LoginForm(cn);
+        loginForm.setVisible(true);
+        loginForm.setLocationRelativeTo(null);
+        
+        this.dispose();
+    }//GEN-LAST:event_lblCerrarSesionMouseClicked
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Declaracion de variables de los componentes">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barraLateral;
@@ -797,10 +845,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JPanel botonUsuarios;
     private javax.swing.JPanel botonVentas;
     private javax.swing.JPanel botonesBarraTitulo;
-    private javax.swing.JLabel btnCerrarSesion;
     private javax.swing.JPanel contBarraLateral;
     private javax.swing.JPanel contBotonBarraLateral;
     private javax.swing.JPanel contCerrar;
+    private javax.swing.JPanel contCerrarSesion;
     private javax.swing.JPanel contConfiguracion;
     private javax.swing.JPanel contMaximizar;
     private javax.swing.JPanel contOcultar;
@@ -819,6 +867,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JLabel labelVentas;
     private javax.swing.JLabel lblBotonBarraLateral;
     private javax.swing.JLabel lblCerrar;
+    private javax.swing.JLabel lblCerrarSesion;
     private javax.swing.JLabel lblConfiguracion;
     private javax.swing.JLabel lblMaximizar;
     private javax.swing.JLabel lblOcultar;

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,6 +83,11 @@ public class LoginForm extends javax.swing.JFrame {
                 txtUsuarioFocusGained(evt);
             }
         });
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyPressed(evt);
+            }
+        });
 
         lblNombreUsuario.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         lblNombreUsuario.setForeground(new java.awt.Color(0, 0, 0));
@@ -99,6 +105,11 @@ public class LoginForm extends javax.swing.JFrame {
         txtClave.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtClaveFocusGained(evt);
+            }
+        });
+        txtClave.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtClaveKeyPressed(evt);
             }
         });
 
@@ -343,44 +354,35 @@ public class LoginForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Evento del boton iniciar sesion">
     
     /**
-     * Maneja el evento de clic en el enlace de "Iniciar Sesión". Realiza las siguientes acciones:
-     * - Obtiene el nombre de usuario y la contraseña de los campos de entrada.
-     * - Valida si los campos de usuario y contraseña están vacíos, mostrando mensajes de error si es necesario.
-     * - Verifica si las credenciales ingresadas son correctas (coinciden con la base de datos) o no.
-     * - Dependiendo del nivel de acceso del usuario, muestra el formulario de menú correspondiente.
-     * - Si las credenciales no son correctas, muestra un mensaje de error.
-     *
-     * @param evt El evento del mouse que desencadenó el clic en el botón de "Iniciar Sesión".
+     * Ejecuta el método iniciar sesión cuando se hace click en el botón iniciar sesión.
+     * 
+     * @param evt 
      */
     private void lblIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseClicked
-        String usuario = txtUsuario.getText();
-        String clave = String.valueOf(txtClave.getPassword());
-        
-        if (mv.validarDatos(usuario, "usuario") || mv.validarDatos(clave, "contraseña")) {
-            return;
-        }
-        
-        if (!verificarCredenciales(usuario, clave)) {
-            JOptionPane.showMessageDialog(loginPanel,"El usuario o la clave son incorrectos", "Error",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        switch (verificarNivelAcceso(usuario, clave)) {
-            case "administrador":
-                MenuAdminForm menuAdminForm = new MenuAdminForm(cn);
-                menuAdminForm.setVisible(true);
-                menuAdminForm.setLocationRelativeTo(null);
-                this.setVisible(false);
-            case "supervisor":
-                System.out.println("Aún no está preparado");
-                return;
-            case "inventario":
-                System.out.println("Aún no está preparado");
-                return;
-            case "cajero":
-                System.out.println("Aún no está preparado");
-        }
+        iniciarSesion();
     }//GEN-LAST:event_lblIniciarSesionMouseClicked
+
+    /**
+     * Ejecuta el método iniciar sesión cuando se presiona enter en el campo de usuario.
+     * 
+     * @param evt 
+     */
+    private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            iniciarSesion();
+        }
+    }//GEN-LAST:event_txtUsuarioKeyPressed
+
+    /**
+     * Ejecuta el método iniciar sesión cuando se presiona enter en el campo de contraseña.
+     * 
+     * @param evt 
+     */
+    private void txtClaveKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            iniciarSesion();
+        }
+    }//GEN-LAST:event_txtClaveKeyPressed
     // </editor-fold>
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -455,6 +457,48 @@ public class LoginForm extends javax.swing.JFrame {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    /**
+     * Realiza las siguientes acciones:
+     * - Obtiene el nombre de usuario y la contraseña de los campos de entrada.- Valida si los campos de usuario y contraseña están vacíos, mostrando mensajes de error si es necesario.
+     * - Verifica si las credenciales ingresadas son correctas (coinciden con la base de datos) o no.
+     * - Dependiendo del nivel de acceso del usuario, muestra el formulario de menú correspondiente.
+     * - Si las credenciales no son correctas, muestra un mensaje de error.
+     */
+    public void iniciarSesion() {
+        String usuario = txtUsuario.getText();
+        String clave = String.valueOf(txtClave.getPassword());
+        
+        if (mv.validarDatos(usuario, "usuario") || mv.validarDatos(clave, "contraseña")) {
+            return;
+        }
+        
+        if (!verificarCredenciales(usuario, clave)) {
+            JOptionPane.showMessageDialog(loginPanel,"El usuario o la clave son incorrectos", "Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        switch (verificarNivelAcceso(usuario, clave)) {
+            case "administrador":
+                MenuAdminForm menuAdminForm = new MenuAdminForm(cn);
+                menuAdminForm.setVisible(true);
+                menuAdminForm.setLocationRelativeTo(null);
+                
+                this.dispose();
+                
+                System.out.println("Conectado al panel de Administrador");
+                break;
+            case "supervisor":
+                System.out.println("Aún no está preparado");
+                break;
+            case "inventario":
+                System.out.println("Aún no está preparado");
+                break;
+            case "cajero":
+                System.out.println("Aún no está preparado");
+                break;
+        }
     }
     // </editor-fold>
 }
