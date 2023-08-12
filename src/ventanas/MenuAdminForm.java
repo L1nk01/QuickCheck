@@ -2,10 +2,21 @@ package ventanas;
 
 import clases.MetodosBarraLateral;
 import clases.MetodosBarraMenu;
+import clases.MetodosBusqueda;
+import clases.MetodosComboBox;
 import clases.MetodosPaneles;
 import clases.MetodosTextField;
+import clases.MetodosValidacion;
+import clases.TablaNoEditable;
 import java.sql.Connection;
 import java.awt.Color;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import java.sql.SQLException;
 
 /**
  *
@@ -18,15 +29,18 @@ public class MenuAdminForm extends javax.swing.JFrame {
     
     // Instancia de la clase para añadir funcionalidad a los botones de la barra de título
     MetodosBarraMenu mbm = new MetodosBarraMenu();
-    
     // Instancia de la clase para añadir funcionalidad a la barra lateral
     MetodosBarraLateral mbl = new MetodosBarraLateral();
-    
     // Instancia de la clase para manipular la visibilidad de los paneles
     MetodosPaneles mp = new MetodosPaneles();
-    
     // Instancia de la clase MetodosTextField para establecer los textos predeterminados
     MetodosTextField mtf = new MetodosTextField();
+    // Instancia de la clase MetodosComboBox para obtener y configurar las opciones de los JComboBox
+    MetodosComboBox mcb = new MetodosComboBox(cn);
+    // Instancia de la clase MetodosBusqueda para obtener las opciones seleccionadas de los JComboBox de búsqueda
+    MetodosBusqueda mb = new MetodosBusqueda();
+    // Instancia de la clase MetodosValidacion para validar campos
+    MetodosValidacion mv = new MetodosValidacion();
     
     // Variable para almacenar las coordenadas del mouse, se usa para calcular la posicion al arrastrar la ventana
     int mouseX, mouseY;
@@ -104,7 +118,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaProductos = new javax.swing.JTable();
         txtBuscarProductos = new javax.swing.JTextField();
         contLimpiarSeleccionProductos = new javax.swing.JPanel();
         lblLimpiarSeleccionProductos = new javax.swing.JLabel();
@@ -557,18 +571,18 @@ public class MenuAdminForm extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setPreferredSize(new java.awt.Dimension(840, 570));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tablaProductos);
 
         txtBuscarProductos.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
         txtBuscarProductos.setForeground(new java.awt.Color(143, 143, 143));
@@ -578,9 +592,17 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 txtBuscarProductosFocusGained(evt);
             }
         });
+        txtBuscarProductos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarProductosKeyReleased(evt);
+            }
+        });
 
         contLimpiarSeleccionProductos.setBackground(new java.awt.Color(92, 164, 169));
         contLimpiarSeleccionProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                contLimpiarSeleccionProductosMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 contLimpiarSeleccionProductosMouseEntered(evt);
             }
@@ -636,6 +658,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         txtIdProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         txtIdProductos.setForeground(new java.awt.Color(143, 143, 143));
         txtIdProductos.setText("ID");
+        txtIdProductos.setEnabled(false);
         txtIdProductos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtIdProductosFocusGained(evt);
@@ -687,6 +710,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
             }
         });
 
+        txtFechaProductos.setEnabled(false);
+
         txtCodigoBarrasProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         txtCodigoBarrasProductos.setForeground(new java.awt.Color(143, 143, 143));
         txtCodigoBarrasProductos.setText("Código de barras");
@@ -710,16 +735,34 @@ public class MenuAdminForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtDescripcionProductos);
 
         comboOrdenarProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        comboOrdenarProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboOrdenarProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ascendente", "Descendente" }));
+        comboOrdenarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboOrdenarProductosActionPerformed(evt);
+            }
+        });
 
         comboTipoBusquedaProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        comboTipoBusquedaProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboTipoBusquedaProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Empieza por", "Termina con", "Contiene" }));
+        comboTipoBusquedaProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTipoBusquedaProductosActionPerformed(evt);
+            }
+        });
 
         comboBuscarPorProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-        comboBuscarPorProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBuscarPorProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre del Producto", "ID", "Precio Unitario", "Cantidad Disponible", "Código de Barras", "Estado del Producto", "Fecha de Registro", "Categoría", "Descripción del Producto" }));
+        comboBuscarPorProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBuscarPorProductosActionPerformed(evt);
+            }
+        });
 
         contRegistrarProductos.setBackground(new java.awt.Color(92, 164, 169));
         contRegistrarProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                contRegistrarProductosMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 contRegistrarProductosMouseEntered(evt);
             }
@@ -737,7 +780,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         contRegistrarProductos.setLayout(contRegistrarProductosLayout);
         contRegistrarProductosLayout.setHorizontalGroup(
             contRegistrarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblRegistrarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(lblRegistrarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         contRegistrarProductosLayout.setVerticalGroup(
             contRegistrarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -746,6 +789,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
         contActualizarProductos.setBackground(new java.awt.Color(92, 164, 169));
         contActualizarProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                contActualizarProductosMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 contActualizarProductosMouseEntered(evt);
             }
@@ -763,7 +809,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         contActualizarProductos.setLayout(contActualizarProductosLayout);
         contActualizarProductosLayout.setHorizontalGroup(
             contActualizarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblActualizarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(lblActualizarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         contActualizarProductosLayout.setVerticalGroup(
             contActualizarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -804,11 +850,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     .addComponent(comboBuscarPorProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboTipoBusquedaProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboTipoBusquedaProductos, 0, 170, Short.MAX_VALUE)
                             .addComponent(contRegistrarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboOrdenarProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboOrdenarProductos, 0, 170, Short.MAX_VALUE)
                             .addComponent(contActualizarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1175,6 +1221,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
     private void botonProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonProductosMouseClicked
         mbl.cambiarPanel(panelVentanaPaneles, panelProductos);
+        cargarDatosTablaProductos("");
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
     }//GEN-LAST:event_botonProductosMouseClicked
     // </editor-fold>
@@ -1271,8 +1318,165 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void contLimpiarSeleccionProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contLimpiarSeleccionProductosMouseExited
         contLimpiarSeleccionProductos.setBackground(new Color(92,164,169));
     }//GEN-LAST:event_contLimpiarSeleccionProductosMouseExited
-    // </editor-fold>
     
+    /**
+     * Maneja el evento de clic del mouse en el botón de registrar productos.
+     * Captura los datos ingresados en los campos de texto, valida la información,
+     * y si es válida, realiza una inserción en la base de datos de productos.
+     *
+     * @param evt El evento del mouse que desencadenó el método.
+     */
+    private void contRegistrarProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarProductosMouseClicked
+        String nombreProducto = txtNombreProductos.getText();
+        int precioUnitario = Integer.parseInt(txtPrecioProductos.getText());
+        int cantidadDisponible = Integer.parseInt(txtCantidadProductos.getText());
+        String codigoBarras = txtCodigoBarrasProductos.getText();
+        String estadoProducto = txtEstadoProductos.getText();
+        String categoria = txtCategoriaProductos.getText();
+        String descripcionProducto = txtDescripcionProductos.getText();
+        
+        if (mv.validarDatos(nombreProducto, "Nombre", "nombre") ||
+            mv.validarDatos(precioUnitario, "precio") ||
+            mv.validarDatos(cantidadDisponible, "cantidad") ||
+            mv.validarDatos(codigoBarras, "Código de barras", "código de barras") ||
+            mv.validarDatos(cantidadDisponible, "cantidad") ||
+            mv.validarDatos(categoria, "Categoría", "categoria"))
+            {
+                return;
+            }
+        
+        String sentenciasql = "INSERT INTO productos"
+                + "(nombre_producto, "
+                + "precio_unitario, "
+                + "cantidad_disponible, "
+                + "codigo_barras, "
+                + "estado_producto, "
+                + "categoria, "
+                + "descripcion_producto) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(sentenciasql);
+            
+            ps.setString(1, nombreProducto);
+            ps.setInt(2, precioUnitario);
+            ps.setInt(3, cantidadDisponible);
+            ps.setString(4, codigoBarras);
+            ps.setString(5, estadoProducto);
+            ps.setString(6, categoria);
+            ps.setString(7, descripcionProducto);
+            
+            ps.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente");
+            
+            cargarDatosTablaProductos("");
+            limpiarCamposProductos();
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al registrar",  "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex,  "Error: ", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_contRegistrarProductosMouseClicked
+
+    private void contActualizarProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarProductosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contActualizarProductosMouseClicked
+
+    private void contLimpiarSeleccionProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contLimpiarSeleccionProductosMouseClicked
+        limpiarCamposProductos();
+    }//GEN-LAST:event_contLimpiarSeleccionProductosMouseClicked
+
+    // Metodos de busqueda en la base de datos
+    private void comboBuscarPorProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBuscarPorProductosActionPerformed
+        cargarDatosTablaProductos(txtBuscarProductos.getText());
+    }//GEN-LAST:event_comboBuscarPorProductosActionPerformed
+
+    private void comboTipoBusquedaProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoBusquedaProductosActionPerformed
+        cargarDatosTablaProductos(txtBuscarProductos.getText());
+    }//GEN-LAST:event_comboTipoBusquedaProductosActionPerformed
+
+    private void comboOrdenarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboOrdenarProductosActionPerformed
+        cargarDatosTablaProductos(txtBuscarProductos.getText());
+    }//GEN-LAST:event_comboOrdenarProductosActionPerformed
+
+    private void txtBuscarProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProductosKeyReleased
+        cargarDatosTablaProductos(txtBuscarProductos.getText());
+    }//GEN-LAST:event_txtBuscarProductosKeyReleased
+    
+    // Metodos de la tabla de la ventana
+    private void cargarDatosTablaProductos(String busqueda) {
+        String[] nombresColumnasBD = {"nombre_producto", "id_producto", "precio_unitario", "cantidad_disponible", "codigo_barras", "estado_producto", "fecha_registro", "categoria", "descripcion_producto"};
+        
+        DefaultTableModel modelo = new TablaNoEditable();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre del Producto");
+        modelo.addColumn("Precio Unitario");
+        modelo.addColumn("Cantidad Disponible");
+        modelo.addColumn("Código de Barras");
+        modelo.addColumn("Estado del Producto");
+        modelo.addColumn("Fecha de Registro");
+        modelo.addColumn("Categoría");
+        modelo.addColumn("Descripción del producto");
+        
+        tablaProductos.setModel(modelo);
+        tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
+        String filtro = mb.getBuscarPor(comboBuscarPorProductos, nombresColumnasBD);
+        String busquedaCompleta = mb.getFormatoBusqueda(busqueda, comboTipoBusquedaProductos);
+        String orden = mb.getOrdenarPor(comboOrdenarProductos);
+        
+        String consultasql = mb.obtenerConsulta("productos", filtro, busquedaCompleta, orden);
+        System.out.println(consultasql);
+        
+        String data[] = new String[10];
+        
+        Statement st;
+        
+        try
+        {
+            st = cn.createStatement();
+            ResultSet rs = st.executeQuery(consultasql);
+            
+            while (rs.next())
+            {
+                data[0] = rs.getString(1);
+                data[1] = rs.getString(2);
+                data[2] = rs.getString(3);
+                data[3] = rs.getString(4);
+                data[4] = rs.getString(5);
+                data[5] = rs.getString(6);
+                data[6] = rs.getString(7);
+                data[7] = rs.getString(8);
+                data[8] = rs.getString(9);
+                modelo.addRow(data);
+            }
+        }
+        catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "Error al cargar los datos.",  "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e,  "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error al mostrar los datos: " + e);
+        }
+    }
+    // </editor-fold>
+
+    // Metodos de la ventana
+    private void limpiarCamposProductos() {
+        txtFechaProductos.setEnabled(false);
+        
+        mtf.reiniciarTexto(txtIdProductos, "ID");
+        mtf.reiniciarTexto(txtNombreProductos, "Nombre");
+        mtf.reiniciarTexto(txtPrecioProductos, "Precio");
+        mtf.reiniciarTexto(txtCantidadProductos, "Cantidad");
+        mtf.reiniciarTexto(txtCodigoBarrasProductos, "Código de barras");
+        mtf.reiniciarTexto(txtEstadoProductos, "Estado del producto");
+        txtFechaProductos.setDate(null);
+        mtf.reiniciarTexto(txtCategoriaProductos, "Categoría");
+        mtf.reiniciarTexto(txtDescripcionProductos, "Descripción");
+        
+        mtf.reiniciarTexto(txtBuscarProductos, "Buscar");
+    }
     // <editor-fold defaultstate="collapsed" desc="Declaracion de variables de los componentes">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barraLateral;
@@ -1311,7 +1515,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelCaja;
     private javax.swing.JLabel labelDescuentos;
     private javax.swing.JLabel labelInformes;
@@ -1338,6 +1541,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JPanel panelVentana;
     private javax.swing.JPanel panelVentanaPaneles;
     private javax.swing.JLayeredPane panelVentas;
+    private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField txtBuscarProductos;
     private javax.swing.JTextField txtCantidadProductos;
     private javax.swing.JTextField txtCategoriaProductos;
@@ -1351,4 +1555,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JLabel txtTitulo;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
+
+    public void configurarTablas() {
+    }
+    
+    public void configurarComboBox() {
+    }
 }

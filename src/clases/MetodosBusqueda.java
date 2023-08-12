@@ -11,37 +11,16 @@ import javax.swing.JComboBox;
 public class MetodosBusqueda {
     
     /**
-     * Obtiene el campo por el cual se realizará la búsqueda en la base de datos según la opción seleccionada en un JComboBox.
-     * 
+     * Obtiene el nombre del campo de la base de datos por el cual se realizará la búsqueda,
+     * basado en la opción seleccionada en un JComboBox.
+     *
      * @param comboBuscar El JComboBox que contiene las opciones de búsqueda.
+     * @param nombresColumnasBD Los nombres de los campos correspondientes en la base de datos.
      * @return El nombre del campo de la base de datos a utilizar en la búsqueda. Retorna null si la opción no está definida.
      */
-    public String getBuscarPor(JComboBox comboBuscar) {
-        String selected = (String) comboBuscar.getSelectedItem();
-        
-        switch (selected) {
-            case "Nombre de Empleado":
-                return "nomEmp";
-            case "ID":
-                return "nDIEmp";
-            case "Sexo":
-                return "sexEmp";
-            case "Fecha de Nacimiento":
-                return "fecNac";
-            case "Fecha de Incorporación":
-                return "fecIncorporacion";
-            case "Salario":
-                return "salEmp";
-            case "Comisión":
-                return "comisionE";
-            case "Cargo":
-                return "cargoE";
-            case "ID de Jefe":
-                return "jefeID";
-            case "Código de Departamento":
-                return "codDepto";
-        }
-        return null;
+    public String getBuscarPor(JComboBox comboBuscar, String[] nombresColumnasBD) {
+        int seleccion = comboBuscar.getSelectedIndex();
+        return nombresColumnasBD[seleccion];
     }
     
     /**
@@ -75,6 +54,10 @@ public class MetodosBusqueda {
     public String getFormatoBusqueda(String busqueda, JComboBox comboTipoBusqueda) {
         String selected = (String) comboTipoBusqueda.getSelectedItem();
         
+        if (busqueda.equals("Buscar")) {
+            busqueda = "";
+        }
+        
         switch (selected) {
             case "Empieza por":
                 return "LIKE UPPER('" + busqueda + "%')";
@@ -84,5 +67,19 @@ public class MetodosBusqueda {
                 return "LIKE UPPER('%" + busqueda + "%')";
         }
         return null;
+    }
+    
+    /**
+     * Construye y devuelve una consulta SQL para buscar y ordenar datos en una tabla específica,
+     * basada en los parámetros proporcionados.
+     *
+     * @param tabla El nombre de la tabla en la base de datos.
+     * @param filtro El campo de la tabla que se utilizará como filtro de búsqueda.
+     * @param busquedaCompleta La condición de búsqueda completa (por ejemplo, "= 'valor'").
+     * @param orden El campo por el cual se ordenarán los resultados.
+     * @return Una cadena que representa la consulta SQL completa.
+     */
+    public String obtenerConsulta(String tabla, String filtro, String busquedaCompleta, String orden) {
+        return "SELECT * FROM " + tabla + " WHERE UPPER(" + filtro + ") " + busquedaCompleta + " ORDER BY " + filtro + " " + orden + ";";
     }
 }

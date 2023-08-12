@@ -367,6 +367,7 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtClaveKeyPressed
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Declaracion de variables de los componentes">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barraTitulo;
     private javax.swing.JPanel contCerrar;
@@ -382,7 +383,8 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtClave;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
-    
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Metodos para el inicio de sesión">
     /**
      * Verifica las credenciales de inicio de sesión en la base de datos.
@@ -452,7 +454,7 @@ public class LoginForm extends javax.swing.JFrame {
         String usuario = txtUsuario.getText();
         String clave = String.valueOf(txtClave.getPassword());
         
-        if (mv.validarDatos(usuario, "usuario") || mv.validarDatos(clave, "contraseña")) {
+        if (mv.validarDatos(usuario, "Ingrese su nombre de usuario", "usuario") || mv.validarDatos(clave, "**********", "contraseña")) {
             return;
         }
         

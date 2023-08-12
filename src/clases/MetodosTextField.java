@@ -96,5 +96,27 @@ public class MetodosTextField {
             }
         });
     }
+    
+    /**
+     * Restablece el contenido y color de primer plano de un campo de texto.
+     *
+     * @param jTextField El campo de texto que se va a reiniciar.
+     * @param texto El texto con el que se va a reemplazar el contenido del campo.
+     */
+    public void reiniciarTexto(JTextField jTextField, String texto) {
+        jTextField.setText(texto);
+        jTextField.setForeground(new Color(143, 143, 143));
+    }
+    
+    /**
+     * Restablece el contenido y color de primer plano de un área de texto.
+     *
+     * @param jTextArea El área de texto que se va a reiniciar.
+     * @param texto El texto con el que se va a reemplazar el contenido del área.
+     */
+    public void reiniciarTexto(JTextArea jTextArea, String texto) {
+        jTextArea.setText(texto);
+        jTextArea.setForeground(new Color(143, 143, 143));
+    }
 }  
 

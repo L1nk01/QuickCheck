@@ -1,6 +1,7 @@
 package clases;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  * Clase que proporciona métodos para realizar validaciones en diferentes tipos de datos.
@@ -14,13 +15,31 @@ public class MetodosValidacion {
      * Valida si un texto está vacío y muestra un mensaje de error si es el caso.
      *
      * @param texto El texto a validar.
+     * @param textoPredeterminado
      * @param nombreCampo El nombre del campo o dato que se está validando.
      * @return true si el texto está vacío, false si no está vacío.
      */
-    public boolean validarDatos(String texto, String nombreCampo) {
+    public boolean validarDatos(String texto, String textoPredeterminado, String nombreCampo) {
         String mensaje = "El campo de " + nombreCampo + " no puede estar vacio";
         
-        if (texto.trim().isEmpty()) {
+        if (texto.trim().isEmpty() || texto.equals(textoPredeterminado)) {
+            JOptionPane.showMessageDialog(null,mensaje, "Error",JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Valida si un numero no tiene ningun valor y muestra un mensaje de error si es el caso.
+     *
+     * @param numero El número a validar.
+     * @param nombreCampo El nombre del campo o dato que se está validando.
+     * @return true si el texto está vacío, false si no está vacío.
+     */
+    public boolean validarDatos(int numero, String nombreCampo) {
+        String mensaje = "El campo de " + nombreCampo + " no puede estar vacio";
+        
+        if (numero < 1) {
             JOptionPane.showMessageDialog(null,mensaje, "Error",JOptionPane.ERROR_MESSAGE);
             return true;
         }

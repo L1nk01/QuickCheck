@@ -32,7 +32,7 @@ public class MetodosComboBox {
      * @param comboBox El JComboBox del cual se desea obtener el texto seleccionado.
      * @return El texto seleccionado en el JComboBox, o null si el texto seleccionado es "Elegir" o "Ninguno".
      */
-    public String getComboText(JComboBox comboBox) {
+    public String getComboText(JComboBox<String> comboBox) {
         String selected = (String) comboBox.getSelectedItem();
 
         if (selected.equals("Elegir")) {
@@ -44,35 +44,14 @@ public class MetodosComboBox {
     }
     
     /**
-     * Obtiene el valor de sexo asociado al texto seleccionado en el JComboBox.
-     * 
-     * @param comboSexo El JComboBox que contiene las opciones de sexo ("Masculino" y "Femenino").
-     * @return El valor de sexo asociado al texto seleccionado en el JComboBox ("M" para Masculino, "F" para Femenino), o null si el texto seleccionado no corresponde a ninguna de las opciones válidas.
-     */
-    public String getSexo(JComboBox comboSexo) {
-        String selected = (String) comboSexo.getSelectedItem();       
-        switch (selected) {
-            case "Masculino" -> {
-                return "M";
-            }
-            case "Femenino" -> {
-                return "F";
-            }
-            default -> {
-                return null;
-            }
-
-        }
-    }
-    
-    /**
      * Establece las opciones del JComboBox a partir de los datos de una tabla en la base de datos.
      * 
+     * @param columna El nombre de la columna de la cual se obtendran los datos para llenar el JComboBox.
      * @param tabla El nombre de la tabla de la cual se obtendrán los datos para llenar el JComboBox.
      * @param comboBox El JComboBox que se llenará con las opciones obtenidas de la tabla.
      */
-    public void setComboOpciones(String tabla, JComboBox comboBox) {   
-        String consultasql = "SELECT " + tabla + " FROM departamentos ORDER BY codDepto ASC;";
+    public void setComboOpciones(String columna, String tabla, JComboBox<String> comboBox) {   
+        String consultasql = "SELECT " + columna + " FROM tabla ORDER BY codDepto ASC;";
         String data;
         
         try
