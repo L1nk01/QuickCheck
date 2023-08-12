@@ -49,4 +49,13 @@ public class MetodosBarraLateral extends MetodosPaneles {
         ocultarPaneles(panelesAntiguos);
         panelNuevo.setVisible(true);
     }
+    
+    /**
+     * Getter para el atributo barraLateralabierta
+     * 
+     * @return Valor booleano del atributo barraLateralAbierta 
+     */
+    public boolean getBarraLateralAbierta() {
+        return barraLateralAbierta;
+    }
 }

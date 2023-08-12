@@ -1,11 +1,7 @@
 package clases;
 
-
-
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import java.sql.Connection;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import ventanas.LoginForm;
 
 /**
@@ -20,9 +16,8 @@ public class QuickCheck {
      */
     public static void main(String[] args) {
         try {
-            // Establecer el aspecto visual del programa utilizando el FlatLightLaf
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch(UnsupportedLookAndFeelException ex) {
+            FlatMaterialLighterIJTheme.setup();
+        } catch(Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
         

@@ -19,6 +19,7 @@ public class ConexionSQLite
     
     /**
      * Establece una conexión con la base de datos SQLite utilizando los parámetros proporcionados.
+     * Utiliza 2 rutas distintas dependiendo de si el proyecto se ejecuta desde el IDE o desde el proyecto compilado.
      * 
      * @return La conexión establecida (objeto Connection) si la conexión es exitosa, o null si ocurre un error.
      */
@@ -26,6 +27,7 @@ public class ConexionSQLite
     {
         String rutaActual = System.getProperty("user.dir");
         String direccion = "jdbc:sqlite:" + rutaActual + "\\src\\quickcheck\\database\\sistema_quickcheck.db";
+        String direccionProyectoCompilado = "jdbc:sqlite:sistema_quickcheck.db";
         
         try
         {
@@ -35,12 +37,20 @@ public class ConexionSQLite
         }
         catch (ClassNotFoundException | SQLException ex)
         {
-            JOptionPane.showMessageDialog(null, "No se pudo conectar.\nRevise los datos\n");
-            JOptionPane.showMessageDialog(null, "Error de conexión: " + ex);
-            System.out.println("NO SE PUDO CONECTAR");
-            System.out.println("ERROR: " + ex);
-        }
-        
+            try
+            {
+                Class.forName("org.sqlite.JDBC");
+                cn = (Connection) DriverManager.getConnection(direccionProyectoCompilado);
+                System.out.println("CONECTADO");
+            }
+            catch (ClassNotFoundException | SQLException e)
+            {
+                JOptionPane.showMessageDialog(null, "No se pudo conectar.\nRevise los datos\n");
+                JOptionPane.showMessageDialog(null, "Error de conexión: " + e);
+                System.out.println("NO SE PUDO CONECTAR");
+                System.out.println("ERROR: " + e);
+            }
+        } 
         return cn;
     }
     

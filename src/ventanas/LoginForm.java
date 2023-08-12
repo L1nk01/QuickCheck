@@ -1,5 +1,6 @@
 package ventanas;
 
+import clases.MetodosTextField;
 import clases.MetodosValidacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,9 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Instancia de la clase MetodosValidacion para validar los campos del login
     MetodosValidacion mv = new MetodosValidacion();
+    
+    // Instancia de la clase MetodosTextField para establecer los textos predeterminados
+    MetodosTextField mtf = new MetodosTextField();
     
     // Variable para almacenar la conexion que se genero en la clase main QuickCheck
     private Connection cn;
@@ -313,41 +317,19 @@ public class LoginForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Eventos para los campos del formulario">
     
     /**
-     * Maneja el evento cuando el campo de entrada de usuario gana el foco. Realiza las siguientes acciones:
-     * - Si el campo de entrada contiene el texto predeterminado "Ingrese su nombre de usuario", lo elimina y cambia el color del texto a negro.
-     * - Si el campo de contraseña está vacío, establece el texto predeterminado "**********" y cambia el color del texto a gris.
      *
      * @param evt El evento de enfoque que desencadenó la acción.
      */
     private void txtUsuarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusGained
-        if (txtUsuario.getText().equals("Ingrese su nombre de usuario")) {
-            txtUsuario.setText("");
-            txtUsuario.setForeground(Color.black);
-        }
-        
-        if (String.valueOf(txtClave.getPassword()).isEmpty()) {
-            txtClave.setText("**********");
-            txtClave.setForeground(new Color(143, 143, 143));
-        }
+        mtf.establecerTextoPredeterminado(txtUsuario, "Ingrese su nombre de usuario");
     }//GEN-LAST:event_txtUsuarioFocusGained
 
     /**
-     * Maneja el evento cuando el campo de entrada de contraseña gana el foco. Realiza las siguientes acciones:
-     * - Si el campo de contraseña contiene el texto predeterminado "**********", lo elimina y cambia el color del texto a negro.
-     * - Si el campo de entrada de usuario está vacío, establece el texto predeterminado "Ingrese su nombre de usuario" y cambia el color del texto a gris claro.
      *
      * @param evt El evento de enfoque que desencadenó la acción.
      */
     private void txtClaveFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClaveFocusGained
-        if (String.valueOf(txtClave.getPassword()).equals("**********")) {
-            txtClave.setText("");
-            txtClave.setForeground(Color.black);
-        }
-        
-        if (txtUsuario.getText().isEmpty()) {
-            txtUsuario.setText("Ingrese su nombre de usuario");
-            txtUsuario.setForeground(new Color(143, 143, 143));
-        }
+        mtf.establecerTextoPredeterminado(txtClave, "**********");
     }//GEN-LAST:event_txtClaveFocusGained
     // </editor-fold>
     
