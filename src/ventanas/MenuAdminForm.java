@@ -2,6 +2,7 @@ package ventanas;
 
 import clases.MetodosBarraLateral;
 import clases.MetodosBarraMenu;
+import clases.MetodosBotones;
 import clases.MetodosBusqueda;
 import clases.MetodosComboBox;
 import clases.MetodosPaneles;
@@ -41,6 +42,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
     MetodosBusqueda mb = new MetodosBusqueda();
     // Instancia de la clase MetodosValidacion para validar campos
     MetodosValidacion mv = new MetodosValidacion();
+    // Instancia de la clase MetodosBotones para habilitarlos o deshabilitarlos
+    MetodosBotones mbtn = new MetodosBotones();
     
     // Variable para almacenar las coordenadas del mouse, se usa para calcular la posicion al arrastrar la ventana
     int mouseX, mouseY;
@@ -821,22 +824,20 @@ public class MenuAdminForm extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtCodigoBarrasProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(txtPrecioProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCantidadProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(txtIdProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(txtPrecioProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtCantidadProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(txtIdProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(txtNombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
                             .addComponent(txtEstadoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
                             .addComponent(txtFechaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1221,8 +1222,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
     private void botonProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonProductosMouseClicked
         mbl.cambiarPanel(panelVentanaPaneles, panelProductos);
-        cargarDatosTablaProductos("");
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
+        configurarVentanaProductos();
     }//GEN-LAST:event_botonProductosMouseClicked
     // </editor-fold>
     
@@ -1296,18 +1297,22 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
     // Animaciones para los botones de la ventana
     private void contRegistrarProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarProductosMouseEntered
+        if (!contRegistrarProductos.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
         contRegistrarProductos.setBackground(new Color(111, 197, 203));
     }//GEN-LAST:event_contRegistrarProductosMouseEntered
 
     private void contRegistrarProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarProductosMouseExited
+        if (!contRegistrarProductos.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
         contRegistrarProductos.setBackground(new Color(92,164,169));
     }//GEN-LAST:event_contRegistrarProductosMouseExited
     
     private void contActualizarProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarProductosMouseEntered
+        if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
         contActualizarProductos.setBackground(new Color(111, 197, 203));
     }//GEN-LAST:event_contActualizarProductosMouseEntered
 
     private void contActualizarProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarProductosMouseExited
+        if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
         contActualizarProductos.setBackground(new Color(92,164,169));
     }//GEN-LAST:event_contActualizarProductosMouseExited
 
@@ -1327,6 +1332,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento del mouse que desencadenó el método.
      */
     private void contRegistrarProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarProductosMouseClicked
+        if (!contRegistrarProductos.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
+        
         String nombreProducto = txtNombreProductos.getText();
         int precioUnitario = Integer.parseInt(txtPrecioProductos.getText());
         int cantidadDisponible = Integer.parseInt(txtCantidadProductos.getText());
@@ -1380,7 +1387,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_contRegistrarProductosMouseClicked
 
     private void contActualizarProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarProductosMouseClicked
-        // TODO add your handling code here:
+        if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
+        
+        
     }//GEN-LAST:event_contActualizarProductosMouseClicked
 
     private void contLimpiarSeleccionProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contLimpiarSeleccionProductosMouseClicked
@@ -1464,6 +1473,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // Metodos de la ventana
     private void limpiarCamposProductos() {
         txtFechaProductos.setEnabled(false);
+        mbtn.deshabilitarBoton(contActualizarProductos, lblActualizarProductos, new Color(57,102,105), new Color(153,153,153));
         
         mtf.reiniciarTexto(txtIdProductos, "ID");
         mtf.reiniciarTexto(txtNombreProductos, "Nombre");
@@ -1476,6 +1486,14 @@ public class MenuAdminForm extends javax.swing.JFrame {
         mtf.reiniciarTexto(txtDescripcionProductos, "Descripción");
         
         mtf.reiniciarTexto(txtBuscarProductos, "Buscar");
+    }
+    
+    /**
+     * Configura la ventana de productos, restableciendo los campos y cargando los datos en la tabla.
+     */
+    public void configurarVentanaProductos() {
+        limpiarCamposProductos();
+        cargarDatosTablaProductos("");
     }
     // <editor-fold defaultstate="collapsed" desc="Declaracion de variables de los componentes">
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1512,7 +1530,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelCaja;
@@ -1555,10 +1572,4 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JLabel txtTitulo;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
-
-    public void configurarTablas() {
-    }
-    
-    public void configurarComboBox() {
-    }
 }
