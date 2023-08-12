@@ -1,5 +1,7 @@
 package clases;
 
+import javax.swing.JOptionPane;
+
 /**
  * Clase que proporciona métodos para realizar validaciones en diferentes tipos de datos.
  * Incluye métodos para validar campos de texto, valores seleccionados en JComboBox, valores float y fechas.
@@ -9,14 +11,20 @@ package clases;
 
 public class MetodosValidacion {
     /**
-     * Valida si el campo de entrada es válido.
-     * Un campo se considera válido si no está vacío (espacios en blanco no cuentan como caracteres).
-     * 
-     * @param input
-     * @return true si el cambo es válido, false si el campo está vacío o contiene solo espacios en blanco.
+     * Valida si un texto está vacío y muestra un mensaje de error si es el caso.
+     *
+     * @param texto El texto a validar.
+     * @param nombreCampo El nombre del campo o dato que se está validando.
+     * @return true si el texto está vacío, false si no está vacío.
      */
-    public boolean validarCampo(String input) {
-        return input.trim().length() > 0;
+    public boolean validarDatos(String texto, String nombreCampo) {
+        String mensaje = "El campo de " + nombreCampo + " no puede estar vacio";
+        
+        if (texto.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null,mensaje, "Error",JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return false;
     }
     
     /**

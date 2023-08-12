@@ -24,16 +24,22 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // Instancia de la clase para manipular la visibilidad de los paneles
     MetodosPaneles mp = new MetodosPaneles();
     
-    // Coordenadas del mouse
+    // Variable para almacenar las coordenadas del mouse, se usa para calcular la posicion al arrastrar la ventana
     int mouseX, mouseY;
     
     /**
-     * Creates new form MenuAdminForm
-     * @param cn
+     * Crea una nueva instancia del formulario MenuAdminForm.
+     *
+     * @param cn La conexión a la base de datos que se utilizará en el formulario.
      */
     public MenuAdminForm(Connection cn) {
+        // Asigna la conexión a la base de datos al atributo de la clase
         this.cn = cn;
+        
+        // Inicializa los componentes del formulario
         initComponents();
+        
+        // Oculta los paneles de la ventana de paneles y muestra el panel del menú principal
         mp.ocultarPaneles(panelVentanaPaneles);
         panelMenuPrincipal.setVisible(true);
     }
@@ -603,6 +609,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // <editor-fold defaultstate="collapsed" desc="Botones de la barra de título">
+    
+    // Animaciones del botón de cerrar de la barra de título
     private void lblCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseEntered
         contCerrar.setBackground(new Color(255, 40, 86));
     }//GEN-LAST:event_lblCerrarMouseEntered
@@ -610,7 +618,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void lblCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseExited
         contCerrar.setBackground(new Color(87,154,233));
     }//GEN-LAST:event_lblCerrarMouseExited
-
+    
+   // Animaciones del botón de maximizar de la barra de título 
     private void lblMaximizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMaximizarMouseEntered
         contMaximizar.setBackground(new Color(115, 169, 233));
     }//GEN-LAST:event_lblMaximizarMouseEntered
@@ -619,6 +628,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         contMaximizar.setBackground(new Color(87,154,233));
     }//GEN-LAST:event_lblMaximizarMouseExited
 
+    // Animaciónes del botón de ocultar de la barra de título
     private void lblOcultarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOcultarMouseEntered
         contOcultar.setBackground(new Color(115, 169, 233));
     }//GEN-LAST:event_lblOcultarMouseEntered
@@ -627,6 +637,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         contOcultar.setBackground(new Color(87,154,233));
     }//GEN-LAST:event_lblOcultarMouseExited
 
+    // Eventos de los botones de la barra de título
     private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
         mbm.cerrarVentana();
     }//GEN-LAST:event_lblCerrarMouseClicked
@@ -638,7 +649,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void lblOcultarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOcultarMouseClicked
         mbm.ocultarVentana(this);
     }//GEN-LAST:event_lblOcultarMouseClicked
-
+    
+    // Eventos para poder arrastrar la ventana usando la barra de título
     private void barraTituloMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barraTituloMousePressed
         mouseX =  evt.getX();
         mouseY = evt.getY();
@@ -652,12 +664,15 @@ public class MenuAdminForm extends javax.swing.JFrame {
         this.setLocation(x - mouseX, y - mouseY);
     }//GEN-LAST:event_barraTituloMouseDragged
 
+    // Evento para maximizar la ventana haciendo doble click
     private void barraTituloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barraTituloMouseClicked
         mbm.maximizarDobleClick(this);
     }//GEN-LAST:event_barraTituloMouseClicked
     // </editor-fold> 
     
     // <editor-fold defaultstate="collapsed" desc="Barra lateral">
+    
+    // Animaciones y eventos del botón de configuración de la barra lateral
     private void lblConfiguracionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseExited
         contConfiguracion.setBackground(new Color(56,33,165));
     }//GEN-LAST:event_lblConfiguracionMouseExited
@@ -665,11 +680,12 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void lblConfiguracionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseEntered
         contConfiguracion.setBackground(new Color(75, 50, 188));
     }//GEN-LAST:event_lblConfiguracionMouseEntered
-
+    
     private void lblConfiguracionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lblConfiguracionMouseClicked
 
+    // Animaciones y eventos del botón para alternar la visibilidad de la barra lateral
     private void lblBotonBarraLateralMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBotonBarraLateralMouseExited
         contBotonBarraLateral.setBackground(new Color(56,33,165));
     }//GEN-LAST:event_lblBotonBarraLateralMouseExited
@@ -684,6 +700,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Botones de la barra lateral">
+    
+// Animaciones y eventos de la opción 'Caja' de la barra lateral.
     private void botonCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCajaMouseExited
         botonCaja.setBackground(new Color(54,33,150));
     }//GEN-LAST:event_botonCajaMouseExited
@@ -697,6 +715,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
     }//GEN-LAST:event_botonCajaMouseClicked
 
+    // Animaciones y eventos de la opción 'Informes' de la barra lateral.
     private void botonInformesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonInformesMouseExited
         botonInformes.setBackground(new Color(54,33,150));
     }//GEN-LAST:event_botonInformesMouseExited
@@ -710,6 +729,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
     }//GEN-LAST:event_botonInformesMouseClicked
 
+    // Animaciones y eventos de la opción 'Ventas' de la barra lateral.
     private void botonVentasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonVentasMouseExited
         botonVentas.setBackground(new Color(54,33,150));
     }//GEN-LAST:event_botonVentasMouseExited
@@ -723,6 +743,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
     }//GEN-LAST:event_botonVentasMouseClicked
 
+    // Animaciones y eventos de la opción 'Descuentos' de la barra lateral.
     private void botonDescuentosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonDescuentosMouseExited
         botonDescuentos.setBackground(new Color(54,33,150));
     }//GEN-LAST:event_botonDescuentosMouseExited
@@ -736,6 +757,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
     }//GEN-LAST:event_botonDescuentosMouseClicked
 
+    // Animaciones y eventos de la opción 'Usuarios' de la barra lateral.
     private void botonUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonUsuariosMouseExited
         botonUsuarios.setBackground(new Color(54,33,150));
     }//GEN-LAST:event_botonUsuariosMouseExited
@@ -749,6 +771,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
     }//GEN-LAST:event_botonUsuariosMouseClicked
 
+    // Animaciones y eventos de la opción 'Productos' de la barra lateral.
     private void botonProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonProductosMouseExited
         botonProductos.setBackground(new Color(54,33,150));
     }//GEN-LAST:event_botonProductosMouseExited

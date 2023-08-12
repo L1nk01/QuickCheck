@@ -1,5 +1,6 @@
 package ventanas;
 
+import clases.MetodosValidacion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,16 +16,25 @@ import javax.swing.JOptionPane;
  */
 public class LoginForm extends javax.swing.JFrame {
 
+    // Instancia de la clase MetodosValidacion para validar los campos del login
+    MetodosValidacion mv = new MetodosValidacion();
+    
+    // Variable para almacenar la conexion que se genero en la clase main QuickCheck
     private Connection cn;
     
+    // Variable para almacenar las coordenadas del mouse, se usa para calcular la posicion al arrastrar la ventana
     int mouseX, mouseY;
     
     /**
-     * Creates new form LoginForm
-     * @param cn
+     * Crea una nueva instancia del formulario LoginForm.
+     *
+     * @param cn La conexión a la base de datos que se utilizará en el formulario.
      */
     public LoginForm(Connection cn) {
+         // Asigna la conexión a la base de datos al atributo de la clase
         this.cn = cn;
+        
+        // Inicializa los componentes del formulario
         initComponents();
     }
 
@@ -248,6 +258,7 @@ public class LoginForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // <editor-fold defaultstate="collapsed" desc="Eventos de la barra de título">
     private void barraTituloMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barraTituloMousePressed
         mouseX =  evt.getX();
         mouseY = evt.getY();
@@ -258,7 +269,10 @@ public class LoginForm extends javax.swing.JFrame {
         int y = evt.getYOnScreen();
         this.setLocation(x - mouseX, y - mouseY);
     }//GEN-LAST:event_barraTituloMouseDragged
-
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Animaciones y eventos del botón cerrar">
+    
     private void lblCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseClicked
         System.exit(0);
     }//GEN-LAST:event_lblCerrarMouseClicked
@@ -272,7 +286,10 @@ public class LoginForm extends javax.swing.JFrame {
         contCerrar.setBackground(Color.white);
         lblCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/barra_titulo/icons8-close-20-black.png")));
     }//GEN-LAST:event_lblCerrarMouseExited
-
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Animaciones del botón iniciar sesión">
+    
     private void lblIniciarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseEntered
         contIniciarSesion.setBackground(new Color(111, 197, 203));
     }//GEN-LAST:event_lblIniciarSesionMouseEntered
@@ -280,7 +297,17 @@ public class LoginForm extends javax.swing.JFrame {
     private void lblIniciarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseExited
         contIniciarSesion.setBackground(new Color(92,164,169));
     }//GEN-LAST:event_lblIniciarSesionMouseExited
-
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Eventos para los campos del formulario">
+    
+    /**
+     * Maneja el evento cuando el campo de entrada de usuario gana el foco. Realiza las siguientes acciones:
+     * - Si el campo de entrada contiene el texto predeterminado "Ingrese su nombre de usuario", lo elimina y cambia el color del texto a negro.
+     * - Si el campo de contraseña está vacío, establece el texto predeterminado "**********" y cambia el color del texto a gris.
+     *
+     * @param evt El evento de enfoque que desencadenó la acción.
+     */
     private void txtUsuarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusGained
         if (txtUsuario.getText().equals("Ingrese su nombre de usuario")) {
             txtUsuario.setText("");
@@ -293,6 +320,13 @@ public class LoginForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtUsuarioFocusGained
 
+    /**
+     * Maneja el evento cuando el campo de entrada de contraseña gana el foco. Realiza las siguientes acciones:
+     * - Si el campo de contraseña contiene el texto predeterminado "**********", lo elimina y cambia el color del texto a negro.
+     * - Si el campo de entrada de usuario está vacío, establece el texto predeterminado "Ingrese su nombre de usuario" y cambia el color del texto a gris claro.
+     *
+     * @param evt El evento de enfoque que desencadenó la acción.
+     */
     private void txtClaveFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtClaveFocusGained
         if (String.valueOf(txtClave.getPassword()).equals("**********")) {
             txtClave.setText("");
@@ -304,12 +338,25 @@ public class LoginForm extends javax.swing.JFrame {
             txtUsuario.setForeground(new Color(143, 143, 143));
         }
     }//GEN-LAST:event_txtClaveFocusGained
-
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Evento del boton iniciar sesion">
+    
+    /**
+     * Maneja el evento de clic en el enlace de "Iniciar Sesión". Realiza las siguientes acciones:
+     * - Obtiene el nombre de usuario y la contraseña de los campos de entrada.
+     * - Valida si los campos de usuario y contraseña están vacíos, mostrando mensajes de error si es necesario.
+     * - Verifica si las credenciales ingresadas son correctas (coinciden con la base de datos) o no.
+     * - Dependiendo del nivel de acceso del usuario, muestra el formulario de menú correspondiente.
+     * - Si las credenciales no son correctas, muestra un mensaje de error.
+     *
+     * @param evt El evento del mouse que desencadenó el clic en el botón de "Iniciar Sesión".
+     */
     private void lblIniciarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseClicked
         String usuario = txtUsuario.getText();
         String clave = String.valueOf(txtClave.getPassword());
         
-        if (validarDatos(usuario, "usuario") || validarDatos(clave, "contraseña")) {
+        if (mv.validarDatos(usuario, "usuario") || mv.validarDatos(clave, "contraseña")) {
             return;
         }
         
@@ -334,7 +381,8 @@ public class LoginForm extends javax.swing.JFrame {
                 System.out.println("Aún no está preparado");
         }
     }//GEN-LAST:event_lblIniciarSesionMouseClicked
-
+    // </editor-fold>
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barraTitulo;
     private javax.swing.JPanel contCerrar;
@@ -350,7 +398,15 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtClave;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
-
+    
+    // <editor-fold defaultstate="collapsed" desc="Metodos para el inicio de sesión">
+    /**
+     * Verifica las credenciales de inicio de sesión en la base de datos.
+     *
+     * @param usuario El nombre de usuario proporcionado para iniciar sesión.
+     * @param clave La contraseña proporcionada para iniciar sesión.
+     * @return true si las credenciales son válidas y coinciden con la base de datos, false en caso contrario.
+     */
     public boolean verificarCredenciales(String usuario, String clave) {
         String sql = "SELECT nombre_usuario, clave FROM usuarios WHERE nombre_usuario = ? AND clave = ?";
         
@@ -371,6 +427,13 @@ public class LoginForm extends javax.swing.JFrame {
         return false;
     }
 
+    /**
+     * Verifica el nivel de acceso de un usuario en la base de datos.
+     *
+     * @param usuario El nombre de usuario proporcionado.
+     * @param clave La contraseña proporcionada.
+     * @return El nivel de acceso del usuario si las credenciales son válidas, o null si no coincide o hay un error.
+     */
     public String verificarNivelAcceso(String usuario, String clave) {
         String sql = "SELECT nivel_acceso FROM usuarios WHERE nombre_usuario = ? AND clave = ?";
         String nivelAcceso;
@@ -393,14 +456,5 @@ public class LoginForm extends javax.swing.JFrame {
         }
         return null;
     }
-    
-    public boolean validarDatos(String texto, String nombreCampo) {
-        String mensaje = "El campo de " + nombreCampo + " no puede estar vacio";
-        
-        if (texto.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null,mensaje, "Error",JOptionPane.ERROR_MESSAGE);
-            return true;
-        }
-        return false;
-    }
+    // </editor-fold>
 }
