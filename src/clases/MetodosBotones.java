@@ -9,6 +9,13 @@ import javax.swing.JPanel;
  * @author ecpau
  */
 public class MetodosBotones {
+   
+    private final Color defaultButton = new Color(92,164,169);
+    private final Color defaultButtonHover = new Color(111, 197, 203);
+    private final Color defaultText = new Color(255,255,255);
+    private final Color defaultButtonDisabled = new Color(57,102,105);
+    private final Color defaultTextDisabled = new Color(153,153,153);
+    
     /**
      * Habilita un botón representado por un panel y un label, cambiando su estado y apariencia.
      *
@@ -48,8 +55,8 @@ public class MetodosBotones {
     public void habilitarBotonDefault(JPanel panel, JLabel label) {
         panel.setEnabled(true);
         label.setEnabled(true);
-        panel.setBackground(new Color(92,164,169));
-        label.setForeground(new Color(255,255,255));
+        panel.setBackground(this.defaultButton);
+        label.setForeground(this.defaultText);
     }
     
     /**
@@ -61,7 +68,42 @@ public class MetodosBotones {
     public void deshabilitarBotonDefault(JPanel panel, JLabel label) {
         panel.setEnabled(false);
         label.setEnabled(false);
-        panel.setBackground(new Color(57,102,105));
-        label.setForeground(new Color(153,153,153));
+        panel.setBackground(this.defaultButtonDisabled);
+        label.setForeground(this.defaultTextDisabled);
+    }
+    
+    /**
+     * @return the defaultButton
+     */
+    public Color getDefaultButton() {
+        return defaultButton;
+    }
+
+    /**
+     * @return the defaultButtonHover
+     */
+    public Color getDefaultButtonHover() {
+        return defaultButtonHover;
+    }
+
+    /**
+     * @return the defaultText
+     */
+    public Color getDefaultText() {
+        return defaultText;
+    }
+
+    /**
+     * @return the defaultButtonDisabled
+     */
+    public Color getDefaultButtonDisabled() {
+        return defaultButtonDisabled;
+    }
+
+    /**
+     * @return the defaultTextDisabled
+     */
+    public Color getDefaultTextDisabled() {
+        return defaultTextDisabled;
     }
 }

@@ -5,6 +5,7 @@ import clases.MetodosBarraMenu;
 import clases.MetodosBotones;
 import clases.MetodosBusqueda;
 import clases.MetodosComboBox;
+import clases.MetodosEntrada;
 import clases.MetodosFechas;
 import clases.MetodosPaneles;
 import clases.MetodosTextField;
@@ -19,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -29,6 +31,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // Instancia de la conexion que se pasa del login al menu
     private Connection cn;
     
+    // <editor-fold defaultstate="collapsed" desc="Instancias">
     // Instancia de la clase para añadir funcionalidad a los botones de la barra de título
     MetodosBarraMenu mbm = new MetodosBarraMenu();
     // Instancia de la clase para añadir funcionalidad a la barra lateral
@@ -47,6 +50,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
     MetodosBotones mbtn = new MetodosBotones();
     // Instancia de la clase MetodosFechas para trabajar con fechas en bases de datos
     MetodosFechas mf = new MetodosFechas();
+    // Instancia de la clase MetodosEntrada para validar entrada en campos de texto
+    MetodosEntrada me = new MetodosEntrada();
+    // </editor-fold>
     
     // Variable para almacenar las coordenadas del mouse, se usa para calcular la posicion al arrastrar la ventana
     int mouseX, mouseY;
@@ -150,6 +156,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
         lblActualizarProductos = new javax.swing.JLabel();
         panelDescuentos = new javax.swing.JLayeredPane();
         panelUsuarios = new javax.swing.JLayeredPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
         panelInformes = new javax.swing.JLayeredPane();
         panelCaja = new javax.swing.JLayeredPane();
 
@@ -254,8 +264,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
         txtTitulo.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         txtTitulo.setForeground(new java.awt.Color(255, 255, 255));
-        txtTitulo.setText("    Administrador");
-        barraTitulo.add(txtTitulo, java.awt.BorderLayout.LINE_START);
+        txtTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/barra_titulo/icons8-checkout-35.png"))); // NOI18N
+        txtTitulo.setText("    QuickCheck (Administrador)");
+        txtTitulo.setBorder(new EmptyBorder(0, 16, 0, 0));
+        barraTitulo.add(txtTitulo, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(barraTitulo, java.awt.BorderLayout.PAGE_START);
 
@@ -687,6 +699,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 txtIdProductosFocusGained(evt);
             }
         });
+        txtIdProductos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdProductosKeyTyped(evt);
+            }
+        });
 
         txtPrecioProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         txtPrecioProductos.setForeground(new java.awt.Color(143, 143, 143));
@@ -694,6 +711,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
         txtPrecioProductos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtPrecioProductosFocusGained(evt);
+            }
+        });
+        txtPrecioProductos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioProductosKeyTyped(evt);
             }
         });
 
@@ -732,6 +754,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 txtCantidadProductosFocusGained(evt);
             }
         });
+        txtCantidadProductos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadProductosKeyTyped(evt);
+            }
+        });
 
         selectorFechaProductos.setEnabled(false);
 
@@ -741,6 +768,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
         txtCodigoBarrasProductos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCodigoBarrasProductosFocusGained(evt);
+            }
+        });
+        txtCodigoBarrasProductos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoBarrasProductosKeyTyped(evt);
             }
         });
 
@@ -951,19 +983,54 @@ public class MenuAdminForm extends javax.swing.JFrame {
             .addGap(0, 718, Short.MAX_VALUE)
         );
 
-        panelUsuarios.setBackground(new java.awt.Color(255, 204, 255));
+        panelUsuarios.setBackground(new java.awt.Color(255, 255, 255));
         panelUsuarios.setOpaque(true);
+        panelUsuarios.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout panelUsuariosLayout = new javax.swing.GroupLayout(panelUsuarios);
-        panelUsuarios.setLayout(panelUsuariosLayout);
-        panelUsuariosLayout.setHorizontalGroup(
-            panelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1290, Short.MAX_VALUE)
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1290, 60));
+        jPanel1.setLayout(new java.awt.GridLayout());
+
+        jLabel4.setBackground(new java.awt.Color(73, 127, 131));
+        jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(73, 127, 131));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Usuarios");
+        jPanel1.add(jLabel4);
+
+        panelUsuarios.add(jPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setMinimumSize(new java.awt.Dimension(890, 100));
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 890, Short.MAX_VALUE)
         );
-        panelUsuariosLayout.setVerticalGroup(
-            panelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 658, Short.MAX_VALUE)
         );
+
+        panelUsuarios.add(jPanel6, java.awt.BorderLayout.LINE_START);
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setPreferredSize(new java.awt.Dimension(400, 658));
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 658, Short.MAX_VALUE)
+        );
+
+        panelUsuarios.add(jPanel7, java.awt.BorderLayout.LINE_END);
 
         panelInformes.setBackground(new java.awt.Color(204, 204, 0));
         panelInformes.setOpaque(true);
@@ -1265,8 +1332,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_lblCerrarSesionMouseClicked
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Métodos de la pestaña de Inventario">
-    
     /**
      * Cierra la barra lateral cuando se hace click en cualquier panel que no sea el de la barra lateral.
      * 
@@ -1277,6 +1342,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
             mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
         }
     }//GEN-LAST:event_formMousePressed
+    
+    // <editor-fold defaultstate="collapsed" desc="Métodos de la pestaña de Inventario">
     
     // FocusListeners para establecer un texto predeterminado en los campos de la ventana
     private void txtIdProductosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdProductosFocusGained
@@ -1550,6 +1617,23 @@ try {
             }
         }
     }//GEN-LAST:event_btnEliminarProductosActionPerformed
+
+    // Metodos para validar que las teclas presionadas sean numeros
+    private void txtIdProductosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdProductosKeyTyped
+        me.validarEntero(evt);
+    }//GEN-LAST:event_txtIdProductosKeyTyped
+
+    private void txtPrecioProductosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioProductosKeyTyped
+        me.validarEntero(evt);
+    }//GEN-LAST:event_txtPrecioProductosKeyTyped
+
+    private void txtCantidadProductosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadProductosKeyTyped
+        me.validarEntero(evt);
+    }//GEN-LAST:event_txtCantidadProductosKeyTyped
+
+    private void txtCodigoBarrasProductosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoBarrasProductosKeyTyped
+        me.validarEntero(evt);
+    }//GEN-LAST:event_txtCodigoBarrasProductosKeyTyped
     
     // Metodos de la tabla de la ventana
     
@@ -1637,6 +1721,8 @@ try {
     }
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Métodos de la pestaña de Inventario">
+    
     /**
      * Configura la ventana de productos, restableciendo los campos y cargando los datos en la tabla.
      */
@@ -1677,9 +1763,13 @@ try {
     private javax.swing.JLabel iconoVentas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelCaja;
