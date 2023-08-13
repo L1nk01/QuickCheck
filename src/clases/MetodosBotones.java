@@ -38,4 +38,30 @@ public class MetodosBotones {
         panel.setBackground(colorPanel);
         label.setForeground(colorLabel);
     }
+    
+    /**
+     * Hace lo mismo que el metodo habilitarBoton, pero lo hace especificamente para los botones predeterminados de la aplicacion.
+     *
+     * @param panel El panel que representa visualmente el botón.
+     * @param label La etiqueta que muestra el texto o el ícono del botón.
+     */
+    public void habilitarBotonDefault(JPanel panel, JLabel label) {
+        panel.setEnabled(true);
+        label.setEnabled(true);
+        panel.setBackground(new Color(92,164,169));
+        label.setForeground(new Color(255,255,255));
+    }
+    
+    /**
+     * Hace lo mismo que el metodo deshabilitarBoton, pero lo hace especificamente para los botones predeterminados de la aplicacion.
+     *
+     * @param panel El panel que representa visualmente el botón.
+     * @param label La etiqueta que muestra el texto o el ícono del botón.
+     */
+    public void deshabilitarBotonDefault(JPanel panel, JLabel label) {
+        panel.setEnabled(false);
+        label.setEnabled(false);
+        panel.setBackground(new Color(57,102,105));
+        label.setForeground(new Color(153,153,153));
+    }
 }

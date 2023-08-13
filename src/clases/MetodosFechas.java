@@ -18,13 +18,14 @@ public class MetodosFechas {
      * para poder agregarlo a un registro de base de datos.
      * 
      * @param selectorFecha El JDateChooser del cual se quiere obtener la fecha
-     * @return La fecha seleccionada como un objeto java.sql.Date, o null si no hay fecha seleccionada.
+     * @return La fecha seleccionada como un objeto java.sql.Timestamp, o null si no hay fecha seleccionada.
      */
-    public Date getFecha(JDateChooser selectorFecha) {
+    
+    public java.sql.Timestamp getFecha(JDateChooser selectorFecha) {
         java.util.Date fecha = selectorFecha.getDate();
         if (fecha != null) {
             long fechaEpoch = fecha.getTime();
-            return new Date(fechaEpoch);
+            return new java.sql.Timestamp(fechaEpoch);
         }
         return null;
     }

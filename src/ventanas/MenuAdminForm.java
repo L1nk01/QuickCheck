@@ -5,6 +5,7 @@ import clases.MetodosBarraMenu;
 import clases.MetodosBotones;
 import clases.MetodosBusqueda;
 import clases.MetodosComboBox;
+import clases.MetodosFechas;
 import clases.MetodosPaneles;
 import clases.MetodosTextField;
 import clases.MetodosValidacion;
@@ -44,6 +45,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
     MetodosValidacion mv = new MetodosValidacion();
     // Instancia de la clase MetodosBotones para habilitarlos o deshabilitarlos
     MetodosBotones mbtn = new MetodosBotones();
+    // Instancia de la clase MetodosFechas para trabajar con fechas en bases de datos
+    MetodosFechas mf = new MetodosFechas();
     
     // Variable para almacenar las coordenadas del mouse, se usa para calcular la posicion al arrastrar la ventana
     int mouseX, mouseY;
@@ -74,6 +77,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        menuClickDerechoProductos = new javax.swing.JPopupMenu();
+        btnEliminarProductos = new javax.swing.JMenuItem();
         barraTitulo = new javax.swing.JPanel();
         botonesBarraTitulo = new javax.swing.JPanel();
         contOcultar = new javax.swing.JPanel();
@@ -132,7 +137,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         txtCategoriaProductos = new javax.swing.JTextField();
         txtEstadoProductos = new javax.swing.JTextField();
         txtCantidadProductos = new javax.swing.JTextField();
-        txtFechaProductos = new com.toedter.calendar.JDateChooser();
+        selectorFechaProductos = new com.toedter.calendar.JDateChooser();
         txtCodigoBarrasProductos = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescripcionProductos = new javax.swing.JTextArea();
@@ -147,6 +152,16 @@ public class MenuAdminForm extends javax.swing.JFrame {
         panelUsuarios = new javax.swing.JLayeredPane();
         panelInformes = new javax.swing.JLayeredPane();
         panelCaja = new javax.swing.JLayeredPane();
+
+        btnEliminarProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
+        btnEliminarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/productos/icons8-delete-25.png"))); // NOI18N
+        btnEliminarProductos.setText("Eliminar");
+        btnEliminarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProductosActionPerformed(evt);
+            }
+        });
+        menuClickDerechoProductos.add(btnEliminarProductos);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -585,6 +600,12 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
             }
         ));
+        tablaProductos.setComponentPopupMenu(menuClickDerechoProductos);
+        tablaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProductosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaProductos);
 
         txtBuscarProductos.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
@@ -661,7 +682,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
         txtIdProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         txtIdProductos.setForeground(new java.awt.Color(143, 143, 143));
         txtIdProductos.setText("ID");
-        txtIdProductos.setEnabled(false);
         txtIdProductos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtIdProductosFocusGained(evt);
@@ -713,7 +733,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
             }
         });
 
-        txtFechaProductos.setEnabled(false);
+        selectorFechaProductos.setEnabled(false);
 
         txtCodigoBarrasProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
         txtCodigoBarrasProductos.setForeground(new java.awt.Color(143, 143, 143));
@@ -840,7 +860,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addComponent(txtEstadoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(txtFechaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(selectorFechaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                         .addComponent(txtCategoriaProductos, javax.swing.GroupLayout.Alignment.TRAILING)))
@@ -874,7 +894,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtEstadoProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(txtFechaProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(selectorFechaProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCategoriaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1334,6 +1354,65 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void contRegistrarProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarProductosMouseClicked
         if (!contRegistrarProductos.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
         
+        int id = Integer.parseInt(txtIdProductos.getText());
+        String nombreProducto = txtNombreProductos.getText();
+        int precioUnitario = Integer.parseInt(txtPrecioProductos.getText());
+        int cantidadDisponible = Integer.parseInt(txtCantidadProductos.getText());
+        String codigoBarras = txtCodigoBarrasProductos.getText();
+        String estadoProducto = txtEstadoProductos.getText();
+        String categoria = txtCategoriaProductos.getText();
+        String descripcionProducto = txtDescripcionProductos.getText();
+        
+        if (mv.validarDatos(id, "id") ||
+            mv.validarDatos(nombreProducto, "Nombre", "nombre") ||
+            mv.validarDatos(precioUnitario, "precio") ||
+            mv.validarDatos(cantidadDisponible, "cantidad") ||
+            mv.validarDatos(codigoBarras, "Código de barras", "código de barras") ||
+            mv.validarDatos(cantidadDisponible, "cantidad") ||
+            mv.validarDatos(categoria, "Categoría", "categoria"))
+            {
+                return;
+            }
+        
+        String sentenciasql = "INSERT INTO productos"
+                + "(id_producto, "
+                + "nombre_producto, "
+                + "precio_unitario, "
+                + "cantidad_disponible, "
+                + "codigo_barras, "
+                + "estado_producto, "
+                + "categoria, "
+                + "descripcion_producto) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(sentenciasql);
+            
+            ps.setInt(1, id);
+            ps.setString(2, nombreProducto);
+            ps.setInt(3, precioUnitario);
+            ps.setInt(4, cantidadDisponible);
+            ps.setString(5, codigoBarras);
+            ps.setString(6, estadoProducto);
+            ps.setString(7, categoria);
+            ps.setString(8, descripcionProducto);
+            
+            ps.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Datos guardados correctamente");
+            
+            cargarDatosTablaProductos("");
+            limpiarCamposProductos();
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al registrar",  "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex,  "Error: ", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_contRegistrarProductosMouseClicked
+
+    private void contActualizarProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarProductosMouseClicked
+        if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
+        
         String nombreProducto = txtNombreProductos.getText();
         int precioUnitario = Integer.parseInt(txtPrecioProductos.getText());
         int cantidadDisponible = Integer.parseInt(txtCantidadProductos.getText());
@@ -1352,17 +1431,22 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 return;
             }
         
-        String sentenciasql = "INSERT INTO productos"
-                + "(nombre_producto, "
-                + "precio_unitario, "
-                + "cantidad_disponible, "
-                + "codigo_barras, "
-                + "estado_producto, "
-                + "categoria, "
-                + "descripcion_producto) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String sentenciasql = String.format(
+            "UPDATE productos SET "
+            + "nombre_producto=?, "
+            + "precio_unitario=?, "
+            + "cantidad_disponible=?, "
+            + "codigo_barras=?, "
+            + "estado_producto=?, "
+            + "categoria=?, "
+            + "descripcion_producto=? "
+            + "WHERE id_producto='%s';"
+            , txtIdProductos.getText()
+        );
         
-        try {
+        System.out.println(sentenciasql);
+        
+try {
             PreparedStatement ps = cn.prepareStatement(sentenciasql);
             
             ps.setString(1, nombreProducto);
@@ -1373,23 +1457,23 @@ public class MenuAdminForm extends javax.swing.JFrame {
             ps.setString(6, categoria);
             ps.setString(7, descripcionProducto);
             
-            ps.executeUpdate();
+            int index = ps.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Datos guardados correctamente");
-            
-            cargarDatosTablaProductos("");
-            limpiarCamposProductos();
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al registrar",  "Error", JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(null, ex,  "Error: ", JOptionPane.ERROR_MESSAGE);
+            if (index > 0) {
+                JOptionPane.showMessageDialog(null, "Datos actualizados correctamente", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
+                mbtn.deshabilitarBotonDefault(contActualizarProductos, lblActualizarProductos);
+                mbtn.habilitarBotonDefault(contRegistrarProductos, lblRegistrarProductos);
+                
+                limpiarCamposProductos();
+                cargarDatosTablaProductos("");
+            } else {
+                JOptionPane.showMessageDialog(null, "No seleccionó fila", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar el registro", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error: " +e);
+            System.out.println("No se pudo actualizar: " + e);
         }
-    }//GEN-LAST:event_contRegistrarProductosMouseClicked
-
-    private void contActualizarProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarProductosMouseClicked
-        if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
-        
-        
     }//GEN-LAST:event_contActualizarProductosMouseClicked
 
     private void contLimpiarSeleccionProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contLimpiarSeleccionProductosMouseClicked
@@ -1412,8 +1496,68 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void txtBuscarProductosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProductosKeyReleased
         cargarDatosTablaProductos(txtBuscarProductos.getText());
     }//GEN-LAST:event_txtBuscarProductosKeyReleased
+
+    /**
+     * Maneja el evento de clic en una fila de la tabla de productos. Cuando un usuario hace clic en una fila,
+     * esta función llena automáticamente los campos de edición con los datos correspondientes del producto seleccionado.
+     *
+     * @param evt El evento de mouse que desencadena la llamada a este método.
+     */
+    private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
+        mbtn.habilitarBotonDefault(contActualizarProductos, lblActualizarProductos);
+        mbtn.deshabilitarBotonDefault(contRegistrarProductos, lblRegistrarProductos);
+        txtIdProductos.setEnabled(false);
+        
+        int fila = this.tablaProductos.getSelectedRow();
+        
+        txtIdProductos.setText(this.tablaProductos.getValueAt(fila, 0).toString());
+        txtNombreProductos.setText(this.tablaProductos.getValueAt(fila, 1).toString());
+        txtPrecioProductos.setText(this.tablaProductos.getValueAt(fila, 2).toString());
+        txtCantidadProductos.setText(this.tablaProductos.getValueAt(fila, 3).toString());
+        txtCodigoBarrasProductos.setText(this.tablaProductos.getValueAt(fila, 4).toString());
+        txtEstadoProductos.setText(this.tablaProductos.getValueAt(fila, 5).toString());
+        selectorFechaProductos.setDate(mf.convertStringToDate(this.tablaProductos.getValueAt(fila, 6).toString()));
+        txtCategoriaProductos.setText(this.tablaProductos.getValueAt(fila, 7).toString());      
+        txtDescripcionProductos.setText(this.tablaProductos.getValueAt(fila, 8).toString());
+    }//GEN-LAST:event_tablaProductosMouseClicked
+
+    /**
+     * Maneja la acción de eliminación de un registro de productos. Esta función muestra un cuadro de diálogo de confirmación
+     * antes de eliminar el registro seleccionado de la base de datos. Si el usuario confirma la eliminación, se ejecuta la
+     * consulta SQL de eliminación y luego se actualiza la tabla de productos y se limpian los campos de edición.
+     *
+     * @param evt El evento de acción que desencadena la llamada a este método.
+     */
+    private void btnEliminarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductosActionPerformed
+        String sentenciasql = "DELETE FROM productos WHERE id_producto='" + txtIdProductos.getText() + "'";
+        Object[] opciones = {"Sí", "No"};
+        
+        if (JOptionPane.showOptionDialog(null, "¿Está seguro de que desea eliminar el registro?", "Eliminar registro", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]) == 0) {
+            try {
+                PreparedStatement ps = cn.prepareStatement(sentenciasql);
+                int index = ps.executeUpdate();
+                
+                if (index > 0) {
+                    cargarDatosTablaProductos("");
+                    limpiarCamposProductos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "No seleccionó fila", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al eliminar los datos",  "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e,  "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("ERROR AL ELIMINAR LOS DATOS: " + e);
+            }
+        }
+    }//GEN-LAST:event_btnEliminarProductosActionPerformed
     
     // Metodos de la tabla de la ventana
+    
+    /**
+     * Carga los datos de productos en la tabla de visualización según los criterios de búsqueda especificados.
+     *
+     * @param busqueda Cadena de búsqueda para filtrar los productos a mostrar.
+     */
     private void cargarDatosTablaProductos(String busqueda) {
         String[] nombresColumnasBD = {"nombre_producto", "id_producto", "precio_unitario", "cantidad_disponible", "codigo_barras", "estado_producto", "fecha_registro", "categoria", "descripcion_producto"};
         
@@ -1468,12 +1612,16 @@ public class MenuAdminForm extends javax.swing.JFrame {
             System.out.println("Error al mostrar los datos: " + e);
         }
     }
-    // </editor-fold>
 
     // Metodos de la ventana
+   
+    /**
+     * Limpia los campos del formulario de productos y restablece sus valores predeterminados.
+     */
     private void limpiarCamposProductos() {
-        txtFechaProductos.setEnabled(false);
-        mbtn.deshabilitarBoton(contActualizarProductos, lblActualizarProductos, new Color(57,102,105), new Color(153,153,153));
+        mbtn.deshabilitarBotonDefault(contActualizarProductos, lblActualizarProductos);
+        mbtn.habilitarBotonDefault(contRegistrarProductos, lblRegistrarProductos);
+        txtIdProductos.setEnabled(true);
         
         mtf.reiniciarTexto(txtIdProductos, "ID");
         mtf.reiniciarTexto(txtNombreProductos, "Nombre");
@@ -1481,12 +1629,13 @@ public class MenuAdminForm extends javax.swing.JFrame {
         mtf.reiniciarTexto(txtCantidadProductos, "Cantidad");
         mtf.reiniciarTexto(txtCodigoBarrasProductos, "Código de barras");
         mtf.reiniciarTexto(txtEstadoProductos, "Estado del producto");
-        txtFechaProductos.setDate(null);
+        selectorFechaProductos.setDate(null);
         mtf.reiniciarTexto(txtCategoriaProductos, "Categoría");
         mtf.reiniciarTexto(txtDescripcionProductos, "Descripción");
         
         mtf.reiniciarTexto(txtBuscarProductos, "Buscar");
     }
+    // </editor-fold>
     
     /**
      * Configura la ventana de productos, restableciendo los campos y cargando los datos en la tabla.
@@ -1506,6 +1655,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JPanel botonUsuarios;
     private javax.swing.JPanel botonVentas;
     private javax.swing.JPanel botonesBarraTitulo;
+    private javax.swing.JMenuItem btnEliminarProductos;
     private javax.swing.JComboBox<String> comboBuscarPorProductos;
     private javax.swing.JComboBox<String> comboOrdenarProductos;
     private javax.swing.JComboBox<String> comboTipoBusquedaProductos;
@@ -1547,6 +1697,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblMaximizar;
     private javax.swing.JLabel lblOcultar;
     private javax.swing.JLabel lblRegistrarProductos;
+    private javax.swing.JPopupMenu menuClickDerechoProductos;
     private javax.swing.JLayeredPane panelBarraLateral;
     private javax.swing.JLayeredPane panelCaja;
     private javax.swing.JLayeredPane panelDescuentos;
@@ -1558,6 +1709,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JPanel panelVentana;
     private javax.swing.JPanel panelVentanaPaneles;
     private javax.swing.JLayeredPane panelVentas;
+    private com.toedter.calendar.JDateChooser selectorFechaProductos;
     private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField txtBuscarProductos;
     private javax.swing.JTextField txtCantidadProductos;
@@ -1565,7 +1717,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtCodigoBarrasProductos;
     private javax.swing.JTextArea txtDescripcionProductos;
     private javax.swing.JTextField txtEstadoProductos;
-    private com.toedter.calendar.JDateChooser txtFechaProductos;
     private javax.swing.JTextField txtIdProductos;
     private javax.swing.JTextField txtNombreProductos;
     private javax.swing.JTextField txtPrecioProductos;
