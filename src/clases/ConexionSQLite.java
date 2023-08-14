@@ -26,7 +26,7 @@ public class ConexionSQLite
     public Connection conectar()
     {
         String rutaActual = System.getProperty("user.dir");
-        String direccion = "jdbc:sqlite:" + rutaActual + "\\src\\quickcheck\\database\\sistema_quickcheck.db";
+        String direccion = "jdbc:sqlite:" + rutaActual + "/src/quickcheck/database/sistema_quickcheck.db";
         String direccionProyectoCompilado = "jdbc:sqlite:sistema_quickcheck.db";
         
         try

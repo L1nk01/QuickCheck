@@ -3,6 +3,7 @@ package clases;
 import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -98,6 +99,33 @@ public class MetodosTextField {
     }
     
     /**
+     * Establece un texto predeterminado en un JFormattedTextField y cambia su color de texto cuando obtiene o pierde el foco.
+     * Si el JFormattedTextField ya contiene el texto predeterminado, el método lo limpia y cambia el color del texto a negro.
+     * 
+     * @param jFormattedTextField
+     * @param textoPredeterminado 
+     */
+    public void establecerTextoPredeterminado(JFormattedTextField jFormattedTextField, String textoPredeterminado) {
+        if (jFormattedTextField.getText().equals(textoPredeterminado)) {
+            jFormattedTextField.setText("");
+            jFormattedTextField.setForeground(Color.black);
+        }
+        
+        jFormattedTextField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {}
+            
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (jFormattedTextField.getText().isEmpty()) {
+                    jFormattedTextField.setText(textoPredeterminado);
+                    jFormattedTextField.setForeground(new Color(143, 143, 143));
+                }
+            }
+        });
+    }
+    
+    /**
      * Restablece el contenido y color de primer plano de un campo de texto.
      *
      * @param jTextField El campo de texto que se va a reiniciar.
@@ -117,6 +145,17 @@ public class MetodosTextField {
     public void reiniciarTexto(JTextArea jTextArea, String texto) {
         jTextArea.setText(texto);
         jTextArea.setForeground(new Color(143, 143, 143));
+    }
+    
+    /**
+     * Restablece el contenido y color de primer plano de un campo de texto formateado.
+     *
+     * @param jFormattedTextField
+     * @param texto El texto con el que se va a reemplazar el contenido del campo.
+     */
+    public void reiniciarTexto(JFormattedTextField jFormattedTextField, String texto) {
+        jFormattedTextField.setText(texto);
+        jFormattedTextField.setForeground(new Color(143, 143, 143));
     }
 }  
 

@@ -414,6 +414,34 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     /**
+     * Verifica si una cuenta de usuario está activa en la base de datos.
+     * Comprueba si existe un registro de usuario con el nombre de usuario y la clave proporcionados,
+     * y si el estado de la cuenta es 'Activa'.
+     *
+     * @param usuario El nombre de usuario de la cuenta que se desea verificar.
+     * @param clave La clave de acceso de la cuenta que se desea verificar.
+     * @return true si la cuenta está activa, false si no lo está o si ocurre un error durante la verificación.
+     */
+    public boolean verificarCuentaActiva(String usuario, String clave) {
+        String sql = "SELECT estado_cuenta FROM usuarios WHERE nombre_usuario = ? AND clave = ? AND estado_cuenta = 'Activa'";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, usuario);
+            ps.setString(2, clave);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    /**
      * Verifica el nivel de acceso de un usuario en la base de datos.
      *
      * @param usuario El nombre de usuario proporcionado.
@@ -463,8 +491,13 @@ public class LoginForm extends javax.swing.JFrame {
             return;
         }
         
+        if (!verificarCuentaActiva(usuario, clave)) {
+            JOptionPane.showMessageDialog(loginPanel,"La cuenta ingresada está inactiva", "Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         switch (verificarNivelAcceso(usuario, clave)) {
-            case "administrador":
+            case "Administrador":
                 MenuAdminForm menuAdminForm = new MenuAdminForm(cn);
                 menuAdminForm.setVisible(true);
                 menuAdminForm.setLocationRelativeTo(null);
@@ -473,13 +506,13 @@ public class LoginForm extends javax.swing.JFrame {
                 
                 System.out.println("Conectado al panel de Administrador");
                 break;
-            case "supervisor":
+            case "Supervisor":
                 System.out.println("Aún no está preparado");
                 break;
-            case "inventario":
+            case "Inventario":
                 System.out.println("Aún no está preparado");
                 break;
-            case "cajero":
+            case "Cajero":
                 System.out.println("Aún no está preparado");
                 break;
         }

@@ -33,11 +33,13 @@ public class MetodosComboBox {
      * @return El texto seleccionado en el JComboBox, o null si el texto seleccionado es "Elegir" o "Ninguno".
      */
     public String getComboText(JComboBox<String> comboBox) {
-        String selected = (String) comboBox.getSelectedItem();
+        String selected = "Elegir";
 
-        if (selected.equals("Elegir")) {
-            return null;
-        } else if (selected.equals("Ninguno")) {
+        if (comboBox.getSelectedItem() != null) {
+            selected = comboBox.getSelectedItem().toString();
+        }
+
+        if ("Elegir".equals(selected) || "Ninguno".equals(selected)) {
             return null;
         }
         return selected;

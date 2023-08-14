@@ -12,9 +12,14 @@ public class MetodosBotones {
    
     private final Color defaultButton = new Color(92,164,169);
     private final Color defaultButtonHover = new Color(111, 197, 203);
-    private final Color defaultText = new Color(255,255,255);
     private final Color defaultButtonDisabled = new Color(57,102,105);
+    
+    private final Color defaultText = new Color(255,255,255);
     private final Color defaultTextDisabled = new Color(153,153,153);
+    
+    private final Color defaultButtonWarning = new Color(192, 36, 36);
+    private final Color defaultButtonWarningHover = Color.RED;
+    private final Color defaultButtonWarningDisabled = new Color(107, 0, 0);
     
     /**
      * Habilita un botón representado por un panel y un label, cambiando su estado y apariencia.
@@ -105,5 +110,26 @@ public class MetodosBotones {
      */
     public Color getDefaultTextDisabled() {
         return defaultTextDisabled;
+    }
+    
+    /**
+     * @return the defaultButtonWarning
+     */
+    public Color getDefaultButtonWarning() {
+        return defaultButtonWarning;
+    }
+    
+    /**
+     * @return the defaultButtonWarningHover
+     */
+    public Color getDefaultButtonWarningHover() {
+        return defaultButtonWarningHover;
+    }
+    
+    /**
+     * @return the defaultButtonWarningDisabled
+     */
+    public Color getDefaultButtonWarningDisabled() {
+        return defaultButtonWarningDisabled;
     }
 }
