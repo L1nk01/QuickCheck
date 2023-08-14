@@ -1,5 +1,6 @@
 package ventanas;
 
+// <editor-fold defaultstate="collapsed" desc="Clases importadas">
 import clases.ConsultasSQL;
 import clases.MetodosBarraLateral;
 import clases.MetodosBarraMenu;
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
+// </editor-fold>
 
 /**
  *
@@ -222,6 +224,15 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     comboNivelAccesoUsuarios = new javax.swing.JComboBox<>();
                     comboEstadoCuentaUsuarios = new javax.swing.JComboBox<>();
                     panelInformes = new javax.swing.JLayeredPane();
+                    jPanel10 = new javax.swing.JPanel();
+                    jLabel5 = new javax.swing.JLabel();
+                    jPanel11 = new javax.swing.JPanel();
+                    comboMonthInformes = new javax.swing.JComboBox<>();
+                    comboPeriodoInformes = new javax.swing.JComboBox<>();
+                    comboYearInformes = new javax.swing.JComboBox<>();
+                    jScrollPane5 = new javax.swing.JScrollPane();
+                    tablaInformes = new javax.swing.JTable();
+                    comboTipoInformes = new javax.swing.JComboBox<>();
                     panelCaja = new javax.swing.JLayeredPane();
 
                     btnEliminarProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
@@ -619,7 +630,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                             .addGap(261, 261, 261))
                     );
 
-                    panelVentas.setBackground(new java.awt.Color(153, 153, 255));
+                    panelVentas.setBackground(new java.awt.Color(255, 255, 255));
                     panelVentas.setOpaque(true);
 
                     javax.swing.GroupLayout panelVentasLayout = new javax.swing.GroupLayout(panelVentas);
@@ -662,6 +673,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     jPanel5.setBackground(new java.awt.Color(255, 255, 255));
                     jPanel5.setPreferredSize(new java.awt.Dimension(840, 570));
 
+                    tablaProductos.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
                     tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
                             {},
@@ -1050,6 +1062,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     jPanel8.setBackground(new java.awt.Color(255, 255, 255));
                     jPanel8.setPreferredSize(new java.awt.Dimension(1290, 329));
 
+                    tablaDescuentos.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
                     tablaDescuentos.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
                             {},
@@ -1157,7 +1170,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
             });
 
             comboActivoDescuentos.setForeground(new java.awt.Color(0, 0, 0));
-            comboActivoDescuentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elegir", "SI", "NO" }));
+            comboActivoDescuentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponibilidad", "SI", "NO" }));
 
             contActualizarDescuentos.setBackground(new java.awt.Color(92, 164, 169));
             contActualizarDescuentos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1385,18 +1398,28 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
             jPanel1.setBackground(new java.awt.Color(255, 255, 255));
             jPanel1.setPreferredSize(new java.awt.Dimension(1290, 60));
-            jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
             jLabel4.setBackground(new java.awt.Color(73, 127, 131));
             jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
             jLabel4.setForeground(new java.awt.Color(73, 127, 131));
             jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             jLabel4.setText("Usuarios");
-            jPanel1.add(jLabel4);
+
+            javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+            jPanel1.setLayout(jPanel1Layout);
+            jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 1290, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
+            jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
 
             jPanel6.setBackground(new java.awt.Color(255, 255, 255));
             jPanel6.setMinimumSize(new java.awt.Dimension(890, 100));
 
+            tablaUsuarios.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
             tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
                     {},
@@ -1694,7 +1717,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         panelUsuarios.setLayout(panelUsuariosLayout);
         panelUsuariosLayout.setHorizontalGroup(
             panelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelUsuariosLayout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
@@ -1709,21 +1732,122 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        panelInformes.setBackground(new java.awt.Color(204, 204, 0));
+        panelInformes.setBackground(new java.awt.Color(255, 255, 255));
         panelInformes.setOpaque(true);
+        panelInformes.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout panelInformesLayout = new javax.swing.GroupLayout(panelInformes);
-        panelInformes.setLayout(panelInformesLayout);
-        panelInformesLayout.setHorizontalGroup(
-            panelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1290, Short.MAX_VALUE)
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setPreferredSize(new java.awt.Dimension(1290, 60));
+
+        jLabel5.setBackground(new java.awt.Color(73, 127, 131));
+        jLabel5.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(73, 127, 131));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Informes");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(548, 548, 548)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(549, 549, 549))
         );
-        panelInformesLayout.setVerticalGroup(
-            panelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        panelCaja.setBackground(new java.awt.Color(0, 204, 204));
+        panelInformes.add(jPanel10, java.awt.BorderLayout.PAGE_START);
+
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+
+        comboMonthInformes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        comboMonthInformes.setForeground(new java.awt.Color(0, 0, 0));
+        comboMonthInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        comboMonthInformes.setEnabled(false);
+        comboMonthInformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboMonthInformesActionPerformed(evt);
+            }
+        });
+
+        comboPeriodoInformes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        comboPeriodoInformes.setForeground(new java.awt.Color(0, 0, 0));
+        comboPeriodoInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Periodo del Informe", "Anual", "Mensual" }));
+        comboPeriodoInformes.setEnabled(false);
+        comboPeriodoInformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboPeriodoInformesActionPerformed(evt);
+            }
+        });
+
+        comboYearInformes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        comboYearInformes.setForeground(new java.awt.Color(0, 0, 0));
+        comboYearInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Año", "2023" }));
+        comboYearInformes.setEnabled(false);
+        comboYearInformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboYearInformesActionPerformed(evt);
+            }
+        });
+
+        tablaInformes.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        tablaInformes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane5.setViewportView(tablaInformes);
+
+        comboTipoInformes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        comboTipoInformes.setForeground(new java.awt.Color(0, 0, 0));
+        comboTipoInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de Informe", "Inventario", "Ventas" }));
+        comboTipoInformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTipoInformesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(comboTipoInformes, 0, 240, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
+                .addComponent(comboPeriodoInformes, 0, 240, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
+                .addComponent(comboYearInformes, 0, 240, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
+                .addComponent(comboMonthInformes, 0, 240, Short.MAX_VALUE)
+                .addGap(60, 60, 60))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboPeriodoInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboMonthInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboYearInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboTipoInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))
+        );
+
+        panelInformes.add(jPanel11, java.awt.BorderLayout.CENTER);
+
+        panelCaja.setBackground(new java.awt.Color(255, 255, 255));
         panelCaja.setOpaque(true);
 
         javax.swing.GroupLayout panelCajaLayout = new javax.swing.GroupLayout(panelCaja);
@@ -3158,7 +3282,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void lblCancelarDescuentosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarDescuentosMouseExited
         contCancelarDescuentos.setBackground(mbtn.getDefaultButton());
     }//GEN-LAST:event_lblCancelarDescuentosMouseExited
-    
+
     /**
      * Carga los datos de descuentos desde la base de datos y los muestra en la tabla de la interfaz.
      * 
@@ -3236,7 +3360,227 @@ public class MenuAdminForm extends javax.swing.JFrame {
         cargarDatosTablaDescuentos("");
     }
     // </editor-fold>
-
+    
+    // <editor-fold defaultstate="collapsed" desc="Métodos de la pestaña de Informes">
+    
+    /**
+     * Este método se ejecuta cuando se selecciona una opción en el combo de tipo de informes.
+     * Dependiendo de la opción seleccionada, habilita o deshabilita los combos de período, año y mes.
+     * 
+     * @param evt El evento que desencadenó esta acción.
+     */
+    private void comboTipoInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoInformesActionPerformed
+        String opcionSeleccionada = comboTipoInformes.getSelectedItem().toString();
+        
+        if (!opcionSeleccionada.equals("Tipo de Informe")) {
+            comboPeriodoInformes.setEnabled(true);
+        } else {
+            comboPeriodoInformes.setEnabled(false);
+            comboPeriodoInformes.setSelectedIndex(0);
+            
+            comboYearInformes.setEnabled(false);
+            comboYearInformes.setSelectedIndex(0);
+            
+            comboMonthInformes.setEnabled(false);
+            comboMonthInformes.setSelectedIndex(0); 
+        }
+    }//GEN-LAST:event_comboTipoInformesActionPerformed
+    
+    /**
+     * Este método se ejecuta cuando se selecciona una opción en el combo de período de informes.
+     * Dependiendo de la opción seleccionada, habilita o deshabilita los combos de año y mes, y realiza consultas si es necesario.
+     * @param evt El evento que desencadenó esta acción.
+     */
+    private void comboPeriodoInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPeriodoInformesActionPerformed
+        String opcionSeleccionada = comboPeriodoInformes.getSelectedItem().toString();
+        String yearSeleccionado = comboYearInformes.getSelectedItem().toString();
+        String monthSeleccionado = comboMonthInformes.getSelectedItem().toString();
+        String periodoSeleccionado = comboPeriodoInformes.getSelectedItem().toString();
+        
+        switch (opcionSeleccionada) {
+            case "Periodo del Informe":
+                comboYearInformes.setEnabled(false);
+                comboYearInformes.setSelectedIndex(0);
+                comboMonthInformes.setEnabled(false);
+                comboMonthInformes.setSelectedIndex(0); 
+                break;
+            case "Anual":
+                comboYearInformes.setEnabled(true);
+                comboMonthInformes.setEnabled(false);
+                comboMonthInformes.setSelectedIndex(0); 
+                
+                if (!yearSeleccionado.equals("Año") && periodoSeleccionado.equals("Anual")) {
+                    consultaInformeInventarioAnual(yearSeleccionado);
+                }
+                    
+                break;
+            case "Mensual":
+                comboYearInformes.setEnabled(true);
+                comboMonthInformes.setEnabled(true);
+                break;
+        }
+    }//GEN-LAST:event_comboPeriodoInformesActionPerformed
+    
+    /**
+     * Este método se ejecuta cuando se selecciona una opción en el combo de año de informes.
+     * Realiza una consulta del informe anual si se selecciona un año válido y la opción es "Anual".
+     * @param evt El evento que desencadenó esta acción.
+     */
+    private void comboYearInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboYearInformesActionPerformed
+        String yearSeleccionado = comboYearInformes.getSelectedItem().toString();
+        String periodoSeleccionado = comboPeriodoInformes.getSelectedItem().toString();
+        
+        if (!yearSeleccionado.equals("Año") && periodoSeleccionado.equals("Anual")) {
+            consultaInformeInventarioAnual(yearSeleccionado);
+        }
+    }//GEN-LAST:event_comboYearInformesActionPerformed
+    
+    /**
+     * Este método se ejecuta cuando se selecciona una opción en el combo de mes de informes.
+     * Realiza una consulta del informe mensual si se selecciona un año válido, un mes válido y la opción es "Mensual".
+     * @param evt El evento que desencadenó esta acción.
+     */
+    private void comboMonthInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMonthInformesActionPerformed
+        String yearSeleccionado = comboYearInformes.getSelectedItem().toString();
+        String monthSeleccionado = comboMonthInformes.getSelectedItem().toString();
+        String periodoSeleccionado = comboPeriodoInformes.getSelectedItem().toString();
+        
+        if (!yearSeleccionado.equals("Año") && !monthSeleccionado.equals("Mes") && periodoSeleccionado.equals("Mensual")) {
+            consultaInformeInventarioMensual(yearSeleccionado, obtenerNumeroMes(monthSeleccionado));
+        }
+    }//GEN-LAST:event_comboMonthInformesActionPerformed
+    
+    /**
+     * Realiza una consulta del informe de inventario mensual para un año y mes específicos y muestra los resultados en una tabla.
+     * 
+     * @param year El año para el cual se desea obtener el informe de inventario mensual.
+     * @param month El mes para el cual se desea obtener el informe de inventario mensual.
+     */
+    private void consultaInformeInventarioMensual(String year, String month) {
+        DefaultTableModel modelo = new TablaNoEditable();
+        
+        modelo.addColumn("Año");
+        modelo.addColumn("Mes");
+        modelo.addColumn("Categoría");
+        modelo.addColumn("Productos de esta Categoría");
+        modelo.addColumn("Cantidad Total Disponible");
+        modelo.addColumn("Valor en el Inventario");
+        
+        tablaInformes.setModel(modelo);
+        tablaInformes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
+        String datos[] = new String[6];
+        
+        String consultasql = "SELECT * FROM informe_inventario WHERE year = ? AND month = ?";
+        
+        System.out.println(consultasql);
+        
+        try {
+            PreparedStatement st = cn.prepareStatement(consultasql);
+            
+            st.setString(1, year);
+            st.setString(2, month);
+            
+            ResultSet rs = st.executeQuery();
+            
+            while (rs.next()) {
+                datos[0] = rs.getString("year");
+                datos[1] = rs.getString("month");
+                datos[2] = rs.getString("categoria");
+                datos[3] = rs.getString("total_productos");
+                datos[4] = rs.getString("total_cantidad_disponible");
+                datos[5] = rs.getString("valor_inventario");
+                modelo.addRow(datos);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar datos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error: ", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Realiza una consulta del informe de inventario anual para un año específico y muestra los resultados en una tabla.
+     * @param year El año para el cual se desea obtener el informe de inventario anual.
+     */
+    private void consultaInformeInventarioAnual(String year) {
+        DefaultTableModel modelo = new TablaNoEditable();
+        
+        modelo.addColumn("Año");
+        modelo.addColumn("Categoría");
+        modelo.addColumn("Productos de esta Categoría");
+        modelo.addColumn("Cantidad Total Disponible");
+        modelo.addColumn("Valor en el Inventario");
+        
+        tablaInformes.setModel(modelo);
+        tablaInformes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
+        String datos[] = new String[5];
+        
+        String consultasql = "SELECT * FROM informe_inventario WHERE year = ?";
+        
+        System.out.println(consultasql);
+        
+        try {
+            PreparedStatement st = cn.prepareStatement(consultasql);
+            
+            st.setString(1, year);
+            
+            ResultSet rs = st.executeQuery();
+            
+            while (rs.next()) {
+                datos[0] = rs.getString("year");
+                datos[1] = rs.getString("categoria");
+                datos[2] = rs.getString("total_productos");
+                datos[3] = rs.getString("total_cantidad_disponible");
+                datos[4] = rs.getString("valor_inventario");
+                modelo.addRow(datos);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar datos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error: ", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * 
+     */
+    private void consultaInformeVentasMensual() {
+        
+    }
+    
+    /**
+     * 
+     */
+    private void consultaInformeVentasAnual() {
+        
+    }
+    
+    /**
+     * Obtiene el número de mes correspondiente al nombre del mes dado.
+     * @param mes El nombre del mes en español (Enero, Febrero, etc.).
+     * @return El número del mes en formato de dos dígitos (01, 02, ..., 12).
+     *                Retorna "-1" si el nombre del mes no es válido.
+     */
+    private String obtenerNumeroMes(String mes) {
+        switch (mes) {
+            case "Enero": return "01";
+            case "Febrero": return "02";
+            case "Marzo": return "03";
+            case "Abril": return "04";
+            case "Mayo": return "05";
+            case "Junio": return "06";
+            case "Julio": return "07";
+            case "Agosto": return "08";
+            case "Septiembre": return "09";
+            case "Octubre": return "10";
+            case "Noviembre": return "11";
+            case "Diciembre": return "12";
+            default: return "-1";
+        }
+    }
+    
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Declaracion de variables de los componentes">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barraLateral;
@@ -3252,9 +3596,13 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboActivoDescuentos;
     private javax.swing.JComboBox<String> comboBuscarPorProductos;
     private javax.swing.JComboBox<String> comboEstadoCuentaUsuarios;
+    private javax.swing.JComboBox<String> comboMonthInformes;
     private javax.swing.JComboBox<String> comboNivelAccesoUsuarios;
     private javax.swing.JComboBox<String> comboOrdenarProductos;
+    private javax.swing.JComboBox<String> comboPeriodoInformes;
     private javax.swing.JComboBox<String> comboTipoBusquedaProductos;
+    private javax.swing.JComboBox<String> comboTipoInformes;
+    private javax.swing.JComboBox<String> comboYearInformes;
     private javax.swing.JPanel contActualizarDescuentos;
     private javax.swing.JPanel contActualizarProductos;
     private javax.swing.JPanel contActualizarUsuarios;
@@ -3283,7 +3631,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3296,6 +3647,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel labelCaja;
     private javax.swing.JLabel labelDescuentos;
     private javax.swing.JLabel labelInformes;
@@ -3333,6 +3685,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JLayeredPane panelVentas;
     private com.toedter.calendar.JDateChooser selectorFechaProductos;
     private javax.swing.JTable tablaDescuentos;
+    private javax.swing.JTable tablaInformes;
     private javax.swing.JTable tablaProductos;
     private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtBuscarDescuentos;
