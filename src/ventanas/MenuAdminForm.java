@@ -38,6 +38,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // Instancia de la conexion que se pasa del login al menu
     private Connection cn;
     
+    // Usuario que inició la sesión
+    private String usuario;
+    
     // <editor-fold defaultstate="collapsed" desc="Instancias">
     // Instancia de la clase para añadir funcionalidad a los botones de la barra de título
     MetodosBarraMenu mbm = new MetodosBarraMenu();
@@ -68,10 +71,13 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * Crea una nueva instancia del formulario MenuAdminForm.
      *
      * @param cn La conexión a la base de datos que se utilizará en el formulario.
+     * @param usuario El nombre completo del usuario que inició la sesión.
      */
-    public MenuAdminForm(Connection cn) {
+    public MenuAdminForm(Connection cn, String usuario) {
         // Asigna la conexión a la base de datos al atributo de la clase
         this.cn = cn;
+        
+        this.usuario = usuario;
         
         // Inicializa los componentes del formulario
         initComponents();
@@ -234,6 +240,36 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     tablaInformes = new javax.swing.JTable();
                     comboTipoInformes = new javax.swing.JComboBox<>();
                     panelCaja = new javax.swing.JLayeredPane();
+                    jPanel12 = new javax.swing.JPanel();
+                    jLabel6 = new javax.swing.JLabel();
+                    jPanel13 = new javax.swing.JPanel();
+                    txtVendedorCaja = new javax.swing.JTextField();
+                    txtFechaCaja = new javax.swing.JTextField();
+                    txtCantidadCaja = new javax.swing.JTextField();
+                    comboMetodoPagoCaja = new javax.swing.JComboBox<>();
+                    txtCodigoDescuentoCaja = new javax.swing.JTextField();
+                    contProcesarPagoCaja = new javax.swing.JPanel();
+                    lblProcesarPagoCaja = new javax.swing.JLabel();
+                    contEliminarProductoCaja = new javax.swing.JPanel();
+                    lblEliminarProductoCaja = new javax.swing.JLabel();
+                    contCancelarPagoCaja = new javax.swing.JPanel();
+                    lblCancelarPagoCaja = new javax.swing.JLabel();
+                    contAgregarProductoCaja = new javax.swing.JPanel();
+                    lblAgregarProductoCaja = new javax.swing.JLabel();
+                    contAplicarDescuentoCaja = new javax.swing.JPanel();
+                    lblAplicarDescuentoCaja = new javax.swing.JLabel();
+                    txtCodigoCaja = new javax.swing.JTextField();
+                    contActualizarCaja = new javax.swing.JPanel();
+                    lblActualizarCaja = new javax.swing.JLabel();
+                    jPanel14 = new javax.swing.JPanel();
+                    txtSubtotalCaja = new javax.swing.JTextField();
+                    jLabel7 = new javax.swing.JLabel();
+                    txtDescuentoTotalCaja = new javax.swing.JTextField();
+                    jLabel8 = new javax.swing.JLabel();
+                    txtTotalCaja = new javax.swing.JTextField();
+                    jLabel9 = new javax.swing.JLabel();
+                    jScrollPane6 = new javax.swing.JScrollPane();
+                    tablaCaja = new javax.swing.JTable();
 
                     btnEliminarProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
                     btnEliminarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/productos/icons8-delete-25.png"))); // NOI18N
@@ -1850,15 +1886,445 @@ public class MenuAdminForm extends javax.swing.JFrame {
         panelCaja.setBackground(new java.awt.Color(255, 255, 255));
         panelCaja.setOpaque(true);
 
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setPreferredSize(new java.awt.Dimension(1290, 60));
+
+        jLabel6.setBackground(new java.awt.Color(73, 127, 131));
+        jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(73, 127, 131));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Caja");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(548, 548, 548)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addGap(549, 549, 549))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel13.setForeground(new java.awt.Color(143, 143, 143));
+        jPanel13.setPreferredSize(new java.awt.Dimension(645, 658));
+
+        txtVendedorCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtVendedorCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtVendedorCaja.setText("Nombre del Vendedor");
+        txtVendedorCaja.setEnabled(false);
+
+        txtFechaCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtFechaCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtFechaCaja.setText("Fecha de la Venta");
+        txtFechaCaja.setEnabled(false);
+
+        txtCantidadCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtCantidadCaja.setForeground(new java.awt.Color(143, 143, 143));
+        txtCantidadCaja.setText("Cantidad");
+        txtCantidadCaja.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCantidadCajaFocusGained(evt);
+            }
+        });
+        txtCantidadCaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadCajaKeyTyped(evt);
+            }
+        });
+
+        comboMetodoPagoCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        comboMetodoPagoCaja.setForeground(new java.awt.Color(0, 0, 0));
+        comboMetodoPagoCaja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Método de Pago", "Efectivo", "Tarjeta" }));
+
+        txtCodigoDescuentoCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtCodigoDescuentoCaja.setForeground(new java.awt.Color(143, 143, 143));
+        txtCodigoDescuentoCaja.setText("Código de Descuento");
+        txtCodigoDescuentoCaja.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCodigoDescuentoCajaFocusGained(evt);
+            }
+        });
+        txtCodigoDescuentoCaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoDescuentoCajaKeyTyped(evt);
+            }
+        });
+
+        contProcesarPagoCaja.setBackground(new java.awt.Color(92, 164, 169));
+
+        lblProcesarPagoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblProcesarPagoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblProcesarPagoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblProcesarPagoCaja.setText("Procesar Pago");
+        lblProcesarPagoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblProcesarPagoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblProcesarPagoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblProcesarPagoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contProcesarPagoCajaLayout = new javax.swing.GroupLayout(contProcesarPagoCaja);
+        contProcesarPagoCaja.setLayout(contProcesarPagoCajaLayout);
+        contProcesarPagoCajaLayout.setHorizontalGroup(
+            contProcesarPagoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblProcesarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+        );
+        contProcesarPagoCajaLayout.setVerticalGroup(
+            contProcesarPagoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblProcesarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        contEliminarProductoCaja.setBackground(new java.awt.Color(192, 36, 36));
+
+        lblEliminarProductoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblEliminarProductoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblEliminarProductoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEliminarProductoCaja.setText("Eliminar Producto");
+        lblEliminarProductoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEliminarProductoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblEliminarProductoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblEliminarProductoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contEliminarProductoCajaLayout = new javax.swing.GroupLayout(contEliminarProductoCaja);
+        contEliminarProductoCaja.setLayout(contEliminarProductoCajaLayout);
+        contEliminarProductoCajaLayout.setHorizontalGroup(
+            contEliminarProductoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblEliminarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        contEliminarProductoCajaLayout.setVerticalGroup(
+            contEliminarProductoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblEliminarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+        );
+
+        contCancelarPagoCaja.setBackground(new java.awt.Color(92, 164, 169));
+
+        lblCancelarPagoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblCancelarPagoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblCancelarPagoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCancelarPagoCaja.setText("Cancelar Pago");
+        lblCancelarPagoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCancelarPagoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCancelarPagoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCancelarPagoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contCancelarPagoCajaLayout = new javax.swing.GroupLayout(contCancelarPagoCaja);
+        contCancelarPagoCaja.setLayout(contCancelarPagoCajaLayout);
+        contCancelarPagoCajaLayout.setHorizontalGroup(
+            contCancelarPagoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCancelarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+        );
+        contCancelarPagoCajaLayout.setVerticalGroup(
+            contCancelarPagoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCancelarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+        );
+
+        contAgregarProductoCaja.setBackground(new java.awt.Color(92, 164, 169));
+
+        lblAgregarProductoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblAgregarProductoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblAgregarProductoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAgregarProductoCaja.setText("Agregar Producto");
+        lblAgregarProductoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAgregarProductoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblAgregarProductoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblAgregarProductoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contAgregarProductoCajaLayout = new javax.swing.GroupLayout(contAgregarProductoCaja);
+        contAgregarProductoCaja.setLayout(contAgregarProductoCajaLayout);
+        contAgregarProductoCajaLayout.setHorizontalGroup(
+            contAgregarProductoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAgregarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        contAgregarProductoCajaLayout.setVerticalGroup(
+            contAgregarProductoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAgregarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+        );
+
+        contAplicarDescuentoCaja.setBackground(new java.awt.Color(92, 164, 169));
+
+        lblAplicarDescuentoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblAplicarDescuentoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblAplicarDescuentoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAplicarDescuentoCaja.setText("Aplicar Descuento");
+        lblAplicarDescuentoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAplicarDescuentoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblAplicarDescuentoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblAplicarDescuentoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contAplicarDescuentoCajaLayout = new javax.swing.GroupLayout(contAplicarDescuentoCaja);
+        contAplicarDescuentoCaja.setLayout(contAplicarDescuentoCajaLayout);
+        contAplicarDescuentoCajaLayout.setHorizontalGroup(
+            contAplicarDescuentoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAplicarDescuentoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        contAplicarDescuentoCajaLayout.setVerticalGroup(
+            contAplicarDescuentoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAplicarDescuentoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+        );
+
+        txtCodigoCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtCodigoCaja.setForeground(new java.awt.Color(143, 143, 143));
+        txtCodigoCaja.setText("Código del Producto");
+        txtCodigoCaja.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCodigoCajaFocusGained(evt);
+            }
+        });
+        txtCodigoCaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoCajaKeyTyped(evt);
+            }
+        });
+
+        contActualizarCaja.setBackground(new java.awt.Color(92, 164, 169));
+
+        lblActualizarCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblActualizarCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblActualizarCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblActualizarCaja.setText("Actualizar Producto");
+        lblActualizarCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblActualizarCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblActualizarCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblActualizarCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contActualizarCajaLayout = new javax.swing.GroupLayout(contActualizarCaja);
+        contActualizarCaja.setLayout(contActualizarCajaLayout);
+        contActualizarCajaLayout.setHorizontalGroup(
+            contActualizarCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblActualizarCaja, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+        );
+        contActualizarCajaLayout.setVerticalGroup(
+            contActualizarCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblActualizarCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(contAgregarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtVendedorCaja, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCodigoDescuentoCaja)
+                    .addComponent(contAplicarDescuentoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(txtFechaCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboMetodoPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                        .addComponent(txtCodigoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                        .addGap(33, 33, 33)
+                        .addComponent(txtCantidadCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(contProcesarPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(contCancelarPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(contEliminarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(contActualizarCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtVendedorCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboMetodoPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFechaCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCantidadCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(contAgregarProductoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(txtCodigoDescuentoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(contAplicarDescuentoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(contEliminarProductoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(contCancelarPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(contActualizarCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(contProcesarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel14.setPreferredSize(new java.awt.Dimension(645, 658));
+
+        txtSubtotalCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtSubtotalCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtSubtotalCaja.setText("Subtotal");
+        txtSubtotalCaja.setEnabled(false);
+
+        jLabel7.setBackground(new java.awt.Color(73, 127, 131));
+        jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 22)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(73, 127, 131));
+        jLabel7.setText("Subtotal");
+        jLabel7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        txtDescuentoTotalCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtDescuentoTotalCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtDescuentoTotalCaja.setText("Descuento");
+        txtDescuentoTotalCaja.setEnabled(false);
+
+        jLabel8.setBackground(new java.awt.Color(73, 127, 131));
+        jLabel8.setFont(new java.awt.Font("Ubuntu", 1, 22)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(73, 127, 131));
+        jLabel8.setText("Descuento");
+        jLabel8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        txtTotalCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtTotalCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtTotalCaja.setText("Total");
+        txtTotalCaja.setEnabled(false);
+
+        jLabel9.setBackground(new java.awt.Color(73, 127, 131));
+        jLabel9.setFont(new java.awt.Font("Ubuntu", 1, 22)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(73, 127, 131));
+        jLabel9.setText("Total");
+        jLabel9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        tablaCaja.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tablaCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCajaMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tablaCaja);
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSubtotalCaja)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDescuentoTotalCaja)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTotalCaja)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane6)))
+                .addContainerGap())
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSubtotalCaja))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDescuentoTotalCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotalCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(11, 11, 11))
+        );
+
+        panelCaja.setLayer(jPanel12, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelCaja.setLayer(jPanel13, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelCaja.setLayer(jPanel14, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout panelCajaLayout = new javax.swing.GroupLayout(panelCaja);
         panelCaja.setLayout(panelCajaLayout);
         panelCajaLayout.setHorizontalGroup(
             panelCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1210, Short.MAX_VALUE)
+            .addGroup(panelCajaLayout.createSequentialGroup()
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(panelCajaLayout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCajaLayout.setVerticalGroup(
             panelCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+            .addGroup(panelCajaLayout.createSequentialGroup()
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout panelVentanaPanelesLayout = new javax.swing.GroupLayout(panelVentanaPaneles);
@@ -2040,6 +2506,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
     private void botonCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCajaMouseClicked
         mbl.cambiarPanel(panelVentanaPaneles, panelCaja);
+        configurarVentanaCaja();
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
     }//GEN-LAST:event_botonCajaMouseClicked
 
@@ -2627,7 +3094,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento del mouse que desencadenó la llamada a este método.
      */
     private void contRegistrarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarUsuariosMouseClicked
-        if (!contRegistrarUsuarios.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
+        if (!contRegistrarUsuarios.isEnabled() || !lblRegistrarUsuarios.isEnabled()) {return;}
         
         String nombreUsuario = txtUserNameUsuarios.getText();
         String clave = String.valueOf(txtClaveUsuarios.getPassword());
@@ -2692,7 +3159,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento del mouse que desencadenó la llamada a este método.
      */
     private void contActualizarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarUsuariosMouseClicked
-        if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
+        if (!contActualizarUsuarios.isEnabled() || !lblActualizarUsuarios.isEnabled()) {return;}
         
         String nombreUsuario = txtUserNameUsuarios.getText();
         String clave = String.valueOf(txtClaveUsuarios.getPassword());
@@ -2715,6 +3182,18 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 return;
             }
         
+        Object valorPrimeraColumna = null;
+        
+        int selectedRow = tablaUsuarios.getSelectedRow();
+        if (selectedRow != -1) {
+            valorPrimeraColumna = tablaUsuarios.getModel().getValueAt(selectedRow, 0);
+
+            // Ahora 'valorPrimeraColumna' contiene el dato de la primera columna de la fila seleccionada.
+            // Puedes hacer lo que necesites con este valor.
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
         String sentenciasql = String.format(
             "UPDATE usuarios SET "
             + "nombre_usuario=?, "
@@ -2725,7 +3204,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
             + "numero_telefono=?, "
             + "estado_cuenta=? "
             + "WHERE id_usuario='%s';"
-            , tablaUsuarios.getSelectedRow()
+            , valorPrimeraColumna
         );
         
         System.out.println(sentenciasql);
@@ -2775,7 +3254,19 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt 
      */
     private void contEliminarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contEliminarUsuariosMouseClicked
-        String sentenciasql = "DELETE FROM usuarios WHERE id_usuario='" + tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0) + "';";
+        Object valorPrimeraColumna = null;
+        
+        int selectedRow = tablaUsuarios.getSelectedRow();
+        if (selectedRow != -1) {
+            valorPrimeraColumna = tablaUsuarios.getModel().getValueAt(selectedRow, 0);
+
+            // Ahora 'valorPrimeraColumna' contiene el dato de la primera columna de la fila seleccionada.
+            // Puedes hacer lo que necesites con este valor.
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String sentenciasql = "DELETE FROM usuarios WHERE id_usuario='" + valorPrimeraColumna + "';";
         Object[] opciones = {"Sí", "No"};
         
         if (JOptionPane.showOptionDialog(null, "¿Está seguro de que desea eliminar el registro?", "Eliminar registro", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]) == 0) {
@@ -2785,7 +3276,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 
                 if (index > 0) {
                     cargarDatosTablaDescuentos("");
-                    limpiarCamposDescuentos();
+                    limpiarCamposUsuarios();
                 } else {
                     JOptionPane.showMessageDialog(null, "No seleccionó fila", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -2979,14 +3470,16 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento de clic del mouse.
      */
     private void contRegistrarDescuentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarDescuentosMouseClicked
-        if (!contRegistrarDescuentos.isEnabled() || !lblRegistrarDescuentos.isEnabled()) {return;}
-        
+        if (!contRegistrarDescuentos.isEnabled() || !lblRegistrarDescuentos.isEnabled()) {
+            return;
+        }
+
         String nombreDescuento = txtNombreDescuentos.getText();
         String codigoDescuento = txtCodigoDescuentos.getText();
         String stringPorcentajeDescuento = txtPorcentajeDescuentos.getText();
         String stringValorDescuento = txtValorDescuentos.getText();
-        String stringFechaInicio = txtFechaInicioDescuentos.getText(); // Obtener String de fecha
-        String stringFechaFin = txtFechaFinDescuentos.getText(); // Obtener String de fecha
+        String stringFechaInicio = txtFechaInicioDescuentos.getText();
+        String stringFechaFin = txtFechaFinDescuentos.getText();
         String activo = (String) comboActivoDescuentos.getSelectedItem();
 
         java.sql.Date fechaInicioSQL;
@@ -3016,11 +3509,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
             return;
         }
 
-        if (mv.validarDatos(stringPorcentajeDescuento, "Porcentaje", "porcentaje del descuento") &&
-            mv.validarDatos(stringValorDescuento, "Valor", "valor del descuento")) {
-            return;
-        }
-
         float porcentajeDescuento = 0;
         float valorDescuento = 0;
 
@@ -3042,16 +3530,17 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Porcentaje de descuento inválido", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }
-
-        // Si stringValorDescuento no está vacío, intenta convertirlo a float
-        if (!stringValorDescuento.isEmpty()) {
+        } else if (!stringValorDescuento.isEmpty()) {
+            // Si stringValorDescuento no está vacío, intenta convertirlo a float
             try {
                 valorDescuento = Float.parseFloat(stringValorDescuento);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Valor de descuento inválido", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese porcentaje o valor de descuento", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         try {
@@ -3086,8 +3575,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
     * @param evt El evento de clic del mouse.
     */
     private void contActualizarDescuentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarDescuentosMouseClicked
-        if (!contActualizarDescuentos.isEnabled() || !lblActualizarDescuentos.isEnabled()) {return;}
-        
+        if (!contActualizarDescuentos.isEnabled() || !lblActualizarDescuentos.isEnabled()) {
+            return;
+        }
+
         String nombreDescuento = txtNombreDescuentos.getText();
         String codigoDescuento = txtCodigoDescuentos.getText();
         String stringPorcentajeDescuento = txtPorcentajeDescuentos.getText();
@@ -3121,11 +3612,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
             return;
         }
 
-        if (mv.validarDatos(stringPorcentajeDescuento, "Porcentaje", "porcentaje del descuento") &&
-            mv.validarDatos(stringValorDescuento, "Valor", "valor del descuento")) {
-            return;
-        }
-
         float porcentajeDescuento = 0;
         float valorDescuento = 0;
 
@@ -3147,10 +3633,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Porcentaje de descuento inválido", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }
-
-        // Si stringValorDescuento no está vacío, intenta convertirlo a float
-        if (!stringValorDescuento.isEmpty()) {
+        } else if (!stringValorDescuento.isEmpty()) {
+            // Si stringValorDescuento no está vacío, intenta convertirlo a float
             try {
                 valorDescuento = Float.parseFloat(stringValorDescuento);
             } catch (NumberFormatException e) {
@@ -3169,7 +3653,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
             ps.setDate(5, fechaInicioSQL);
             ps.setDate(6, fechaFinSQL);
             ps.setString(7, activo);
-            ps.setInt(8, tablaUsuarios.getSelectedRow());
+            ps.setInt(8, tablaUsuarios.getSelectedRow()); // Cambiar 'tablaUsuarios' al nombre correcto de tu tabla
 
             ps.executeUpdate();
 
@@ -3211,7 +3695,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                 if (index > 0) {
                     cargarDatosTablaUsuarios("");
-                    limpiarCamposUsuarios();
+                    limpiarCamposDescuentos();
                 } else {
                     JOptionPane.showMessageDialog(null, "No seleccionó fila", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -3337,7 +3821,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void limpiarCamposDescuentos() {
         mbtn.deshabilitarBoton(contEliminarDescuentos, lblEliminarDescuentos, mbtn.getDefaultButtonWarningDisabled(), mbtn.getDefaultTextDisabled());
         mbtn.deshabilitarBotonDefault(contActualizarDescuentos, lblActualizarDescuentos);
-        mbtn.habilitarBotonDefault(contRegistrarDescuentos, lblRegistrarDescuentos);
+        mbtn.habilitarBotonDefault(contRegistrarDescuentos, lblRegistrarDescuentos); 
         
         mtf.reiniciarTexto(txtNombreDescuentos, "Nombre");
         mtf.reiniciarTexto(txtCodigoDescuentos, "Código");
@@ -3350,6 +3834,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         comboActivoDescuentos.setSelectedIndex(0);
         
         mtf.reiniciarTexto(txtBuscarDescuentos, "Buscar");
+        cargarDatosTablaDescuentos("");
     }
 
     /**
@@ -3449,7 +3934,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
             consultaInformeInventarioMensual(yearSeleccionado, obtenerNumeroMes(monthSeleccionado));
         }
     }//GEN-LAST:event_comboMonthInformesActionPerformed
-    
+
     /**
      * Realiza una consulta del informe de inventario mensual para un año y mes específicos y muestra los resultados en una tabla.
      * 
@@ -3581,6 +4066,352 @@ public class MenuAdminForm extends javax.swing.JFrame {
     
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Métodos de la pestaña de Caja">
+    
+    // Animaciones para los botones de la ventana
+    private void lblAgregarProductoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAgregarProductoCajaMouseEntered
+        if (!contAgregarProductoCaja.isEnabled() || !lblAgregarProductoCaja.isEnabled()) {return;}
+        contAgregarProductoCaja.setBackground(mbtn.getDefaultButtonHover());
+    }//GEN-LAST:event_lblAgregarProductoCajaMouseEntered
+
+    private void lblAgregarProductoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAgregarProductoCajaMouseExited
+        if (!contAgregarProductoCaja.isEnabled() || !lblAgregarProductoCaja.isEnabled()) {return;}
+        contAgregarProductoCaja.setBackground(mbtn.getDefaultButton());
+    }//GEN-LAST:event_lblAgregarProductoCajaMouseExited
+
+    private void lblAplicarDescuentoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAplicarDescuentoCajaMouseEntered
+        if (!contAplicarDescuentoCaja.isEnabled() || !lblAplicarDescuentoCaja.isEnabled()) {return;}
+        contAplicarDescuentoCaja.setBackground(mbtn.getDefaultButtonHover());
+    }//GEN-LAST:event_lblAplicarDescuentoCajaMouseEntered
+
+    private void lblAplicarDescuentoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAplicarDescuentoCajaMouseExited
+        if (!contAplicarDescuentoCaja.isEnabled() || !lblAplicarDescuentoCaja.isEnabled()) {return;}
+        contAplicarDescuentoCaja.setBackground(mbtn.getDefaultButton());
+    }//GEN-LAST:event_lblAplicarDescuentoCajaMouseExited
+
+    private void lblCancelarPagoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarPagoCajaMouseEntered
+        if (!contCancelarPagoCaja.isEnabled() || !lblCancelarPagoCaja.isEnabled()) {return;}
+        contCancelarPagoCaja.setBackground(mbtn.getDefaultButtonHover());
+    }//GEN-LAST:event_lblCancelarPagoCajaMouseEntered
+
+    private void lblCancelarPagoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarPagoCajaMouseExited
+        if (!contCancelarPagoCaja.isEnabled() || !lblCancelarPagoCaja.isEnabled()) {return;}
+        contCancelarPagoCaja.setBackground(mbtn.getDefaultButton());
+    }//GEN-LAST:event_lblCancelarPagoCajaMouseExited
+
+    private void lblEliminarProductoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarProductoCajaMouseEntered
+        if (!contEliminarProductoCaja.isEnabled() || !lblEliminarProductoCaja.isEnabled()) {return;}
+        contEliminarProductoCaja.setBackground(mbtn.getDefaultButtonWarningHover());
+    }//GEN-LAST:event_lblEliminarProductoCajaMouseEntered
+
+    private void lblEliminarProductoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarProductoCajaMouseExited
+        if (!contEliminarProductoCaja.isEnabled() || !lblEliminarProductoCaja.isEnabled()) {return;}
+        contEliminarProductoCaja.setBackground(mbtn.getDefaultButtonWarning());
+    }//GEN-LAST:event_lblEliminarProductoCajaMouseExited
+
+    private void lblProcesarPagoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProcesarPagoCajaMouseEntered
+        if (!contProcesarPagoCaja.isEnabled() || !lblProcesarPagoCaja.isEnabled()) {return;}
+        contProcesarPagoCaja.setBackground(mbtn.getDefaultButtonHover());
+    }//GEN-LAST:event_lblProcesarPagoCajaMouseEntered
+
+    private void lblProcesarPagoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProcesarPagoCajaMouseExited
+        if (!contProcesarPagoCaja.isEnabled() || !lblProcesarPagoCaja.isEnabled()) {return;}
+        contProcesarPagoCaja.setBackground(mbtn.getDefaultButton());
+    }//GEN-LAST:event_lblProcesarPagoCajaMouseExited
+
+    // FocusListeners para establecer un texto predeterminado en los campos de la ventana
+    private void txtCantidadCajaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadCajaFocusGained
+        mtf.establecerTextoPredeterminado(txtCantidadCaja, "Cantidad");
+    }//GEN-LAST:event_txtCantidadCajaFocusGained
+
+    private void txtCodigoDescuentoCajaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoDescuentoCajaFocusGained
+        mtf.establecerTextoPredeterminado(txtCodigoDescuentoCaja, "Código de Descuento");
+    }//GEN-LAST:event_txtCodigoDescuentoCajaFocusGained
+
+    // EventListeners de los botones de la ventana
+    
+    private void lblAgregarProductoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAgregarProductoCajaMouseClicked
+        String producto = txtCodigoCaja.getText();
+        String cantidadStr = txtCantidadCaja.getText();
+        int cantidad = 0;
+        
+        try {
+            cantidad = Integer.parseInt(cantidadStr);
+            this.validarProductoCaja(producto, cantidad);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "La cantidad debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        
+    }//GEN-LAST:event_lblAgregarProductoCajaMouseClicked
+
+    private void lblAplicarDescuentoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAplicarDescuentoCajaMouseClicked
+        String codigoDescuento = txtCodigoDescuentoCaja.getText();
+        float valorDescuento;
+        
+        if (!validarDescuentoCaja(codigoDescuento)) {
+            return;
+        }
+        
+        valorDescuento = obtenerDescuentoCaja(codigoDescuento);
+        txtDescuentoTotalCaja.setText(String.valueOf(valorDescuento));
+        JOptionPane.showMessageDialog(null, "Descuento aplicado correctamente.", "Descuento", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_lblAplicarDescuentoCajaMouseClicked
+
+    private void lblProcesarPagoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProcesarPagoCajaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblProcesarPagoCajaMouseClicked
+
+    private void lblCancelarPagoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarPagoCajaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblCancelarPagoCajaMouseClicked
+
+    private void lblEliminarProductoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarProductoCajaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblEliminarProductoCajaMouseClicked
+
+    private void txtCodigoCajaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoCajaFocusGained
+        mtf.establecerTextoPredeterminado(txtCodigoCaja, "Código del Producto");
+    }//GEN-LAST:event_txtCodigoCajaFocusGained
+
+    private void txtCodigoCajaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoCajaKeyTyped
+        me.validarEntero(evt);
+    }//GEN-LAST:event_txtCodigoCajaKeyTyped
+
+    private void txtCantidadCajaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadCajaKeyTyped
+        me.validarEntero(evt);
+    }//GEN-LAST:event_txtCantidadCajaKeyTyped
+
+    private void tablaCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCajaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaCajaMouseClicked
+
+    private void lblActualizarCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblActualizarCajaMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblActualizarCajaMouseClicked
+
+    private void lblActualizarCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblActualizarCajaMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblActualizarCajaMouseEntered
+
+    private void lblActualizarCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblActualizarCajaMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblActualizarCajaMouseExited
+
+    private void txtCodigoDescuentoCajaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoDescuentoCajaKeyTyped
+        me.convertirMayuscula(evt, txtCodigoDescuentoCaja);
+    }//GEN-LAST:event_txtCodigoDescuentoCajaKeyTyped
+    
+    // Métodos de la ventana de Caja
+    
+    public void cargarModeloTablaCaja() {
+        DefaultTableModel modelo = new TablaNoEditable();
+        modelo.addColumn("Nombre del Producto");
+        modelo.addColumn("Código de Barras");
+        modelo.addColumn("Precio Unitario");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Subtotal del Producto");
+        tablaCaja.setModel(modelo);
+    }
+    
+    public void limpiarCamposCaja() {
+        mbtn.deshabilitarBoton(contEliminarProductoCaja, lblEliminarProductoCaja, mbtn.getDefaultButtonWarningDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.deshabilitarBotonDefault(contActualizarCaja, lblActualizarCaja);
+        mbtn.habilitarBotonDefault(contProcesarPagoCaja, lblProcesarPagoCaja);
+        
+        mtf.reiniciarTexto(txtCodigoCaja, "Código del Producto");
+        mtf.reiniciarTexto(txtCantidadCaja, "Cantidad");
+        mtf.reiniciarTexto(txtCodigoDescuentoCaja, "Código de Descuento");
+        
+        mtf.reiniciarTexto(txtSubtotalCaja, "Subtotal");
+        mtf.reiniciarTexto(txtDescuentoTotalCaja ,"Descuento");
+        mtf.reiniciarTexto(txtTotalCaja, "Total");
+        
+        comboMetodoPagoCaja.setSelectedIndex(0);
+        
+        cargarNombreCajero();
+        cargarFechaCaja();
+    }
+    
+    public void configurarVentanaCaja() {
+        cargarModeloTablaCaja();
+        limpiarCamposCaja();
+    }
+    
+    private boolean validarProductoCaja(String codigoProducto) {
+        String consultasql = "SELECT cantidad_disponible FROM productos WHERE codigo_barras = ?";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(consultasql);
+            
+            ps.setString(1, codigoProducto);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                int cantidadDisponible = rs.getInt("cantidad_disponible");
+                
+                if (cantidadDisponible < 1) {
+                    return true;
+                } else {
+                    String mensaje = "No hay suficientes unidades, solo quedan " + cantidadDisponible; 
+                    JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El producto no existe en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    private boolean validarProductoCaja(String codigoProducto, int cantidad) {
+        String consultasql = "SELECT cantidad_disponible FROM productos WHERE codigo_barras = ?";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(consultasql);
+            
+            ps.setString(1, codigoProducto);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                int cantidadDisponible = rs.getInt("cantidad_disponible");
+                
+                if (cantidad <= cantidadDisponible) {
+                    return true;
+                } else {
+                    String mensaje = "No hay suficientes unidades, solo quedan " + cantidadDisponible; 
+                    JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El producto no existe en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    private boolean validarDescuentoCaja(String codigoDescuento) {
+        if (codigoDescuento == null) {
+            return false;
+        }
+
+        String consultasql = "SELECT fecha_inicio, fecha_fin, activo FROM descuentos WHERE codigo_descuento = ?";
+
+        try {
+            PreparedStatement ps = cn.prepareStatement(consultasql);
+
+            ps.setString(1, codigoDescuento);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(null, "El código de descuento no existe en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            String fechaInicioStr = rs.getString("fecha_inicio");
+            String fechaFinStr = rs.getString("fecha_fin");
+            String activo = rs.getString("activo");
+
+            System.out.println(fechaInicioStr + " " + fechaFinStr + " " + activo);
+
+            java.util.Date fechaActual = new java.util.Date();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date fechaInicio = dateFormat.parse(fechaInicioStr);
+            java.util.Date fechaFin = dateFormat.parse(fechaFinStr);
+
+            System.out.println(fechaInicio + " " + fechaFin + " " + activo);
+
+            if (!activo.equals("SI") || fechaActual.before(fechaInicio) || fechaActual.after(fechaFin)) {
+                String mensaje = !activo.equals("SI") ? "El descuento está fuera del período válido." : "El descuento no está activo.";
+                JOptionPane.showMessageDialog(null, mensaje, "Descuento no válido", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+
+            System.out.println("Descuento aplicado correctamente");
+            return true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Error al parsear las fechas.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    private float obtenerDescuentoCaja(String codigoDescuento) {
+        if (codigoDescuento == null) {
+            return 0;
+        }
+
+        String consultasql = "SELECT porcentaje_descuento, valor_descuento FROM descuentos WHERE codigo_descuento = ?";
+
+        try {
+            PreparedStatement ps = cn.prepareStatement(consultasql);
+
+            ps.setString(1, codigoDescuento);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                return 0;
+            }
+
+            float porcentajeDescuento = rs.getFloat("porcentaje_descuento");
+            int valorDescuento = rs.getInt("valor_descuento");
+            return porcentajeDescuento != 0.0 ? porcentajeDescuento : (float) valorDescuento;
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return 0;
+        }
+    }
+    
+    private void calcularDescuentoCaja() {
+        
+    }
+    
+    private void actualizarTablaSubtotalCaja() {
+        
+    }
+    
+    private void calcularSubtotalCaja() {
+        
+    }
+    
+    private void calcularTotalCaja() {
+        
+    }
+    
+    private void cargarNombreCajero() {
+        txtVendedorCaja.setText(this.usuario);
+    }
+    
+    private void cargarFechaCaja() {
+        java.util.Date fecha = new java.util.Date();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+        String fechaFormateada = sdf.format(fecha);
+        
+        txtFechaCaja.setText(fechaFormateada);
+    }
+// </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Declaracion de variables de los componentes">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barraLateral;
@@ -3596,6 +4427,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboActivoDescuentos;
     private javax.swing.JComboBox<String> comboBuscarPorProductos;
     private javax.swing.JComboBox<String> comboEstadoCuentaUsuarios;
+    private javax.swing.JComboBox<String> comboMetodoPagoCaja;
     private javax.swing.JComboBox<String> comboMonthInformes;
     private javax.swing.JComboBox<String> comboNivelAccesoUsuarios;
     private javax.swing.JComboBox<String> comboOrdenarProductos;
@@ -3603,21 +4435,27 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboTipoBusquedaProductos;
     private javax.swing.JComboBox<String> comboTipoInformes;
     private javax.swing.JComboBox<String> comboYearInformes;
+    private javax.swing.JPanel contActualizarCaja;
     private javax.swing.JPanel contActualizarDescuentos;
     private javax.swing.JPanel contActualizarProductos;
     private javax.swing.JPanel contActualizarUsuarios;
+    private javax.swing.JPanel contAgregarProductoCaja;
+    private javax.swing.JPanel contAplicarDescuentoCaja;
     private javax.swing.JPanel contBarraLateral;
     private javax.swing.JPanel contBotonBarraLateral;
     private javax.swing.JPanel contCancelarDescuentos;
+    private javax.swing.JPanel contCancelarPagoCaja;
     private javax.swing.JPanel contCancelarUsuarios;
     private javax.swing.JPanel contCerrar;
     private javax.swing.JPanel contCerrarSesion;
     private javax.swing.JPanel contConfiguracion;
     private javax.swing.JPanel contEliminarDescuentos;
+    private javax.swing.JPanel contEliminarProductoCaja;
     private javax.swing.JPanel contEliminarUsuarios;
     private javax.swing.JPanel contLimpiarSeleccionProductos;
     private javax.swing.JPanel contMaximizar;
     private javax.swing.JPanel contOcultar;
+    private javax.swing.JPanel contProcesarPagoCaja;
     private javax.swing.JPanel contRegistrarDescuentos;
     private javax.swing.JPanel contRegistrarProductos;
     private javax.swing.JPanel contRegistrarUsuarios;
@@ -3632,9 +4470,16 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3648,26 +4493,33 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JLabel labelCaja;
     private javax.swing.JLabel labelDescuentos;
     private javax.swing.JLabel labelInformes;
     private javax.swing.JLabel labelProductos;
     private javax.swing.JLabel labelUsuarios;
     private javax.swing.JLabel labelVentas;
+    private javax.swing.JLabel lblActualizarCaja;
     private javax.swing.JLabel lblActualizarDescuentos;
     private javax.swing.JLabel lblActualizarProductos;
     private javax.swing.JLabel lblActualizarUsuarios;
+    private javax.swing.JLabel lblAgregarProductoCaja;
+    private javax.swing.JLabel lblAplicarDescuentoCaja;
     private javax.swing.JLabel lblBotonBarraLateral;
     private javax.swing.JLabel lblCancelarDescuentos;
+    private javax.swing.JLabel lblCancelarPagoCaja;
     private javax.swing.JLabel lblCancelarUsuarios;
     private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblCerrarSesion;
     private javax.swing.JLabel lblConfiguracion;
     private javax.swing.JLabel lblEliminarDescuentos;
+    private javax.swing.JLabel lblEliminarProductoCaja;
     private javax.swing.JLabel lblEliminarUsuarios;
     private javax.swing.JLabel lblLimpiarSeleccionProductos;
     private javax.swing.JLabel lblMaximizar;
     private javax.swing.JLabel lblOcultar;
+    private javax.swing.JLabel lblProcesarPagoCaja;
     private javax.swing.JLabel lblRegistrarDescuentos;
     private javax.swing.JLabel lblRegistrarProductos;
     private javax.swing.JLabel lblRegistrarUsuarios;
@@ -3684,6 +4536,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JPanel panelVentanaPaneles;
     private javax.swing.JLayeredPane panelVentas;
     private com.toedter.calendar.JDateChooser selectorFechaProductos;
+    private javax.swing.JTable tablaCaja;
     private javax.swing.JTable tablaDescuentos;
     private javax.swing.JTable tablaInformes;
     private javax.swing.JTable tablaProductos;
@@ -3691,14 +4544,19 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtBuscarDescuentos;
     private javax.swing.JTextField txtBuscarProductos;
     private javax.swing.JTextField txtBuscarUsuarios;
+    private javax.swing.JTextField txtCantidadCaja;
     private javax.swing.JTextField txtCantidadProductos;
     private javax.swing.JTextField txtCategoriaProductos;
     private javax.swing.JPasswordField txtClaveUsuarios;
     private javax.swing.JTextField txtCodigoBarrasProductos;
+    private javax.swing.JTextField txtCodigoCaja;
+    private javax.swing.JTextField txtCodigoDescuentoCaja;
     private javax.swing.JTextField txtCodigoDescuentos;
     private javax.swing.JTextArea txtDescripcionProductos;
+    private javax.swing.JTextField txtDescuentoTotalCaja;
     private javax.swing.JTextField txtEmailUsuarios;
     private javax.swing.JTextField txtEstadoProductos;
+    private javax.swing.JTextField txtFechaCaja;
     private javax.swing.JFormattedTextField txtFechaFinDescuentos;
     private javax.swing.JFormattedTextField txtFechaInicioDescuentos;
     private javax.swing.JTextField txtIdProductos;
@@ -3708,9 +4566,12 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtNumeroUsuarios;
     private javax.swing.JTextField txtPorcentajeDescuentos;
     private javax.swing.JTextField txtPrecioProductos;
+    private javax.swing.JTextField txtSubtotalCaja;
     private javax.swing.JLabel txtTitulo;
+    private javax.swing.JTextField txtTotalCaja;
     private javax.swing.JTextField txtUserNameUsuarios;
     private javax.swing.JTextField txtValorDescuentos;
+    private javax.swing.JTextField txtVendedorCaja;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
 }

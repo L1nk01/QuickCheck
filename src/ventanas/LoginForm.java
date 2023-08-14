@@ -486,6 +486,7 @@ public class LoginForm extends javax.swing.JFrame {
     public void iniciarSesion() {
         String usuario = txtUsuario.getText();
         String clave = String.valueOf(txtClave.getPassword());
+        String nombreCompleto = obtenerNombreCompletoUsuario(usuario);
         
         if (mv.validarDatos(usuario, "Ingrese su nombre de usuario", "usuario") || mv.validarDatos(clave, "**********", "contraseña")) {
             return;
@@ -503,7 +504,7 @@ public class LoginForm extends javax.swing.JFrame {
         
         switch (verificarNivelAcceso(usuario, clave)) {
             case "Administrador":
-                MenuAdminForm menuAdminForm = new MenuAdminForm(cn);
+                MenuAdminForm menuAdminForm = new MenuAdminForm(cn, nombreCompleto);
                 menuAdminForm.setVisible(true);
                 menuAdminForm.setLocationRelativeTo(null);
                 
@@ -512,14 +513,53 @@ public class LoginForm extends javax.swing.JFrame {
                 System.out.println("Conectado al panel de Administrador");
                 break;
             case "Supervisor":
-                System.out.println("Aún no está preparado");
+                MenuSupervisorForm menuSupervisorForm = new MenuSupervisorForm(cn, nombreCompleto);
+                menuSupervisorForm.setVisible(true);
+                menuSupervisorForm.setLocationRelativeTo(null);
+                
+                this.dispose();
+                
+                System.out.println("Conectado al panel de Supervisor");
                 break;
             case "Inventario":
-                System.out.println("Aún no está preparado");
+                MenuInventarioForm menuInventarioForm = new MenuInventarioForm(cn, nombreCompleto);
+                menuInventarioForm.setVisible(true);
+                menuInventarioForm.setLocationRelativeTo(null);
+                
+                this.dispose();
+                
+                System.out.println("Conectado al panel de Inventario");
                 break;
             case "Cajero":
-                System.out.println("Aún no está preparado");
+                MenuCajeroForm menuCajeroForm = new MenuCajeroForm(cn, nombreCompleto);
+                menuCajeroForm.setVisible(true);
+                menuCajeroForm.setLocationRelativeTo(null);
+                
+                this.dispose();
+                
+                System.out.println("Conectado al panel de Cajero");
                 break;
+        }
+    }
+    
+    public String obtenerNombreCompletoUsuario(String usuario) {
+        String sentenciasql = "SELECT nombre_completo FROM usuarios WHERE nombre_usuario = ?";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(sentenciasql);
+            ps.setString(1, usuario);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("nombre_completo");
+            } else {
+                return null; // Usuario no encontrado en la base de datos
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo obtener el nombre completo del usuario", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
     }
     // </editor-fold>
