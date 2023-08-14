@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,6 +39,10 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm(Connection cn) {
          // Asigna la conexión a la base de datos al atributo de la clase
         this.cn = cn;
+        
+        // Configura el ícono de la ventana
+        ImageIcon icon = new ImageIcon(this.getClass().getResource("/quickcheck/assets/ventana/icons8-checkout-50.png"));
+        this.setIconImage(icon.getImage());
         
         // Inicializa los componentes del formulario
         initComponents();

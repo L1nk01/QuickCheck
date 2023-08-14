@@ -1,7 +1,6 @@
 package clases;
 
 import com.toedter.calendar.JDateChooser;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -26,6 +25,20 @@ public class MetodosFechas {
         if (fecha != null) {
             long fechaEpoch = fecha.getTime();
             return new java.sql.Timestamp(fechaEpoch);
+        }
+        return null;
+    }
+    
+    /**
+     * Convierte una fecha de tipo java.util.Date a java.sql.Date.
+     * 
+     * @param fecha La fecha de tipo java.util.Date a convertir.
+     * @return La fecha convertida a tipo java.sql.Date, o null si la entrada es nula.
+     */
+    public java.sql.Date convertirAFechaSQL(java.util.Date fecha) {
+        if (fecha != null) {
+            long fechaEpoch = fecha.getTime();
+            return new java.sql.Date(fechaEpoch);
         }
         return null;
     }

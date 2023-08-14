@@ -107,7 +107,28 @@ public class MetodosValidacion {
      * @param fecha La fecha que se desea validar.
      * @return true si la fecha es válida (no es nula), false si es nula.
      */
-    public boolean validarFecha(java.util.Date fecha) {
-        return fecha != null;
+    public boolean validarFecha(java.util.Date fecha, String nombreCampo) {
+        String mensaje = "El selector de " + nombreCampo + " no puede estar vacio";
+        if (fecha == null) {
+            JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Valida si una fecha SQL es nula y muestra un mensaje de error si lo es.
+     * 
+     * @param fechaSQL La fecha SQL a validar.
+     * @param nombreCampo El nombre del campo asociado a la fecha, para personalizar el mensaje de error.
+     * @return true si la fecha es nula, false si no lo es.
+     */
+    public boolean validarFechaSQL(java.sql.Date fechaSQL, String nombreCampo) {
+        String mensaje = "El selector de " + nombreCampo + " no puede estar vacio";
+        if (fechaSQL == null) {
+            JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+        return false;
     }
 }

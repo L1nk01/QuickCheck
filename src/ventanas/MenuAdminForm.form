@@ -1491,9 +1491,9 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel8" pref="1298" max="32767" attributes="0"/>
-                          <Component id="jPanel2" alignment="0" pref="1298" max="32767" attributes="0"/>
-                          <Component id="jPanel9" alignment="0" pref="1298" max="32767" attributes="0"/>
+                          <Component id="jPanel8" max="32767" attributes="0"/>
+                          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jPanel9" alignment="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
@@ -1576,7 +1576,7 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JTable" name="jTable1">
+                            <Component class="javax.swing.JTable" name="tablaDescuentos">
                               <Properties>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                                   <Table columnCount="0" rowCount="4"/>
@@ -1588,6 +1588,9 @@
                                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                                 </Property>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaDescuentosMouseClicked"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -1622,7 +1625,8 @@
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="txtFechaFinDescuentos" alignment="1" max="32767" attributes="0"/>
                                       <Component id="txtFechaInicioDescuentos" alignment="1" max="32767" attributes="0"/>
-                                      <Component id="comboActivoDescuentos" min="-2" pref="200" max="-2" attributes="0"/>
+                                      <Component id="comboActivoDescuentos" pref="200" max="32767" attributes="0"/>
+                                      <Component id="txtBuscarDescuentos" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -1670,7 +1674,10 @@
                                       <Component id="txtPorcentajeDescuentos" alignment="3" min="-2" pref="66" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="txtValorDescuentos" min="-2" pref="64" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtValorDescuentos" pref="64" max="32767" attributes="0"/>
+                                      <Component id="txtBuscarDescuentos" max="32767" attributes="0"/>
+                                  </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -1717,6 +1724,7 @@
                           </Properties>
                           <Events>
                             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtPorcentajeDescuentosFocusGained"/>
+                            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPorcentajeDescuentosKeyTyped"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JTextField" name="txtValorDescuentos">
@@ -1731,6 +1739,7 @@
                           </Properties>
                           <Events>
                             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtValorDescuentosFocusGained"/>
+                            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtValorDescuentosKeyTyped"/>
                           </Events>
                         </Component>
                         <Component class="javax.swing.JFormattedTextField" name="txtFechaInicioDescuentos">
@@ -1738,7 +1747,6 @@
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="8f" green="8f" red="8f" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Fecha de Inicio"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Ubuntu" size="14" style="0"/>
                             </Property>
@@ -1746,13 +1754,17 @@
                           <Events>
                             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtFechaInicioDescuentosFocusGained"/>
                           </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(formatoFechaInicio)"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="try&#xa;{&#xa;MaskFormatter formatoFechaInicio = new MaskFormatter(&quot;####-##-##&quot;);&#xa;formatoFechaInicio.setPlaceholderCharacter(&apos;_&apos;);"/>
+                            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="}&#xa;catch (Exception ex)&#xa;{&#xa;ex.printStackTrace();&#xa;}"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JFormattedTextField" name="txtFechaFinDescuentos">
                           <Properties>
                             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="8f" green="8f" red="8f" type="rgb"/>
                             </Property>
-                            <Property name="text" type="java.lang.String" value="Fecha de Fin"/>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Ubuntu" size="14" style="0"/>
                             </Property>
@@ -1760,6 +1772,11 @@
                           <Events>
                             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtFechaFinDescuentosFocusGained"/>
                           </Events>
+                          <AuxValues>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(formatoFechaFin)"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="try&#xa;{&#xa;MaskFormatter formatoFechaFin = new MaskFormatter(&quot;####-##-##&quot;);&#xa;formatoFechaFin.setPlaceholderCharacter(&apos;_&apos;);"/>
+                            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="}&#xa;catch (Exception ex)&#xa;{&#xa;ex.printStackTrace();&#xa;}"/>
+                          </AuxValues>
                         </Component>
                         <Component class="javax.swing.JComboBox" name="comboActivoDescuentos">
                           <Properties>
@@ -1769,8 +1786,8 @@
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                               <StringArray count="3">
                                 <StringItem index="0" value="Elegir"/>
-                                <StringItem index="1" value="Activo"/>
-                                <StringItem index="2" value="Inactivo"/>
+                                <StringItem index="1" value="SI"/>
+                                <StringItem index="2" value="NO"/>
                               </StringArray>
                             </Property>
                           </Properties>
@@ -1785,6 +1802,8 @@
                             </Property>
                           </Properties>
                           <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contActualizarDescuentosMouseClicked"/>
+                            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contActualizarDescuentosMouseEntered"/>
                             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contActualizarDescuentosMouseExited"/>
                           </Events>
 
@@ -1812,22 +1831,15 @@
                                 <Property name="horizontalAlignment" type="int" value="0"/>
                                 <Property name="text" type="java.lang.String" value="Actualizar"/>
                               </Properties>
-                              <Events>
-                                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblActualizarDescuentosMouseEntered"/>
-                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
                         <Container class="javax.swing.JPanel" name="contEliminarDescuentos">
                           <Properties>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="a9" green="a4" red="5c" type="rgb"/>
+                              <Color blue="24" green="24" red="c0" type="rgb"/>
                             </Property>
                           </Properties>
-                          <Events>
-                            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contEliminarDescuentosMouseEntered"/>
-                            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contEliminarDescuentosMouseExited"/>
-                          </Events>
 
                           <Layout>
                             <DimensionLayout dim="0">
@@ -1859,6 +1871,11 @@
                                 <Property name="horizontalAlignment" type="int" value="0"/>
                                 <Property name="text" type="java.lang.String" value="Eliminar"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblEliminarDescuentosMouseClicked"/>
+                                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblEliminarDescuentosMouseEntered"/>
+                                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblEliminarDescuentosMouseExited"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -1869,6 +1886,7 @@
                             </Property>
                           </Properties>
                           <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contRegistrarDescuentosMouseClicked"/>
                             <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contRegistrarDescuentosMouseEntered"/>
                             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contRegistrarDescuentosMouseExited"/>
                           </Events>
@@ -1906,10 +1924,6 @@
                               <Color blue="a9" green="a4" red="5c" type="rgb"/>
                             </Property>
                           </Properties>
-                          <Events>
-                            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contCancelarDescuentosMouseEntered"/>
-                            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="contCancelarDescuentosMouseExited"/>
-                          </Events>
 
                           <Layout>
                             <DimensionLayout dim="0">
@@ -1941,9 +1955,29 @@
                                 <Property name="horizontalAlignment" type="int" value="0"/>
                                 <Property name="text" type="java.lang.String" value="Cancelar"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblCancelarDescuentosMouseClicked"/>
+                                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblCancelarDescuentosMouseEntered"/>
+                                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblCancelarDescuentosMouseExited"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
+                        <Component class="javax.swing.JTextField" name="txtBuscarDescuentos">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Ubuntu" size="14" style="0"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="8f" green="8f" red="8f" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Buscar"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtBuscarDescuentosFocusGained"/>
+                            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtBuscarDescuentosKeyReleased"/>
+                          </Events>
+                        </Component>
                       </SubComponents>
                     </Container>
                   </SubComponents>
