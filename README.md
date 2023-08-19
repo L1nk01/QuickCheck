@@ -35,7 +35,16 @@ Visualización de datos de ventas e inventario en periodos de tiempo.
 Informes anuales y mensuales para un año específico.
 
 ## Instalación
-...
+1. Carga el proyecto en NetBeans.
+2. Si da error con las librerías borra las que tiene el proyecto en el directorio \QuickCheck\src\quickcheck\librerias.
+3. Compila el proyecto.
+4. Ejecuta.
 
 ## Pendiente
-...
+Ventanas de los roles Cajero, Inventario y Supervisor.
+Arreglar bugs al actualizar y eliminar en la pestaña de Caja.
+Ventana de ventas.
+Reportes de ventas.
+Paleta de colores.
+
+## Notas
