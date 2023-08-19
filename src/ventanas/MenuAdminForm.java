@@ -1,5 +1,6 @@
 package ventanas;
 
+// <editor-fold defaultstate="collapsed" desc="Clases importadas">
 import clases.ConsultasSQL;
 import clases.MetodosBarraLateral;
 import clases.MetodosBarraMenu;
@@ -23,9 +24,13 @@ import javax.swing.JOptionPane;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
+// </editor-fold>
 
 /**
  *
@@ -35,6 +40,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
     
     // Instancia de la conexion que se pasa del login al menu
     private Connection cn;
+    
+    // Usuario que inició la sesión
+    private String usuario;
     
     // <editor-fold defaultstate="collapsed" desc="Instancias">
     // Instancia de la clase para añadir funcionalidad a los botones de la barra de título
@@ -53,8 +61,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
     MetodosValidacion mv = new MetodosValidacion();
     // Instancia de la clase MetodosBotones para habilitarlos o deshabilitarlos
     MetodosBotones mbtn = new MetodosBotones();
-    // Instancia de la clase MetodosFechas para trabajar con fechas en bases de datos
-    MetodosFechas mf = new MetodosFechas();
     // Instancia de la clase MetodosEntrada para validar entrada en campos de texto
     MetodosEntrada me = new MetodosEntrada();
     // </editor-fold>
@@ -66,16 +72,19 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * Crea una nueva instancia del formulario MenuAdminForm.
      *
      * @param cn La conexión a la base de datos que se utilizará en el formulario.
+     * @param usuario El nombre completo del usuario que inició la sesión.
      */
-    public MenuAdminForm(Connection cn) {
+    public MenuAdminForm(Connection cn, String usuario) {
         // Asigna la conexión a la base de datos al atributo de la clase
         this.cn = cn;
+        
+        this.usuario = usuario;
         
         // Inicializa los componentes del formulario
         initComponents();
         
         // Configura el ícono de la ventana
-        ImageIcon icon = new ImageIcon(this.getClass().getResource("/quickcheck/assets/ventana/icons8-checkout-50.png"));
+        ImageIcon icon = new ImageIcon(this.getClass().getResource("/quickcheck/assets/ventana/checkout-64px.png"));
         this.setIconImage(icon.getImage());
         
         // Oculta los paneles de la ventana de paneles y muestra el panel del menú principal
@@ -107,8 +116,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
         contBarraLateral = new javax.swing.JPanel();
         contBotonBarraLateral = new javax.swing.JPanel();
         lblBotonBarraLateral = new javax.swing.JLabel();
-        contConfiguracion = new javax.swing.JPanel();
-        lblConfiguracion = new javax.swing.JLabel();
         contCerrarSesion = new javax.swing.JPanel();
         lblCerrarSesion = new javax.swing.JLabel();
         panelFondo = new javax.swing.JPanel();
@@ -134,7 +141,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         iconoCaja = new javax.swing.JLabel();
         panelVentanaPaneles = new javax.swing.JPanel();
         panelMenuPrincipal = new javax.swing.JLayeredPane();
-        jLabel2 = new javax.swing.JLabel();
+        logoMenuPrincipal = new javax.swing.JLabel();
         panelVentas = new javax.swing.JLayeredPane();
         panelProductos = new javax.swing.JLayeredPane();
         jPanel3 = new javax.swing.JPanel();
@@ -150,9 +157,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         txtPrecioProductos = new javax.swing.JTextField();
         txtNombreProductos = new javax.swing.JTextField();
         txtCategoriaProductos = new javax.swing.JTextField();
-        txtEstadoProductos = new javax.swing.JTextField();
         txtCantidadProductos = new javax.swing.JTextField();
-        selectorFechaProductos = new com.toedter.calendar.JDateChooser();
         txtCodigoBarrasProductos = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescripcionProductos = new javax.swing.JTextArea();
@@ -222,7 +227,46 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     comboNivelAccesoUsuarios = new javax.swing.JComboBox<>();
                     comboEstadoCuentaUsuarios = new javax.swing.JComboBox<>();
                     panelInformes = new javax.swing.JLayeredPane();
+                    jPanel10 = new javax.swing.JPanel();
+                    jLabel5 = new javax.swing.JLabel();
+                    jPanel11 = new javax.swing.JPanel();
+                    comboMonthInformes = new javax.swing.JComboBox<>();
+                    comboPeriodoInformes = new javax.swing.JComboBox<>();
+                    comboYearInformes = new javax.swing.JComboBox<>();
+                    jScrollPane5 = new javax.swing.JScrollPane();
+                    tablaInformes = new javax.swing.JTable();
+                    comboTipoInformes = new javax.swing.JComboBox<>();
                     panelCaja = new javax.swing.JLayeredPane();
+                    jPanel12 = new javax.swing.JPanel();
+                    jLabel6 = new javax.swing.JLabel();
+                    jPanel13 = new javax.swing.JPanel();
+                    txtVendedorCaja = new javax.swing.JTextField();
+                    txtFechaCaja = new javax.swing.JTextField();
+                    txtCantidadCaja = new javax.swing.JTextField();
+                    comboMetodoPagoCaja = new javax.swing.JComboBox<>();
+                    txtCodigoDescuentoCaja = new javax.swing.JTextField();
+                    contProcesarPagoCaja = new javax.swing.JPanel();
+                    lblProcesarPagoCaja = new javax.swing.JLabel();
+                    contEliminarProductoCaja = new javax.swing.JPanel();
+                    lblEliminarProductoCaja = new javax.swing.JLabel();
+                    contCancelarPagoCaja = new javax.swing.JPanel();
+                    lblCancelarPagoCaja = new javax.swing.JLabel();
+                    contAgregarProductoCaja = new javax.swing.JPanel();
+                    lblAgregarProductoCaja = new javax.swing.JLabel();
+                    contAplicarDescuentoCaja = new javax.swing.JPanel();
+                    lblAplicarDescuentoCaja = new javax.swing.JLabel();
+                    txtCodigoCaja = new javax.swing.JTextField();
+                    contActualizarCaja = new javax.swing.JPanel();
+                    lblActualizarCaja = new javax.swing.JLabel();
+                    jPanel14 = new javax.swing.JPanel();
+                    txtSubtotalCaja = new javax.swing.JTextField();
+                    jLabel7 = new javax.swing.JLabel();
+                    txtDescuentoTotalCaja = new javax.swing.JTextField();
+                    jLabel8 = new javax.swing.JLabel();
+                    txtTotalCaja = new javax.swing.JTextField();
+                    jLabel9 = new javax.swing.JLabel();
+                    jScrollPane6 = new javax.swing.JScrollPane();
+                    tablaCaja = new javax.swing.JTable();
 
                     btnEliminarProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
                     btnEliminarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/productos/icons8-delete-25.png"))); // NOI18N
@@ -242,7 +286,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                         }
                     });
 
-                    barraTitulo.setBackground(new java.awt.Color(87, 154, 233));
+                    barraTitulo.setBackground(new java.awt.Color(56, 33, 165));
                     barraTitulo.setPreferredSize(new java.awt.Dimension(1280, 50));
                     barraTitulo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                         public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -261,7 +305,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                     botonesBarraTitulo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-                    contOcultar.setBackground(new java.awt.Color(87, 154, 233));
+                    contOcultar.setBackground(new java.awt.Color(56, 33, 165));
                     contOcultar.setLayout(new java.awt.BorderLayout());
 
                     lblOcultar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -281,7 +325,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                     botonesBarraTitulo.add(contOcultar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 50));
 
-                    contMaximizar.setBackground(new java.awt.Color(87, 154, 233));
+                    contMaximizar.setBackground(new java.awt.Color(56, 33, 165));
                     contMaximizar.setLayout(new java.awt.BorderLayout());
 
                     lblMaximizar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -301,7 +345,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                     botonesBarraTitulo.add(contMaximizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 60, 50));
 
-                    contCerrar.setBackground(new java.awt.Color(87, 154, 233));
+                    contCerrar.setBackground(new java.awt.Color(56, 33, 165));
                     contCerrar.setLayout(new java.awt.BorderLayout());
 
                     lblCerrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -325,20 +369,21 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                     txtTitulo.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
                     txtTitulo.setForeground(new java.awt.Color(255, 255, 255));
-                    txtTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/barra_titulo/icons8-checkout-35.png"))); // NOI18N
+                    txtTitulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/barra_titulo/checkout-32px.png"))); // NOI18N
                     txtTitulo.setText("    QuickCheck (Administrador)");
                     txtTitulo.setBorder(new EmptyBorder(0, 16, 0, 0));
                     barraTitulo.add(txtTitulo, java.awt.BorderLayout.CENTER);
 
                     getContentPane().add(barraTitulo, java.awt.BorderLayout.PAGE_START);
 
-                    barraLateral.setBackground(new java.awt.Color(56, 33, 165));
+                    barraLateral.setBackground(new java.awt.Color(51, 29, 151));
                     barraLateral.setPreferredSize(new java.awt.Dimension(70, 670));
                     barraLateral.setLayout(new java.awt.BorderLayout());
 
+                    contBarraLateral.setBackground(new java.awt.Color(51, 29, 151));
                     contBarraLateral.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-                    contBotonBarraLateral.setBackground(new java.awt.Color(56, 33, 165));
+                    contBotonBarraLateral.setBackground(new java.awt.Color(51, 29, 151));
 
                     lblBotonBarraLateral.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                     lblBotonBarraLateral.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/iconos_barra_lateral/icons8-menu-30-white.png"))); // NOI18N
@@ -371,29 +416,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                     contBarraLateral.add(contBotonBarraLateral, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 70));
 
-                    contConfiguracion.setBackground(new java.awt.Color(56, 33, 165));
-                    contConfiguracion.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-                    lblConfiguracion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                    lblConfiguracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/iconos_barra_lateral/icons8-settings-30-white.png"))); // NOI18N
-                    lblConfiguracion.addMouseListener(new java.awt.event.MouseAdapter() {
-                        public void mouseClicked(java.awt.event.MouseEvent evt) {
-                            lblConfiguracionMouseClicked(evt);
-                        }
-                        public void mouseEntered(java.awt.event.MouseEvent evt) {
-                            lblConfiguracionMouseEntered(evt);
-                        }
-                        public void mouseExited(java.awt.event.MouseEvent evt) {
-                            lblConfiguracionMouseExited(evt);
-                        }
-                    });
-                    contConfiguracion.add(lblConfiguracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 70));
-
-                    contBarraLateral.add(contConfiguracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 70, 70));
-
                     barraLateral.add(contBarraLateral, java.awt.BorderLayout.NORTH);
 
-                    contCerrarSesion.setBackground(new java.awt.Color(56, 33, 165));
+                    contCerrarSesion.setBackground(new java.awt.Color(51, 29, 151));
+                    contCerrarSesion.setPreferredSize(new java.awt.Dimension(70, 70));
+                    contCerrarSesion.setLayout(new java.awt.BorderLayout());
 
                     lblCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                     lblCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/iconos_barra_lateral/icons8-sign-out-30-white.png"))); // NOI18N
@@ -409,21 +436,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                             lblCerrarSesionMouseExited(evt);
                         }
                     });
-
-                    javax.swing.GroupLayout contCerrarSesionLayout = new javax.swing.GroupLayout(contCerrarSesion);
-                    contCerrarSesion.setLayout(contCerrarSesionLayout);
-                    contCerrarSesionLayout.setHorizontalGroup(
-                        contCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contCerrarSesionLayout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(lblCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    );
-                    contCerrarSesionLayout.setVerticalGroup(
-                        contCerrarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contCerrarSesionLayout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(lblCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    );
+                    contCerrarSesion.add(lblCerrarSesion, java.awt.BorderLayout.CENTER);
 
                     barraLateral.add(contCerrarSesion, java.awt.BorderLayout.PAGE_END);
 
@@ -431,11 +444,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                     panelFondo.setBackground(new java.awt.Color(255, 255, 255));
 
-                    panelBarraLateral.setBackground(new java.awt.Color(54, 33, 150));
+                    panelBarraLateral.setBackground(new java.awt.Color(46, 27, 135));
                     panelBarraLateral.setOpaque(true);
                     panelBarraLateral.setPreferredSize(new java.awt.Dimension(0, 670));
 
-                    botonProductos.setBackground(new java.awt.Color(54, 33, 150));
+                    botonProductos.setBackground(new java.awt.Color(46, 27, 135));
                     botonProductos.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                             botonProductosMouseClicked(evt);
@@ -461,7 +474,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     panelBarraLateral.add(botonProductos);
                     botonProductos.setBounds(0, 0, 210, 60);
 
-                    botonUsuarios.setBackground(new java.awt.Color(54, 33, 150));
+                    botonUsuarios.setBackground(new java.awt.Color(46, 27, 135));
                     botonUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                             botonUsuariosMouseClicked(evt);
@@ -487,7 +500,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     panelBarraLateral.add(botonUsuarios);
                     botonUsuarios.setBounds(0, 60, 210, 60);
 
-                    botonDescuentos.setBackground(new java.awt.Color(54, 33, 150));
+                    botonDescuentos.setBackground(new java.awt.Color(46, 27, 135));
                     botonDescuentos.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                             botonDescuentosMouseClicked(evt);
@@ -513,7 +526,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     panelBarraLateral.add(botonDescuentos);
                     botonDescuentos.setBounds(0, 120, 210, 60);
 
-                    botonVentas.setBackground(new java.awt.Color(54, 33, 150));
+                    botonVentas.setBackground(new java.awt.Color(46, 27, 135));
                     botonVentas.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                             botonVentasMouseClicked(evt);
@@ -539,7 +552,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     panelBarraLateral.add(botonVentas);
                     botonVentas.setBounds(0, 180, 210, 60);
 
-                    botonInformes.setBackground(new java.awt.Color(54, 33, 150));
+                    botonInformes.setBackground(new java.awt.Color(46, 27, 135));
                     botonInformes.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                             botonInformesMouseClicked(evt);
@@ -565,7 +578,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     panelBarraLateral.add(botonInformes);
                     botonInformes.setBounds(0, 240, 210, 60);
 
-                    botonCaja.setBackground(new java.awt.Color(54, 33, 150));
+                    botonCaja.setBackground(new java.awt.Color(46, 27, 135));
                     botonCaja.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                             botonCajaMouseClicked(evt);
@@ -594,32 +607,26 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     panelMenuPrincipal.setBackground(new java.awt.Color(255, 255, 255));
                     panelMenuPrincipal.setOpaque(true);
 
-                    jLabel2.setBackground(new java.awt.Color(0, 0, 0));
-                    jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
-                    jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-                    jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-                    jLabel2.setText("Usa la barra lateral para moverte entre ventanas");
+                    logoMenuPrincipal.setBackground(new java.awt.Color(0, 0, 0));
+                    logoMenuPrincipal.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+                    logoMenuPrincipal.setForeground(new java.awt.Color(0, 0, 0));
+                    logoMenuPrincipal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                    logoMenuPrincipal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/menu_principal/1checkout-512px (2).png"))); // NOI18N
 
-                    panelMenuPrincipal.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+                    panelMenuPrincipal.setLayer(logoMenuPrincipal, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
                     javax.swing.GroupLayout panelMenuPrincipalLayout = new javax.swing.GroupLayout(panelMenuPrincipal);
                     panelMenuPrincipal.setLayout(panelMenuPrincipalLayout);
                     panelMenuPrincipalLayout.setHorizontalGroup(
                         panelMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuPrincipalLayout.createSequentialGroup()
-                            .addGap(150, 150, 150)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(151, 151, 151))
+                        .addComponent(logoMenuPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1290, Short.MAX_VALUE)
                     );
                     panelMenuPrincipalLayout.setVerticalGroup(
                         panelMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(panelMenuPrincipalLayout.createSequentialGroup()
-                            .addGap(243, 243, 243)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                            .addGap(261, 261, 261))
+                        .addComponent(logoMenuPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                     );
 
-                    panelVentas.setBackground(new java.awt.Color(153, 153, 255));
+                    panelVentas.setBackground(new java.awt.Color(255, 255, 255));
                     panelVentas.setOpaque(true);
 
                     javax.swing.GroupLayout panelVentasLayout = new javax.swing.GroupLayout(panelVentas);
@@ -639,9 +646,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     jPanel3.setBackground(new java.awt.Color(255, 255, 255));
                     jPanel3.setPreferredSize(new java.awt.Dimension(1210, 60));
 
-                    jLabel1.setBackground(new java.awt.Color(73, 127, 131));
+                    jLabel1.setBackground(new java.awt.Color(89, 135, 198));
                     jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
-                    jLabel1.setForeground(new java.awt.Color(73, 127, 131));
+                    jLabel1.setForeground(new java.awt.Color(89, 135, 198));
                     jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                     jLabel1.setText("Inventario");
 
@@ -662,6 +669,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     jPanel5.setBackground(new java.awt.Color(255, 255, 255));
                     jPanel5.setPreferredSize(new java.awt.Dimension(840, 570));
 
+                    tablaProductos.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
                     tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
                             {},
@@ -695,7 +703,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                         }
                     });
 
-                    contLimpiarSeleccionProductos.setBackground(new java.awt.Color(92, 164, 169));
+                    contLimpiarSeleccionProductos.setBackground(new java.awt.Color(252, 161, 32));
                     contLimpiarSeleccionProductos.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                             contLimpiarSeleccionProductosMouseClicked(evt);
@@ -741,7 +749,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     jPanel5Layout.setVerticalGroup(
                         jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel5Layout.createSequentialGroup()
-                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtBuscarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -755,6 +763,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     txtIdProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
                     txtIdProductos.setForeground(new java.awt.Color(143, 143, 143));
                     txtIdProductos.setText("ID");
+                    txtIdProductos.setEnabled(false);
                     txtIdProductos.addFocusListener(new java.awt.event.FocusAdapter() {
                         public void focusGained(java.awt.event.FocusEvent evt) {
                             txtIdProductosFocusGained(evt);
@@ -798,15 +807,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
                         }
                     });
 
-                    txtEstadoProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
-                    txtEstadoProductos.setForeground(new java.awt.Color(143, 143, 143));
-                    txtEstadoProductos.setText("Estado del producto");
-                    txtEstadoProductos.addFocusListener(new java.awt.event.FocusAdapter() {
-                        public void focusGained(java.awt.event.FocusEvent evt) {
-                            txtEstadoProductosFocusGained(evt);
-                        }
-                    });
-
                     txtCantidadProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
                     txtCantidadProductos.setForeground(new java.awt.Color(143, 143, 143));
                     txtCantidadProductos.setText("Cantidad");
@@ -820,8 +820,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
                             txtCantidadProductosKeyTyped(evt);
                         }
                     });
-
-                    selectorFechaProductos.setEnabled(false);
 
                     txtCodigoBarrasProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
                     txtCodigoBarrasProductos.setForeground(new java.awt.Color(143, 143, 143));
@@ -870,7 +868,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                     comboBuscarPorProductos.setFont(new java.awt.Font("Ubuntu", 0, 14)); // NOI18N
                     comboBuscarPorProductos.setForeground(new java.awt.Color(0, 0, 0));
-                    comboBuscarPorProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre del Producto", "ID", "Precio Unitario", "Cantidad Disponible", "Código de Barras", "Estado del Producto", "Fecha de Registro", "Categoría", "Descripción del Producto" }));
+                    comboBuscarPorProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre del Producto", "Precio Unitario", "Cantidad Disponible", "Código de Barras", "Categoría" }));
                     comboBuscarPorProductos.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
                             comboBuscarPorProductosActionPerformed(evt);
@@ -906,7 +904,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                         .addComponent(lblRegistrarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     );
 
-                    contActualizarProductos.setBackground(new java.awt.Color(92, 164, 169));
+                    contActualizarProductos.setBackground(new java.awt.Color(89, 135, 198));
                     contActualizarProductos.addMouseListener(new java.awt.event.MouseAdapter() {
                         public void mouseClicked(java.awt.event.MouseEvent evt) {
                             contActualizarProductosMouseClicked(evt);
@@ -943,20 +941,15 @@ public class MenuAdminForm extends javax.swing.JFrame {
                             .addGap(20, 20, 20)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(txtCodigoBarrasProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addComponent(txtPrecioProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtCantidadProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addComponent(txtIdProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtNombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(txtEstadoProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(selectorFechaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(txtPrecioProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtCantidadProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(txtIdProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtNombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                                     .addComponent(txtCategoriaProductos, javax.swing.GroupLayout.Alignment.TRAILING)))
@@ -988,14 +981,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtCodigoBarrasProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtEstadoProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                                .addComponent(selectorFechaProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtCategoriaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(comboBuscarPorProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1040,9 +1029,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     jPanel2.setPreferredSize(new java.awt.Dimension(1290, 60));
                     jPanel2.setLayout(new java.awt.BorderLayout());
 
-                    jLabel3.setBackground(new java.awt.Color(73, 127, 131));
+                    jLabel3.setBackground(new java.awt.Color(89, 135, 198));
                     jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
-                    jLabel3.setForeground(new java.awt.Color(73, 127, 131));
+                    jLabel3.setForeground(new java.awt.Color(89, 135, 198));
                     jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                     jLabel3.setText("Descuentos");
                     jPanel2.add(jLabel3, java.awt.BorderLayout.CENTER);
@@ -1050,6 +1039,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     jPanel8.setBackground(new java.awt.Color(255, 255, 255));
                     jPanel8.setPreferredSize(new java.awt.Dimension(1290, 329));
 
+                    tablaDescuentos.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
                     tablaDescuentos.setModel(new javax.swing.table.DefaultTableModel(
                         new Object [][] {
                             {},
@@ -1157,9 +1147,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
             });
 
             comboActivoDescuentos.setForeground(new java.awt.Color(0, 0, 0));
-            comboActivoDescuentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elegir", "SI", "NO" }));
+            comboActivoDescuentos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponibilidad", "SI", "NO" }));
 
-            contActualizarDescuentos.setBackground(new java.awt.Color(92, 164, 169));
+            contActualizarDescuentos.setBackground(new java.awt.Color(89, 135, 198));
             contActualizarDescuentos.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     contActualizarDescuentosMouseClicked(evt);
@@ -1250,7 +1240,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 .addComponent(lblRegistrarDescuentos, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
             );
 
-            contCancelarDescuentos.setBackground(new java.awt.Color(92, 164, 169));
+            contCancelarDescuentos.setBackground(new java.awt.Color(252, 161, 32));
 
             lblCancelarDescuentos.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
             lblCancelarDescuentos.setForeground(new java.awt.Color(255, 255, 255));
@@ -1385,18 +1375,30 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
             jPanel1.setBackground(new java.awt.Color(255, 255, 255));
             jPanel1.setPreferredSize(new java.awt.Dimension(1290, 60));
-            jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-            jLabel4.setBackground(new java.awt.Color(73, 127, 131));
+            jLabel4.setBackground(new java.awt.Color(89, 135, 198));
             jLabel4.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
-            jLabel4.setForeground(new java.awt.Color(73, 127, 131));
+            jLabel4.setForeground(new java.awt.Color(89, 135, 198));
             jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             jLabel4.setText("Usuarios");
-            jPanel1.add(jLabel4);
+
+            javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+            jPanel1.setLayout(jPanel1Layout);
+            jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1284, Short.MAX_VALUE)
+                    .addGap(6, 6, 6))
+            );
+            jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
 
             jPanel6.setBackground(new java.awt.Color(255, 255, 255));
             jPanel6.setMinimumSize(new java.awt.Dimension(890, 100));
 
+            tablaUsuarios.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
             tablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
                     {},
@@ -1537,7 +1539,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
             }
         });
 
-        contCancelarUsuarios.setBackground(new java.awt.Color(92, 164, 169));
+        contCancelarUsuarios.setBackground(new java.awt.Color(252, 161, 32));
         contCancelarUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 contCancelarUsuariosMouseClicked(evt);
@@ -1566,7 +1568,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
             .addComponent(lblCancelarUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
         );
 
-        contActualizarUsuarios.setBackground(new java.awt.Color(92, 164, 169));
+        contActualizarUsuarios.setBackground(new java.awt.Color(89, 135, 198));
         contActualizarUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 contActualizarUsuariosMouseClicked(evt);
@@ -1649,7 +1651,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(contCancelarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(contRegistrarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(contActualizarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(contEliminarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1694,11 +1696,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
         panelUsuarios.setLayout(panelUsuariosLayout);
         panelUsuariosLayout.setHorizontalGroup(
             panelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelUsuariosLayout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelUsuariosLayout.setVerticalGroup(
             panelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1709,32 +1711,567 @@ public class MenuAdminForm extends javax.swing.JFrame {
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        panelInformes.setBackground(new java.awt.Color(204, 204, 0));
+        panelInformes.setBackground(new java.awt.Color(255, 255, 255));
         panelInformes.setOpaque(true);
+        panelInformes.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout panelInformesLayout = new javax.swing.GroupLayout(panelInformes);
-        panelInformes.setLayout(panelInformesLayout);
-        panelInformesLayout.setHorizontalGroup(
-            panelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1290, Short.MAX_VALUE)
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setPreferredSize(new java.awt.Dimension(1290, 60));
+
+        jLabel5.setBackground(new java.awt.Color(89, 135, 198));
+        jLabel5.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(89, 135, 198));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Informes");
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(548, 548, 548)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(549, 549, 549))
         );
-        panelInformesLayout.setVerticalGroup(
-            panelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        panelCaja.setBackground(new java.awt.Color(0, 204, 204));
+        panelInformes.add(jPanel10, java.awt.BorderLayout.PAGE_START);
+
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+
+        comboMonthInformes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        comboMonthInformes.setForeground(new java.awt.Color(0, 0, 0));
+        comboMonthInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        comboMonthInformes.setEnabled(false);
+        comboMonthInformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboMonthInformesActionPerformed(evt);
+            }
+        });
+
+        comboPeriodoInformes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        comboPeriodoInformes.setForeground(new java.awt.Color(0, 0, 0));
+        comboPeriodoInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Periodo del Informe", "Anual", "Mensual" }));
+        comboPeriodoInformes.setEnabled(false);
+        comboPeriodoInformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboPeriodoInformesActionPerformed(evt);
+            }
+        });
+
+        comboYearInformes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        comboYearInformes.setForeground(new java.awt.Color(0, 0, 0));
+        comboYearInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Año", "2023" }));
+        comboYearInformes.setEnabled(false);
+        comboYearInformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboYearInformesActionPerformed(evt);
+            }
+        });
+
+        tablaInformes.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        tablaInformes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane5.setViewportView(tablaInformes);
+
+        comboTipoInformes.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        comboTipoInformes.setForeground(new java.awt.Color(0, 0, 0));
+        comboTipoInformes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de Informe", "Inventario", "Ventas" }));
+        comboTipoInformes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboTipoInformesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(comboTipoInformes, 0, 240, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
+                .addComponent(comboPeriodoInformes, 0, 240, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
+                .addComponent(comboYearInformes, 0, 240, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
+                .addComponent(comboMonthInformes, 0, 240, Short.MAX_VALUE)
+                .addGap(60, 60, 60))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboPeriodoInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboMonthInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboYearInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboTipoInformes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE))
+        );
+
+        panelInformes.add(jPanel11, java.awt.BorderLayout.CENTER);
+
+        panelCaja.setBackground(new java.awt.Color(255, 255, 255));
         panelCaja.setOpaque(true);
+
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel12.setPreferredSize(new java.awt.Dimension(1290, 60));
+
+        jLabel6.setBackground(new java.awt.Color(89, 135, 198));
+        jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(89, 135, 198));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Caja");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(548, 548, 548)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addGap(549, 549, 549))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel13.setForeground(new java.awt.Color(143, 143, 143));
+        jPanel13.setPreferredSize(new java.awt.Dimension(645, 658));
+
+        txtVendedorCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtVendedorCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtVendedorCaja.setText("Nombre del Vendedor");
+        txtVendedorCaja.setEnabled(false);
+
+        txtFechaCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtFechaCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtFechaCaja.setText("Fecha de la Venta");
+        txtFechaCaja.setEnabled(false);
+
+        txtCantidadCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtCantidadCaja.setForeground(new java.awt.Color(143, 143, 143));
+        txtCantidadCaja.setText("Cantidad");
+        txtCantidadCaja.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCantidadCajaFocusGained(evt);
+            }
+        });
+        txtCantidadCaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadCajaKeyTyped(evt);
+            }
+        });
+
+        comboMetodoPagoCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        comboMetodoPagoCaja.setForeground(new java.awt.Color(0, 0, 0));
+        comboMetodoPagoCaja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Método de Pago", "Efectivo", "Tarjeta" }));
+
+        txtCodigoDescuentoCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtCodigoDescuentoCaja.setForeground(new java.awt.Color(143, 143, 143));
+        txtCodigoDescuentoCaja.setText("Código de Descuento");
+        txtCodigoDescuentoCaja.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCodigoDescuentoCajaFocusGained(evt);
+            }
+        });
+        txtCodigoDescuentoCaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoDescuentoCajaKeyTyped(evt);
+            }
+        });
+
+        contProcesarPagoCaja.setBackground(new java.awt.Color(92, 164, 169));
+
+        lblProcesarPagoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblProcesarPagoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblProcesarPagoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblProcesarPagoCaja.setText("Procesar Pago");
+        lblProcesarPagoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblProcesarPagoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblProcesarPagoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblProcesarPagoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contProcesarPagoCajaLayout = new javax.swing.GroupLayout(contProcesarPagoCaja);
+        contProcesarPagoCaja.setLayout(contProcesarPagoCajaLayout);
+        contProcesarPagoCajaLayout.setHorizontalGroup(
+            contProcesarPagoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblProcesarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        contProcesarPagoCajaLayout.setVerticalGroup(
+            contProcesarPagoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblProcesarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+        );
+
+        contEliminarProductoCaja.setBackground(new java.awt.Color(192, 36, 36));
+
+        lblEliminarProductoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblEliminarProductoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblEliminarProductoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEliminarProductoCaja.setText("Eliminar Producto");
+        lblEliminarProductoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblEliminarProductoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblEliminarProductoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblEliminarProductoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contEliminarProductoCajaLayout = new javax.swing.GroupLayout(contEliminarProductoCaja);
+        contEliminarProductoCaja.setLayout(contEliminarProductoCajaLayout);
+        contEliminarProductoCajaLayout.setHorizontalGroup(
+            contEliminarProductoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblEliminarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+        );
+        contEliminarProductoCajaLayout.setVerticalGroup(
+            contEliminarProductoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblEliminarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+        );
+
+        contCancelarPagoCaja.setBackground(new java.awt.Color(252, 161, 32));
+
+        lblCancelarPagoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblCancelarPagoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblCancelarPagoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCancelarPagoCaja.setText("Cancelar Pago");
+        lblCancelarPagoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCancelarPagoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCancelarPagoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCancelarPagoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contCancelarPagoCajaLayout = new javax.swing.GroupLayout(contCancelarPagoCaja);
+        contCancelarPagoCaja.setLayout(contCancelarPagoCajaLayout);
+        contCancelarPagoCajaLayout.setHorizontalGroup(
+            contCancelarPagoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCancelarPagoCaja, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        contCancelarPagoCajaLayout.setVerticalGroup(
+            contCancelarPagoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblCancelarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+        );
+
+        contAgregarProductoCaja.setBackground(new java.awt.Color(89, 135, 198));
+
+        lblAgregarProductoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblAgregarProductoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblAgregarProductoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAgregarProductoCaja.setText("Agregar Producto");
+        lblAgregarProductoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAgregarProductoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblAgregarProductoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblAgregarProductoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contAgregarProductoCajaLayout = new javax.swing.GroupLayout(contAgregarProductoCaja);
+        contAgregarProductoCaja.setLayout(contAgregarProductoCajaLayout);
+        contAgregarProductoCajaLayout.setHorizontalGroup(
+            contAgregarProductoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAgregarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        contAgregarProductoCajaLayout.setVerticalGroup(
+            contAgregarProductoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAgregarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+        );
+
+        contAplicarDescuentoCaja.setBackground(new java.awt.Color(89, 135, 198));
+
+        lblAplicarDescuentoCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblAplicarDescuentoCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblAplicarDescuentoCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAplicarDescuentoCaja.setText("Aplicar Descuento");
+        lblAplicarDescuentoCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblAplicarDescuentoCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblAplicarDescuentoCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblAplicarDescuentoCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contAplicarDescuentoCajaLayout = new javax.swing.GroupLayout(contAplicarDescuentoCaja);
+        contAplicarDescuentoCaja.setLayout(contAplicarDescuentoCajaLayout);
+        contAplicarDescuentoCajaLayout.setHorizontalGroup(
+            contAplicarDescuentoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAplicarDescuentoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        contAplicarDescuentoCajaLayout.setVerticalGroup(
+            contAplicarDescuentoCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblAplicarDescuentoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+        );
+
+        txtCodigoCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtCodigoCaja.setForeground(new java.awt.Color(143, 143, 143));
+        txtCodigoCaja.setText("Código del Producto");
+        txtCodigoCaja.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtCodigoCajaFocusGained(evt);
+            }
+        });
+        txtCodigoCaja.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoCajaKeyTyped(evt);
+            }
+        });
+
+        contActualizarCaja.setBackground(new java.awt.Color(89, 135, 198));
+
+        lblActualizarCaja.setFont(new java.awt.Font("Ubuntu", 1, 20)); // NOI18N
+        lblActualizarCaja.setForeground(new java.awt.Color(255, 255, 255));
+        lblActualizarCaja.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblActualizarCaja.setText("Actualizar Producto");
+        lblActualizarCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblActualizarCajaMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblActualizarCajaMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblActualizarCajaMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout contActualizarCajaLayout = new javax.swing.GroupLayout(contActualizarCaja);
+        contActualizarCaja.setLayout(contActualizarCajaLayout);
+        contActualizarCajaLayout.setHorizontalGroup(
+            contActualizarCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblActualizarCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+        );
+        contActualizarCajaLayout.setVerticalGroup(
+            contActualizarCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblActualizarCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(contAgregarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtVendedorCaja, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtCodigoDescuentoCaja)
+                    .addComponent(contAplicarDescuentoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(txtFechaCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboMetodoPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                        .addComponent(txtCodigoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                        .addGap(33, 33, 33)
+                        .addComponent(txtCantidadCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(contProcesarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(contActualizarCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(contEliminarProductoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(contCancelarPagoCaja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(txtVendedorCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboMetodoPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFechaCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCantidadCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(contAgregarProductoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(txtCodigoDescuentoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(contAplicarDescuentoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(contEliminarProductoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(contProcesarPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(contCancelarPagoCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(contActualizarCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel14.setPreferredSize(new java.awt.Dimension(645, 658));
+
+        txtSubtotalCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtSubtotalCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtSubtotalCaja.setText("Subtotal");
+        txtSubtotalCaja.setEnabled(false);
+
+        jLabel7.setBackground(new java.awt.Color(89, 135, 198));
+        jLabel7.setFont(new java.awt.Font("Ubuntu", 1, 22)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(89, 135, 198));
+        jLabel7.setText("Subtotal");
+        jLabel7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        txtDescuentoTotalCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtDescuentoTotalCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtDescuentoTotalCaja.setText("Descuento");
+        txtDescuentoTotalCaja.setEnabled(false);
+
+        jLabel8.setBackground(new java.awt.Color(89, 135, 198));
+        jLabel8.setFont(new java.awt.Font("Ubuntu", 1, 22)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(89, 135, 198));
+        jLabel8.setText("Descuento");
+        jLabel8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        txtTotalCaja.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
+        txtTotalCaja.setForeground(new java.awt.Color(0, 0, 0));
+        txtTotalCaja.setText("Total");
+        txtTotalCaja.setEnabled(false);
+
+        jLabel9.setBackground(new java.awt.Color(89, 135, 198));
+        jLabel9.setFont(new java.awt.Font("Ubuntu", 1, 22)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(89, 135, 198));
+        jLabel9.setText("Total");
+        jLabel9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        tablaCaja.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tablaCaja.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaCajaMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tablaCaja);
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSubtotalCaja)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDescuentoTotalCaja)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTotalCaja)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSubtotalCaja))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDescuentoTotalCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTotalCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(11, 11, 11))
+        );
+
+        panelCaja.setLayer(jPanel12, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelCaja.setLayer(jPanel13, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        panelCaja.setLayer(jPanel14, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout panelCajaLayout = new javax.swing.GroupLayout(panelCaja);
         panelCaja.setLayout(panelCajaLayout);
         panelCajaLayout.setHorizontalGroup(
             panelCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1210, Short.MAX_VALUE)
+            .addGroup(panelCajaLayout.createSequentialGroup()
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 1284, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(panelCajaLayout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE))
         );
         panelCajaLayout.setVerticalGroup(
             panelCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 718, Short.MAX_VALUE)
+            .addGroup(panelCajaLayout.createSequentialGroup()
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelCajaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout panelVentanaPanelesLayout = new javax.swing.GroupLayout(panelVentanaPaneles);
@@ -1816,29 +2353,29 @@ public class MenuAdminForm extends javax.swing.JFrame {
     
     // Animaciones del botón de cerrar de la barra de título
     private void lblCerrarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseEntered
-        contCerrar.setBackground(new Color(255, 40, 86));
+        contCerrar.setBackground(mbtn.getButtonDangerHover());
     }//GEN-LAST:event_lblCerrarMouseEntered
 
     private void lblCerrarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarMouseExited
-        contCerrar.setBackground(new Color(87,154,233));
+        contCerrar.setBackground(mbtn.getButtonTitlebar());
     }//GEN-LAST:event_lblCerrarMouseExited
     
    // Animaciones del botón de maximizar de la barra de título 
     private void lblMaximizarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMaximizarMouseEntered
-        contMaximizar.setBackground(new Color(115, 169, 233));
+        contMaximizar.setBackground(mbtn.getButtonTitlebarHover());
     }//GEN-LAST:event_lblMaximizarMouseEntered
 
     private void lblMaximizarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMaximizarMouseExited
-        contMaximizar.setBackground(new Color(87,154,233));
+        contMaximizar.setBackground(mbtn.getButtonTitlebar());
     }//GEN-LAST:event_lblMaximizarMouseExited
 
     // Animaciónes del botón de ocultar de la barra de título
     private void lblOcultarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOcultarMouseEntered
-        contOcultar.setBackground(new Color(115, 169, 233));
+        contOcultar.setBackground(mbtn.getButtonTitlebarHover());
     }//GEN-LAST:event_lblOcultarMouseEntered
 
     private void lblOcultarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOcultarMouseExited
-        contOcultar.setBackground(new Color(87,154,233));
+        contOcultar.setBackground(mbtn.getButtonTitlebar());
     }//GEN-LAST:event_lblOcultarMouseExited
 
     // Eventos de los botones de la barra de título
@@ -1875,27 +2412,14 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // </editor-fold> 
     
     // <editor-fold defaultstate="collapsed" desc="Barra lateral">
-    
-    // Animaciones y eventos del botón de configuración de la barra lateral
-    private void lblConfiguracionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseExited
-        contConfiguracion.setBackground(new Color(56,33,165));
-    }//GEN-LAST:event_lblConfiguracionMouseExited
-
-    private void lblConfiguracionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseEntered
-        contConfiguracion.setBackground(new Color(75, 50, 188));
-    }//GEN-LAST:event_lblConfiguracionMouseEntered
-    
-    private void lblConfiguracionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblConfiguracionMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblConfiguracionMouseClicked
-
+   
     // Animaciones y eventos del botón para alternar la visibilidad de la barra lateral
     private void lblBotonBarraLateralMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBotonBarraLateralMouseExited
-        contBotonBarraLateral.setBackground(new Color(56,33,165));
+        contBotonBarraLateral.setBackground(mbtn.getButtonSidebar());
     }//GEN-LAST:event_lblBotonBarraLateralMouseExited
 
     private void lblBotonBarraLateralMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBotonBarraLateralMouseEntered
-        contBotonBarraLateral.setBackground(new Color(75, 50, 188));
+        contBotonBarraLateral.setBackground(mbtn.getButtonSidebarHover());
     }//GEN-LAST:event_lblBotonBarraLateralMouseEntered
     
     private void lblBotonBarraLateralMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBotonBarraLateralMouseClicked
@@ -1907,25 +2431,26 @@ public class MenuAdminForm extends javax.swing.JFrame {
     
 // Animaciones y eventos de la opción 'Caja' de la barra lateral.
     private void botonCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCajaMouseExited
-        botonCaja.setBackground(new Color(54,33,150));
+        botonCaja.setBackground(mbtn.getButtonSidebar());
     }//GEN-LAST:event_botonCajaMouseExited
 
     private void botonCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCajaMouseEntered
-        botonCaja.setBackground(new Color(75, 50, 188));
+        botonCaja.setBackground(mbtn.getButtonSidebarHover());
     }//GEN-LAST:event_botonCajaMouseEntered
 
     private void botonCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonCajaMouseClicked
         mbl.cambiarPanel(panelVentanaPaneles, panelCaja);
+        configurarVentanaCaja();
         mbl.alternarBarraLateral(panelBarraLateral, lblBotonBarraLateral);
     }//GEN-LAST:event_botonCajaMouseClicked
 
     // Animaciones y eventos de la opción 'Informes' de la barra lateral.
     private void botonInformesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonInformesMouseExited
-        botonInformes.setBackground(new Color(54,33,150));
+        botonInformes.setBackground(mbtn.getButtonSidebar());
     }//GEN-LAST:event_botonInformesMouseExited
 
     private void botonInformesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonInformesMouseEntered
-        botonInformes.setBackground(new Color(75, 50, 188));
+        botonInformes.setBackground(mbtn.getButtonSidebarHover());
     }//GEN-LAST:event_botonInformesMouseEntered
 
     private void botonInformesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonInformesMouseClicked
@@ -1935,11 +2460,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
     // Animaciones y eventos de la opción 'Ventas' de la barra lateral.
     private void botonVentasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonVentasMouseExited
-        botonVentas.setBackground(new Color(54,33,150));
+        botonVentas.setBackground(mbtn.getButtonSidebar());
     }//GEN-LAST:event_botonVentasMouseExited
 
     private void botonVentasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonVentasMouseEntered
-        botonVentas.setBackground(new Color(75, 50, 188));
+        botonVentas.setBackground(mbtn.getButtonSidebarHover());
     }//GEN-LAST:event_botonVentasMouseEntered
 
     private void botonVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonVentasMouseClicked
@@ -1949,11 +2474,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
     // Animaciones y eventos de la opción 'Descuentos' de la barra lateral.
     private void botonDescuentosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonDescuentosMouseExited
-        botonDescuentos.setBackground(new Color(54,33,150));
+        botonDescuentos.setBackground(mbtn.getButtonSidebar());
     }//GEN-LAST:event_botonDescuentosMouseExited
 
     private void botonDescuentosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonDescuentosMouseEntered
-        botonDescuentos.setBackground(new Color(75, 50, 188));
+        botonDescuentos.setBackground(mbtn.getButtonSidebarHover());
     }//GEN-LAST:event_botonDescuentosMouseEntered
 
     private void botonDescuentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonDescuentosMouseClicked
@@ -1964,11 +2489,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
     // Animaciones y eventos de la opción 'Usuarios' de la barra lateral.
     private void botonUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonUsuariosMouseExited
-        botonUsuarios.setBackground(new Color(54,33,150));
+        botonUsuarios.setBackground(mbtn.getButtonSidebar());
     }//GEN-LAST:event_botonUsuariosMouseExited
 
     private void botonUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonUsuariosMouseEntered
-        botonUsuarios.setBackground(new Color(75, 50, 188));
+        botonUsuarios.setBackground(mbtn.getButtonSidebarHover());
     }//GEN-LAST:event_botonUsuariosMouseEntered
 
     private void botonUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonUsuariosMouseClicked
@@ -1979,11 +2504,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
     // Animaciones y eventos de la opción 'Productos' de la barra lateral.
     private void botonProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonProductosMouseExited
-        botonProductos.setBackground(new Color(54,33,150));
+        botonProductos.setBackground(mbtn.getButtonSidebar());
     }//GEN-LAST:event_botonProductosMouseExited
 
     private void botonProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonProductosMouseEntered
-        botonProductos.setBackground(new Color(75, 50, 188));
+        botonProductos.setBackground(mbtn.getButtonSidebarHover());
     }//GEN-LAST:event_botonProductosMouseEntered
 
     private void botonProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonProductosMouseClicked
@@ -2045,10 +2570,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
         mtf.establecerTextoPredeterminado(txtCodigoBarrasProductos, "Código de barras");
     }//GEN-LAST:event_txtCodigoBarrasProductosFocusGained
 
-    private void txtEstadoProductosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtEstadoProductosFocusGained
-        mtf.establecerTextoPredeterminado(txtEstadoProductos, "Estado del producto");
-    }//GEN-LAST:event_txtEstadoProductosFocusGained
-
     private void txtCategoriaProductosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCategoriaProductosFocusGained
         mtf.establecerTextoPredeterminado(txtCategoriaProductos, "Categoría");
     }//GEN-LAST:event_txtCategoriaProductosFocusGained
@@ -2064,30 +2585,30 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // Animaciones para los botones de la ventana
     private void contRegistrarProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarProductosMouseEntered
         if (!contRegistrarProductos.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
-        contRegistrarProductos.setBackground(new Color(111, 197, 203));
+        contRegistrarProductos.setBackground(mbtn.getButtonSuccessHover());
     }//GEN-LAST:event_contRegistrarProductosMouseEntered
 
     private void contRegistrarProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarProductosMouseExited
         if (!contRegistrarProductos.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
-        contRegistrarProductos.setBackground(new Color(92,164,169));
+        contRegistrarProductos.setBackground(mbtn.getButtonSuccess());
     }//GEN-LAST:event_contRegistrarProductosMouseExited
     
     private void contActualizarProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarProductosMouseEntered
         if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
-        contActualizarProductos.setBackground(new Color(111, 197, 203));
+        contActualizarProductos.setBackground(mbtn.getButtonPrimaryHover());
     }//GEN-LAST:event_contActualizarProductosMouseEntered
 
     private void contActualizarProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarProductosMouseExited
         if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
-        contActualizarProductos.setBackground(new Color(92,164,169));
+        contActualizarProductos.setBackground(mbtn.getButtonPrimary());
     }//GEN-LAST:event_contActualizarProductosMouseExited
 
     private void contLimpiarSeleccionProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contLimpiarSeleccionProductosMouseEntered
-        contLimpiarSeleccionProductos.setBackground(new Color(111, 197, 203));
+        contLimpiarSeleccionProductos.setBackground(mbtn.getButtonWarningHover());
     }//GEN-LAST:event_contLimpiarSeleccionProductosMouseEntered
 
     private void contLimpiarSeleccionProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contLimpiarSeleccionProductosMouseExited
-        contLimpiarSeleccionProductos.setBackground(new Color(92,164,169));
+        contLimpiarSeleccionProductos.setBackground(mbtn.getButtonWarning());
     }//GEN-LAST:event_contLimpiarSeleccionProductosMouseExited
     
     /**
@@ -2100,23 +2621,19 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void contRegistrarProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarProductosMouseClicked
         if (!contRegistrarProductos.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
         
-        int id = Integer.parseInt(txtIdProductos.getText());
         String nombreProducto = txtNombreProductos.getText();
         String stringPrecio = txtPrecioProductos.getText();
         int cantidadDisponible = Integer.parseInt(txtCantidadProductos.getText());
         String codigoBarras = txtCodigoBarrasProductos.getText();
-        String estadoProducto = txtEstadoProductos.getText();
         String categoria = txtCategoriaProductos.getText();
         String descripcionProducto = txtDescripcionProductos.getText();
         
         float precioUnitario;
         
-        if (mv.validarDatos(id, "id") ||
-            mv.validarDatos(nombreProducto, "Nombre", "nombre") ||
+        if (mv.validarDatos(nombreProducto, "Nombre", "nombre") ||
             mv.validarDatos(stringPrecio, "Precio", "precio") ||
             mv.validarDatos(cantidadDisponible, "cantidad") ||
             mv.validarDatos(codigoBarras, "Código de barras", "código de barras") ||
-            mv.validarDatos(cantidadDisponible, "cantidad") ||
             mv.validarDatos(categoria, "Categoría", "categoria"))
             {
                 return;
@@ -2130,27 +2647,23 @@ public class MenuAdminForm extends javax.swing.JFrame {
         }
         
         String sentenciasql = "INSERT INTO productos"
-                + "(id_producto, "
-                + "nombre_producto, "
+                + "(nombre_producto, "
                 + "precio_unitario, "
                 + "cantidad_disponible, "
                 + "codigo_barras, "
-                + "estado_producto, "
                 + "categoria, "
                 + "descripcion_producto) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                + "VALUES (?, ?, ?, ?, ?, ?);";
         
         try {
             PreparedStatement ps = cn.prepareStatement(sentenciasql);
             
-            ps.setInt(1, id);
-            ps.setString(2, nombreProducto);
-            ps.setFloat(3, precioUnitario);
-            ps.setInt(4, cantidadDisponible);
-            ps.setString(5, codigoBarras);
-            ps.setString(6, estadoProducto);
-            ps.setString(7, categoria);
-            ps.setString(8, descripcionProducto);
+            ps.setString(1, nombreProducto);
+            ps.setFloat(2, precioUnitario);
+            ps.setInt(3, cantidadDisponible);
+            ps.setString(4, codigoBarras);
+            ps.setString(5, categoria);
+            ps.setString(6, descripcionProducto);
             
             ps.executeUpdate();
             
@@ -2172,7 +2685,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
         String stringPrecio = txtPrecioProductos.getText();
         int cantidadDisponible = Integer.parseInt(txtCantidadProductos.getText());
         String codigoBarras = txtCodigoBarrasProductos.getText();
-        String estadoProducto = txtEstadoProductos.getText();
         String categoria = txtCategoriaProductos.getText();
         String descripcionProducto = txtDescripcionProductos.getText();
         
@@ -2201,7 +2713,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
             + "precio_unitario=?, "
             + "cantidad_disponible=?, "
             + "codigo_barras=?, "
-            + "estado_producto=?, "
             + "categoria=?, "
             + "descripcion_producto=? "
             + "WHERE id_producto='%s';"
@@ -2217,9 +2728,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
             ps.setFloat(2, precioUnitario);
             ps.setInt(3, cantidadDisponible);
             ps.setString(4, codigoBarras);
-            ps.setString(5, estadoProducto);
-            ps.setString(6, categoria);
-            ps.setString(7, descripcionProducto);
+            ps.setString(5, categoria);
+            ps.setString(6, descripcionProducto);
 
             int index = ps.executeUpdate();
 
@@ -2268,21 +2778,37 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento de mouse que desencadena la llamada a este método.
      */
     private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
-        mbtn.habilitarBotonDefault(contActualizarProductos, lblActualizarProductos);
-        mbtn.deshabilitarBotonDefault(contRegistrarProductos, lblRegistrarProductos);
-        txtIdProductos.setEnabled(false);
+        mbtn.habilitarBoton(contActualizarProductos, lblActualizarProductos, mbtn.getButtonPrimary(), mbtn.getDefaultText());
+        mbtn.deshabilitarBoton(contRegistrarProductos, lblRegistrarProductos, mbtn.getButtonSuccessDisabled(), mbtn.getDefaultTextDisabled());
+        txtCodigoBarrasProductos.setEnabled(false);
         
         int fila = this.tablaProductos.getSelectedRow();
+
+        String nombreProducto = tablaProductos.getValueAt(fila, 0).toString();
+        String precioProductos = tablaProductos.getValueAt(fila, 1).toString();
+        String cantidadProductos = tablaProductos.getValueAt(fila, 2).toString();
+        String codigoBarras = tablaProductos.getValueAt(fila, 3).toString();
+        String categoria = tablaProductos.getValueAt(fila, 4).toString();
+        String sentenciasql = "SELECT id_producto, descripcion_producto FROM productos WHERE codigo_barras = " + codigoBarras;
         
-        txtIdProductos.setText(this.tablaProductos.getValueAt(fila, 0).toString());
-        txtNombreProductos.setText(this.tablaProductos.getValueAt(fila, 1).toString());
-        txtPrecioProductos.setText(this.tablaProductos.getValueAt(fila, 2).toString());
-        txtCantidadProductos.setText(this.tablaProductos.getValueAt(fila, 3).toString());
-        txtCodigoBarrasProductos.setText(this.tablaProductos.getValueAt(fila, 4).toString());
-        txtEstadoProductos.setText(this.tablaProductos.getValueAt(fila, 5).toString());
-        selectorFechaProductos.setDate(mf.convertStringToDate(this.tablaProductos.getValueAt(fila, 6).toString()));
-        txtCategoriaProductos.setText(this.tablaProductos.getValueAt(fila, 7).toString());      
-        txtDescripcionProductos.setText(this.tablaProductos.getValueAt(fila, 8).toString());
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sentenciasql);
+            
+            while (rs.next()) {
+                txtIdProductos.setText(rs.getString(1));
+                txtDescripcionProductos.setText(rs.getString(2));
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println("No se pudieron recuperar los datos de la base de datos");
+        } 
+        
+        txtNombreProductos.setText(nombreProducto);
+        txtPrecioProductos.setText(precioProductos);
+        txtCantidadProductos.setText(cantidadProductos);
+        txtCodigoBarrasProductos.setText(codigoBarras);
+        txtCategoriaProductos.setText(categoria);      
     }//GEN-LAST:event_tablaProductosMouseClicked
 
     /**
@@ -2340,18 +2866,14 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param busqueda Cadena de búsqueda para filtrar los productos a mostrar.
      */
     private void cargarDatosTablaProductos(String busqueda) {
-        String[] nombresColumnasBD = {"nombre_producto", "id_producto", "precio_unitario", "cantidad_disponible", "codigo_barras", "estado_producto", "fecha_registro", "categoria", "descripcion_producto"};
+        String[] nombresColumnasBD = {"nombre_producto","precio_unitario", "cantidad_disponible", "codigo_barras", "categoria"};
         
         DefaultTableModel modelo = new TablaNoEditable();
-        modelo.addColumn("ID");
         modelo.addColumn("Nombre del Producto");
         modelo.addColumn("Precio Unitario");
         modelo.addColumn("Cantidad Disponible");
         modelo.addColumn("Código de Barras");
-        modelo.addColumn("Estado del Producto");
-        modelo.addColumn("Fecha de Registro");
         modelo.addColumn("Categoría");
-        modelo.addColumn("Descripción del producto");
         
         tablaProductos.setModel(modelo);
         tablaProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -2360,10 +2882,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
         String busquedaCompleta = mb.getFormatoBusqueda(busqueda, comboTipoBusquedaProductos);
         String orden = mb.getOrdenarPor(comboOrdenarProductos);
         
-        String consultasql = mb.obtenerConsulta("productos", filtro, busquedaCompleta, orden);
+        String consultasql = "SELECT nombre_producto, precio_unitario, cantidad_disponible, codigo_barras, categoria FROM productos " + " WHERE UPPER(" + filtro + ") " + busquedaCompleta + " ORDER BY " + filtro + " " + orden + ";";
         System.out.println(consultasql);
         
-        String data[] = new String[9];
+        String data[] = new String[5];
         
         Statement st;
         
@@ -2379,10 +2901,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 data[2] = rs.getString(3);
                 data[3] = rs.getString(4);
                 data[4] = rs.getString(5);
-                data[5] = rs.getString(6);
-                data[6] = rs.getString(7);
-                data[7] = rs.getString(8);
-                data[8] = rs.getString(9);
                 modelo.addRow(data);
             }
         }
@@ -2400,17 +2918,15 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * Limpia los campos del formulario de productos y restablece sus valores predeterminados.
      */
     private void limpiarCamposProductos() {
-        mbtn.deshabilitarBotonDefault(contActualizarProductos, lblActualizarProductos);
-        mbtn.habilitarBotonDefault(contRegistrarProductos, lblRegistrarProductos);
-        txtIdProductos.setEnabled(true);
+        mbtn.deshabilitarBoton(contActualizarProductos, lblActualizarProductos, mbtn.getButtonPrimaryDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.habilitarBoton(contRegistrarProductos, lblRegistrarProductos, mbtn.getButtonSuccess(), mbtn.getDefaultText());
+        txtCodigoBarrasProductos.setEnabled(true);
         
         mtf.reiniciarTexto(txtIdProductos, "ID");
         mtf.reiniciarTexto(txtNombreProductos, "Nombre");
         mtf.reiniciarTexto(txtPrecioProductos, "Precio");
         mtf.reiniciarTexto(txtCantidadProductos, "Cantidad");
         mtf.reiniciarTexto(txtCodigoBarrasProductos, "Código de barras");
-        mtf.reiniciarTexto(txtEstadoProductos, "Estado del producto");
-        selectorFechaProductos.setDate(null);
         mtf.reiniciarTexto(txtCategoriaProductos, "Categoría");
         mtf.reiniciarTexto(txtDescripcionProductos, "Descripción");
         
@@ -2456,43 +2972,43 @@ public class MenuAdminForm extends javax.swing.JFrame {
      // Animaciones para los botones de la ventana
     private void contRegistrarUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarUsuariosMouseEntered
         if (!contRegistrarUsuarios.isEnabled() || !lblRegistrarUsuarios.isEnabled()) {return;}
-        contRegistrarUsuarios.setBackground(mbtn.getDefaultButtonHover());
+        contRegistrarUsuarios.setBackground(mbtn.getButtonSuccessHover());
     }//GEN-LAST:event_contRegistrarUsuariosMouseEntered
 
     private void contRegistrarUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarUsuariosMouseExited
         if (!contRegistrarUsuarios.isEnabled() || !lblRegistrarUsuarios.isEnabled()) {return;}
-        contRegistrarUsuarios.setBackground(mbtn.getDefaultButton());
+        contRegistrarUsuarios.setBackground(mbtn.getButtonSuccess());
     }//GEN-LAST:event_contRegistrarUsuariosMouseExited
 
     private void contActualizarUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarUsuariosMouseEntered
         if (!contActualizarUsuarios.isEnabled() || !lblActualizarUsuarios.isEnabled()) {return;}
-        contActualizarUsuarios.setBackground(mbtn.getDefaultButtonHover());
+        contActualizarUsuarios.setBackground(mbtn.getButtonPrimaryHover());
     }//GEN-LAST:event_contActualizarUsuariosMouseEntered
 
     private void contActualizarUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarUsuariosMouseExited
 
         if (!contActualizarUsuarios.isEnabled() || !lblActualizarUsuarios.isEnabled()) {return;}
-        contActualizarUsuarios.setBackground(mbtn.getDefaultButton());
+        contActualizarUsuarios.setBackground(mbtn.getButtonPrimary());
     }//GEN-LAST:event_contActualizarUsuariosMouseExited
 
     private void contCancelarUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contCancelarUsuariosMouseEntered
         if (!contCancelarUsuarios.isEnabled() || !lblCancelarUsuarios.isEnabled()) {return;}
-        contCancelarUsuarios.setBackground(mbtn.getDefaultButtonHover());
+        contCancelarUsuarios.setBackground(mbtn.getButtonWarningHover());
     }//GEN-LAST:event_contCancelarUsuariosMouseEntered
 
     private void contCancelarUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contCancelarUsuariosMouseExited
         if (!contCancelarUsuarios.isEnabled() || !lblCancelarUsuarios.isEnabled()) {return;}
-        contCancelarUsuarios.setBackground(mbtn.getDefaultButton());
+        contCancelarUsuarios.setBackground(mbtn.getButtonWarning());
     }//GEN-LAST:event_contCancelarUsuariosMouseExited
 
     private void contEliminarUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contEliminarUsuariosMouseEntered
         if (!contEliminarUsuarios.isEnabled() || !lblEliminarUsuarios.isEnabled()) {return;}
-        contEliminarUsuarios.setBackground(mbtn.getDefaultButtonWarningHover());
+        contEliminarUsuarios.setBackground(mbtn.getButtonDangerHover());
     }//GEN-LAST:event_contEliminarUsuariosMouseEntered
 
     private void contEliminarUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contEliminarUsuariosMouseExited
         if (!contEliminarUsuarios.isEnabled() || !lblEliminarUsuarios.isEnabled()) {return;}
-        contEliminarUsuarios.setBackground(mbtn.getDefaultButtonWarning());
+        contEliminarUsuarios.setBackground(mbtn.getButtonDanger());
     }//GEN-LAST:event_contEliminarUsuariosMouseExited
 
     /**
@@ -2503,7 +3019,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento del mouse que desencadenó la llamada a este método.
      */
     private void contRegistrarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarUsuariosMouseClicked
-        if (!contRegistrarUsuarios.isEnabled() || !lblRegistrarProductos.isEnabled()) {return;}
+        if (!contRegistrarUsuarios.isEnabled() || !lblRegistrarUsuarios.isEnabled()) {return;}
         
         String nombreUsuario = txtUserNameUsuarios.getText();
         String clave = String.valueOf(txtClaveUsuarios.getPassword());
@@ -2568,7 +3084,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento del mouse que desencadenó la llamada a este método.
      */
     private void contActualizarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarUsuariosMouseClicked
-        if (!contActualizarProductos.isEnabled() || !lblActualizarProductos.isEnabled()) {return;}
+        if (!contActualizarUsuarios.isEnabled() || !lblActualizarUsuarios.isEnabled()) {return;}
         
         String nombreUsuario = txtUserNameUsuarios.getText();
         String clave = String.valueOf(txtClaveUsuarios.getPassword());
@@ -2591,6 +3107,18 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 return;
             }
         
+        Object valorPrimeraColumna = null;
+        
+        int selectedRow = tablaUsuarios.getSelectedRow();
+        if (selectedRow != -1) {
+            valorPrimeraColumna = tablaUsuarios.getModel().getValueAt(selectedRow, 0);
+
+            // Ahora 'valorPrimeraColumna' contiene el dato de la primera columna de la fila seleccionada.
+            // Puedes hacer lo que necesites con este valor.
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
         String sentenciasql = String.format(
             "UPDATE usuarios SET "
             + "nombre_usuario=?, "
@@ -2600,8 +3128,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
             + "nivel_acceso=?, "
             + "numero_telefono=?, "
             + "estado_cuenta=? "
-            + "WHERE id_usuario='%s';"
-            , tablaUsuarios.getSelectedRow()
+            + "WHERE nombre_usuario='%s';"
+            , valorPrimeraColumna
         );
         
         System.out.println(sentenciasql);
@@ -2621,9 +3149,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
             if (index > 0) {
                 JOptionPane.showMessageDialog(null, "Datos actualizados correctamente", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
-                mbtn.deshabilitarBotonDefault(contActualizarUsuarios, lblActualizarUsuarios);
-                mbtn.habilitarBotonDefault(contRegistrarUsuarios, lblRegistrarUsuarios);
-
+                mbtn.deshabilitarBoton(contActualizarUsuarios, lblActualizarUsuarios, mbtn.getButtonPrimaryDisabled(), mbtn.getDefaultTextDisabled());
+                mbtn.habilitarBoton(contRegistrarUsuarios, lblRegistrarUsuarios, mbtn.getButtonSuccess(), mbtn.getDefaultText());
+                
+                
                 limpiarCamposUsuarios();
                 cargarDatosTablaUsuarios("");
             } else {
@@ -2651,7 +3180,16 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt 
      */
     private void contEliminarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contEliminarUsuariosMouseClicked
-        String sentenciasql = "DELETE FROM usuarios WHERE id_usuario='" + tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0) + "';";
+        Object valorPrimeraColumna = null;
+        
+        int selectedRow = tablaUsuarios.getSelectedRow();
+        if (selectedRow != -1) {
+            valorPrimeraColumna = tablaUsuarios.getModel().getValueAt(selectedRow, 0);
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String sentenciasql = "DELETE FROM usuarios WHERE nombre_usuario='" + valorPrimeraColumna + "';";
         Object[] opciones = {"Sí", "No"};
         
         if (JOptionPane.showOptionDialog(null, "¿Está seguro de que desea eliminar el registro?", "Eliminar registro", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]) == 0) {
@@ -2660,8 +3198,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 int index = ps.executeUpdate();
                 
                 if (index > 0) {
-                    cargarDatosTablaDescuentos("");
-                    limpiarCamposDescuentos();
+                    cargarDatosTablaUsuarios("");
+                    limpiarCamposUsuarios();
                 } else {
                     JOptionPane.showMessageDialog(null, "No seleccionó fila", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -2691,20 +3229,20 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento del mouse que desencadenó la llamada a este método.
      */
     private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
-        mbtn.habilitarBotonDefault(contActualizarUsuarios, lblActualizarUsuarios);
-        mbtn.habilitarBoton(contEliminarUsuarios, lblEliminarUsuarios, mbtn.getDefaultButtonWarning(), mbtn.getDefaultText());
-        mbtn.deshabilitarBotonDefault(contRegistrarUsuarios, lblRegistrarUsuarios);
-        
+        mbtn.habilitarBoton(contActualizarUsuarios, lblActualizarUsuarios, mbtn.getButtonPrimary(), mbtn.getDefaultText());
+        mbtn.habilitarBoton(contEliminarUsuarios, lblEliminarUsuarios, mbtn.getButtonDanger(), mbtn.getDefaultText());
+        mbtn.deshabilitarBoton(contRegistrarUsuarios, lblRegistrarUsuarios, mbtn.getButtonSuccessDisabled(), mbtn.getDefaultText());
+        txtUserNameUsuarios.setEnabled(false);
         
         int fila = this.tablaUsuarios.getSelectedRow();
         
-        txtUserNameUsuarios.setText(tablaUsuarios.getValueAt(fila, 1).toString());
-        txtClaveUsuarios.setText(tablaUsuarios.getValueAt(fila, 1) != null ? new ConsultasSQL(cn).obtenerClaveUsuario(tablaUsuarios.getValueAt(fila, 1).toString()) : "");
-        txtNombreUsuarios.setText(tablaUsuarios.getValueAt(fila, 2) != null ? tablaUsuarios.getValueAt(fila, 2).toString() : "");
-        txtEmailUsuarios.setText(tablaUsuarios.getValueAt(fila, 3) != null ? tablaUsuarios.getValueAt(fila, 3).toString() : "");
-        comboNivelAccesoUsuarios.setSelectedItem(tablaUsuarios.getValueAt(fila, 4) != null ? tablaUsuarios.getValueAt(fila, 4).toString() : "");
-        txtNumeroUsuarios.setText(tablaUsuarios.getValueAt(fila, 6) != null ? tablaUsuarios.getValueAt(fila, 6).toString() : "");
-        comboEstadoCuentaUsuarios.setSelectedItem(tablaUsuarios.getValueAt(fila, 7) != null ? tablaUsuarios.getValueAt(fila, 7).toString() : "");
+        txtUserNameUsuarios.setText(tablaUsuarios.getValueAt(fila, 0).toString());
+        txtClaveUsuarios.setText(tablaUsuarios.getValueAt(fila, 0) != null ? new ConsultasSQL(cn).obtenerClaveUsuario(tablaUsuarios.getValueAt(fila, 0).toString()) : "");
+        txtNombreUsuarios.setText(tablaUsuarios.getValueAt(fila, 1) != null ? tablaUsuarios.getValueAt(fila, 1).toString() : "");
+        txtEmailUsuarios.setText(tablaUsuarios.getValueAt(fila, 2) != null ? tablaUsuarios.getValueAt(fila, 2).toString() : "");
+        comboNivelAccesoUsuarios.setSelectedItem(tablaUsuarios.getValueAt(fila, 3) != null ? tablaUsuarios.getValueAt(fila, 3).toString() : "");
+        txtNumeroUsuarios.setText(tablaUsuarios.getValueAt(fila, 5) != null ? tablaUsuarios.getValueAt(fila, 5).toString() : "");
+        comboEstadoCuentaUsuarios.setSelectedItem(tablaUsuarios.getValueAt(fila, 6) != null ? tablaUsuarios.getValueAt(fila, 6).toString() : "");
     }//GEN-LAST:event_tablaUsuariosMouseClicked
 
     /**
@@ -2727,7 +3265,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private void cargarDatosTablaUsuarios(String busqueda) {
         
         DefaultTableModel modelo = new TablaNoEditable();
-        modelo.addColumn("ID");
         modelo.addColumn("Nombre de Usuario");
         modelo.addColumn("Nombre Completo");
         modelo.addColumn("Correo Electrónico");
@@ -2739,10 +3276,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
         tablaUsuarios.setModel(modelo);
         tablaUsuarios.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         
-        String consultasql = mb.obtenerConsulta( "usuarios", "nombre_usuario", "LIKE UPPER('%" + busqueda + "%')", "ASC;");
+        String consultasql = "SELECT nombre_usuario, nombre_completo, email, nivel_acceso, fecha_registro, numero_telefono, estado_cuenta FROM usuarios WHERE UPPER(nombre_usuario) LIKE UPPER('%" + busqueda+ "%') ORDER BY nombre_usuario asc;";
         System.out.println(consultasql);
         
-        String data[] = new String[8];
+        String data[] = new String[7];
         
         Statement st;
         
@@ -2755,12 +3292,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
             {
                 data[0] = rs.getString(1);
                 data[1] = rs.getString(2);
-                data[2] = rs.getString(4);
-                data[3] = rs.getString(5);
-                data[4] = rs.getString(6);
-                data[5] = rs.getString(7);
-                data[6] = rs.getString(8);
-                data[7] = rs.getString(9);
+                data[2] = rs.getString(3);
+                data[3] = rs.getString(4);
+                data[4] = rs.getString(5);
+                data[5] = rs.getString(6);
+                data[6] = rs.getString(7);
                 modelo.addRow(data);
             }
         }
@@ -2776,9 +3312,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * Limpia los campos del formulario de productos y restablece sus valores predeterminados.
      */
     private void limpiarCamposUsuarios() {
-        mbtn.deshabilitarBoton(contEliminarUsuarios, lblEliminarUsuarios, mbtn.getDefaultButtonWarningDisabled(), mbtn.getDefaultTextDisabled());
-        mbtn.deshabilitarBotonDefault(contActualizarUsuarios, lblActualizarUsuarios);
-        mbtn.habilitarBotonDefault(contRegistrarUsuarios, lblRegistrarUsuarios);
+        mbtn.deshabilitarBoton(contEliminarUsuarios, lblEliminarUsuarios, mbtn.getButtonDangerDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.deshabilitarBoton(contActualizarUsuarios, lblActualizarUsuarios, mbtn.getButtonPrimaryDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.habilitarBoton(contRegistrarUsuarios, lblRegistrarUsuarios, mbtn.getButtonSuccess(), mbtn.getDefaultText());
+        txtUserNameUsuarios.setEnabled(true);
         
         mtf.reiniciarTexto(txtUserNameUsuarios, "Nombre de Usuario");
         mtf.reiniciarTexto(txtClaveUsuarios, "**********");
@@ -2832,17 +3369,17 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // Animaciones para los botones de la ventana
     private void contRegistrarDescuentosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarDescuentosMouseEntered
         if (!contRegistrarDescuentos.isEnabled() || !lblRegistrarDescuentos.isEnabled()) {return;}
-        contRegistrarDescuentos.setBackground(mbtn.getDefaultButtonHover());
+        contRegistrarDescuentos.setBackground(mbtn.getButtonSuccessHover());
     }//GEN-LAST:event_contRegistrarDescuentosMouseEntered
 
     private void contRegistrarDescuentosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarDescuentosMouseExited
         if (!contRegistrarDescuentos.isEnabled() || !lblRegistrarDescuentos.isEnabled()) {return;}
-        contRegistrarDescuentos.setBackground(mbtn.getDefaultButton());
+        contRegistrarDescuentos.setBackground(mbtn.getButtonSuccess());
     }//GEN-LAST:event_contRegistrarDescuentosMouseExited
 
     private void contActualizarDescuentosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarDescuentosMouseExited
         if (!contActualizarDescuentos.isEnabled() || !lblActualizarDescuentos.isEnabled()) {return;}
-        contActualizarDescuentos.setBackground(mbtn.getDefaultButton());
+        contActualizarDescuentos.setBackground(mbtn.getButtonPrimary());
     }//GEN-LAST:event_contActualizarDescuentosMouseExited
 
     /**
@@ -2855,45 +3392,26 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento de clic del mouse.
      */
     private void contRegistrarDescuentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contRegistrarDescuentosMouseClicked
-        if (!contRegistrarDescuentos.isEnabled() || !lblRegistrarDescuentos.isEnabled()) {return;}
-        
+        if (!contRegistrarDescuentos.isEnabled() || !lblRegistrarDescuentos.isEnabled()) {
+            return;
+        }
+
         String nombreDescuento = txtNombreDescuentos.getText();
         String codigoDescuento = txtCodigoDescuentos.getText();
         String stringPorcentajeDescuento = txtPorcentajeDescuentos.getText();
         String stringValorDescuento = txtValorDescuentos.getText();
-        String stringFechaInicio = txtFechaInicioDescuentos.getText(); // Obtener String de fecha
-        String stringFechaFin = txtFechaFinDescuentos.getText(); // Obtener String de fecha
+        String fechaInicio = txtFechaInicioDescuentos.getText();
+        String fechaFin = txtFechaFinDescuentos.getText();
         String activo = (String) comboActivoDescuentos.getSelectedItem();
-
-        java.sql.Date fechaInicioSQL;
-        java.sql.Date fechaFinSQL;
-
-        try {
-            // Convertir String de fecha a objetos java.util.Date
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date fechaInicio = dateFormat.parse(stringFechaInicio);
-            java.util.Date fechaFin = dateFormat.parse(stringFechaFin);
-
-            // Convertir las fechas a java.sql.Date
-            fechaInicioSQL = new java.sql.Date(fechaInicio.getTime());
-            fechaFinSQL = new java.sql.Date(fechaFin.getTime());
-
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Error en el formato de fecha", "Error", JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+        
+        if (fechaInicio.equals("____-__-__") && fechaFin.equals("____-__-__")) {
+            JOptionPane.showMessageDialog(null, "Formato de la fecha inválido",  "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (mv.validarDatos(nombreDescuento, "Nombre", "nombre de descuento") ||
             mv.validarDatos(codigoDescuento, "Código", "código de descuento") ||
-            mv.validarComboBox(activo, "activo") ||
-            mv.validarFecha(fechaInicioSQL, "fecha de inicio") ||
-            mv.validarFecha(fechaFinSQL, "fecha de fin")) {
-            return;
-        }
-
-        if (mv.validarDatos(stringPorcentajeDescuento, "Porcentaje", "porcentaje del descuento") &&
-            mv.validarDatos(stringValorDescuento, "Valor", "valor del descuento")) {
+            mv.validarComboBox(activo, "activo")) {
             return;
         }
 
@@ -2918,16 +3436,17 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Porcentaje de descuento inválido", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }
-
-        // Si stringValorDescuento no está vacío, intenta convertirlo a float
-        if (!stringValorDescuento.isEmpty()) {
+        } else if (!stringValorDescuento.isEmpty()) {
+            // Si stringValorDescuento no está vacío, intenta convertirlo a float
             try {
                 valorDescuento = Float.parseFloat(stringValorDescuento);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Valor de descuento inválido", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese porcentaje o valor de descuento", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         try {
@@ -2937,8 +3456,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
             ps.setString(2, codigoDescuento);
             ps.setFloat(3, porcentajeDescuento);
             ps.setFloat(4, valorDescuento);
-            ps.setDate(5, fechaInicioSQL);
-            ps.setDate(6, fechaFinSQL);
+            ps.setString(5, fechaInicio);
+            ps.setString(6, fechaFin);
             ps.setString(7, activo);
 
             ps.executeUpdate();
@@ -2962,50 +3481,42 @@ public class MenuAdminForm extends javax.swing.JFrame {
     * @param evt El evento de clic del mouse.
     */
     private void contActualizarDescuentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarDescuentosMouseClicked
-        if (!contActualizarDescuentos.isEnabled() || !lblActualizarDescuentos.isEnabled()) {return;}
-        
+        if (!contActualizarDescuentos.isEnabled() || !lblActualizarDescuentos.isEnabled()) {
+            return;
+        }
+
         String nombreDescuento = txtNombreDescuentos.getText();
         String codigoDescuento = txtCodigoDescuentos.getText();
         String stringPorcentajeDescuento = txtPorcentajeDescuentos.getText();
         String stringValorDescuento = txtValorDescuentos.getText();
-        String stringFechaInicio = txtFechaInicioDescuentos.getText();
-        String stringFechaFin = txtFechaFinDescuentos.getText();
+        String fechaInicio = txtFechaInicioDescuentos.getText();
+        String fechaFin = txtFechaFinDescuentos.getText();
         String activo = (String) comboActivoDescuentos.getSelectedItem();
 
-        java.sql.Date fechaInicioSQL;
-        java.sql.Date fechaFinSQL;
-
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date fechaInicio = dateFormat.parse(stringFechaInicio);
-            java.util.Date fechaFin = dateFormat.parse(stringFechaFin);
-
-            fechaInicioSQL = new java.sql.Date(fechaInicio.getTime());
-            fechaFinSQL = new java.sql.Date(fechaFin.getTime());
-
-        } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null, "Error en el formato de fecha", "Error", JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+        if (fechaInicio.equals("____-__-__") && fechaFin.equals("____-__-__")) {
+            JOptionPane.showMessageDialog(null, "Formato de la fecha inválido",  "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         if (mv.validarDatos(nombreDescuento, "Nombre", "nombre de descuento") ||
             mv.validarDatos(codigoDescuento, "Código", "código de descuento") ||
-            mv.validarComboBox(activo, "activo") ||
-            mv.validarFecha(fechaInicioSQL, "fecha de inicio") ||
-            mv.validarFecha(fechaFinSQL, "fecha de fin")) {
+            mv.validarComboBox(activo, "activo")) {
             return;
         }
 
-        if (mv.validarDatos(stringPorcentajeDescuento, "Porcentaje", "porcentaje del descuento") &&
-            mv.validarDatos(stringValorDescuento, "Valor", "valor del descuento")) {
-            return;
+        Object valorColumnaCodigo = null;
+        
+        int selectedRow = tablaDescuentos.getSelectedRow();
+        if (selectedRow != -1) {
+            valorColumnaCodigo = tablaDescuentos.getModel().getValueAt(selectedRow, 1);
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila", "Error", JOptionPane.WARNING_MESSAGE);
         }
-
+        
         float porcentajeDescuento = 0;
         float valorDescuento = 0;
 
-        String sentenciasql = "UPDATE descuentos SET "
+        String sentenciasql = String.format("UPDATE descuentos SET "
                 + "nombre_descuento = ?, "
                 + "codigo_descuento = ?, "
                 + "porcentaje_descuento = ?, "
@@ -3013,7 +3524,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 + "fecha_inicio = ?, "
                 + "fecha_fin = ?, "
                 + "activo = ? "
-                + "WHERE id_descuento = ?;";
+                + "WHERE codigo_descuento = '%s';", valorColumnaCodigo);
 
         // Si stringPorcentajeDescuento no está vacío, intenta convertirlo a float
         if (!stringPorcentajeDescuento.isEmpty()) {
@@ -3023,10 +3534,8 @@ public class MenuAdminForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Porcentaje de descuento inválido", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }
-
-        // Si stringValorDescuento no está vacío, intenta convertirlo a float
-        if (!stringValorDescuento.isEmpty()) {
+        } else if (!stringValorDescuento.isEmpty()) {
+            // Si stringValorDescuento no está vacío, intenta convertirlo a float
             try {
                 valorDescuento = Float.parseFloat(stringValorDescuento);
             } catch (NumberFormatException e) {
@@ -3042,10 +3551,9 @@ public class MenuAdminForm extends javax.swing.JFrame {
             ps.setString(2, codigoDescuento);
             ps.setFloat(3, porcentajeDescuento);
             ps.setFloat(4, valorDescuento);
-            ps.setDate(5, fechaInicioSQL);
-            ps.setDate(6, fechaFinSQL);
+            ps.setString(5, fechaInicio);
+            ps.setString(6, fechaFin);
             ps.setString(7, activo);
-            ps.setInt(8, tablaUsuarios.getSelectedRow());
 
             ps.executeUpdate();
 
@@ -3077,7 +3585,16 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * @param evt El evento de clic del mouse.
      */
     private void lblEliminarDescuentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarDescuentosMouseClicked
-        String sentenciasql = "DELETE FROM descuentos WHERE id_descuento='" + tablaDescuentos.getValueAt(tablaDescuentos.getSelectedRow(), 0) + "';";
+        Object valorColumnaCodigo = null;
+        
+        int selectedRow = tablaDescuentos.getSelectedRow();
+        if (selectedRow != -1) {
+            valorColumnaCodigo = tablaDescuentos.getModel().getValueAt(selectedRow, 1);
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una fila", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String sentenciasql = "DELETE FROM descuentos WHERE codigo_descuento='" + valorColumnaCodigo + "';";
         Object[] opciones = {"Sí", "No"};
 
         if (JOptionPane.showOptionDialog(null, "¿Está seguro de que desea eliminar el registro?", "Eliminar registro", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]) == 0) {
@@ -3087,9 +3604,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
 
                 if (index > 0) {
                     cargarDatosTablaUsuarios("");
-                    limpiarCamposUsuarios();
-                } else {
-                    JOptionPane.showMessageDialog(null, "No seleccionó fila", "Error", JOptionPane.ERROR_MESSAGE);
+                    limpiarCamposDescuentos();
                 }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al eliminar los datos",  "Error", JOptionPane.ERROR_MESSAGE);
@@ -3110,19 +3625,20 @@ public class MenuAdminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_txtValorDescuentosKeyTyped
 
     private void tablaDescuentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDescuentosMouseClicked
-        mbtn.habilitarBotonDefault(contActualizarDescuentos, lblActualizarDescuentos);
-        mbtn.habilitarBoton(contEliminarDescuentos, lblEliminarDescuentos, mbtn.getDefaultButtonWarning(), mbtn.getDefaultText());
-        mbtn.deshabilitarBotonDefault(contRegistrarDescuentos, lblRegistrarDescuentos);
+        mbtn.habilitarBoton(contActualizarDescuentos, lblActualizarDescuentos, mbtn.getButtonPrimary(), mbtn.getDefaultText());
+        mbtn.habilitarBoton(contEliminarDescuentos, lblEliminarDescuentos, mbtn.getButtonDanger(), mbtn.getDefaultText());
+        mbtn.deshabilitarBoton(contRegistrarDescuentos, lblRegistrarDescuentos, mbtn.getButtonSuccessDisabled(), mbtn.getDefaultTextDisabled());
+        txtCodigoDescuentos.setEnabled(false);
         
         int fila = this.tablaDescuentos.getSelectedRow();
         
-        txtNombreDescuentos.setText(tablaDescuentos.getValueAt(fila, 1).toString());
-        txtCodigoDescuentos.setText(tablaDescuentos.getValueAt(fila, 2) != null ? tablaDescuentos.getValueAt(fila, 2).toString() : "");
-        txtPorcentajeDescuentos.setText(tablaDescuentos.getValueAt(fila, 3) != null ? tablaDescuentos.getValueAt(fila, 3).toString() : "");
-        txtValorDescuentos.setText(tablaDescuentos.getValueAt(fila, 4) != null ? tablaDescuentos.getValueAt(fila, 4).toString() : "");
-        txtFechaInicioDescuentos.setText(tablaDescuentos.getValueAt(fila, 5) != null ? tablaDescuentos.getValueAt(fila, 5).toString() : "");
-        txtFechaFinDescuentos.setText(tablaDescuentos.getValueAt(fila, 6) != null ? tablaDescuentos.getValueAt(fila, 6).toString() : "");
-        comboActivoDescuentos.setSelectedItem(tablaDescuentos.getValueAt(fila, 7) != null ? tablaDescuentos.getValueAt(fila, 7).toString() : "");
+        txtNombreDescuentos.setText(tablaDescuentos.getValueAt(fila, 0).toString());
+        txtCodigoDescuentos.setText(tablaDescuentos.getValueAt(fila, 1) != null ? tablaDescuentos.getValueAt(fila, 1).toString() : "");
+        txtPorcentajeDescuentos.setText(tablaDescuentos.getValueAt(fila, 2) != null ? tablaDescuentos.getValueAt(fila, 2).toString() : "");
+        txtValorDescuentos.setText(tablaDescuentos.getValueAt(fila, 3) != null ? tablaDescuentos.getValueAt(fila, 3).toString() : "");
+        txtFechaInicioDescuentos.setText(tablaDescuentos.getValueAt(fila, 4) != null ? tablaDescuentos.getValueAt(fila, 4).toString() : "");
+        txtFechaFinDescuentos.setText(tablaDescuentos.getValueAt(fila, 5) != null ? tablaDescuentos.getValueAt(fila, 5).toString() : "");
+        comboActivoDescuentos.setSelectedItem(tablaDescuentos.getValueAt(fila, 6) != null ? tablaDescuentos.getValueAt(fila, 6).toString() : "");
     }//GEN-LAST:event_tablaDescuentosMouseClicked
 
     // Reinicia el campo de texto de buscar si se encuentra vacío al momento de deseleccionarlo
@@ -3138,27 +3654,27 @@ public class MenuAdminForm extends javax.swing.JFrame {
     // Más animaciones de los botones
     private void contActualizarDescuentosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_contActualizarDescuentosMouseEntered
         if (!contActualizarDescuentos.isEnabled() || !lblActualizarDescuentos.isEnabled()) {return;}
-        contActualizarDescuentos.setBackground(mbtn.getDefaultButtonHover());
+        contActualizarDescuentos.setBackground(mbtn.getButtonPrimaryHover());
     }//GEN-LAST:event_contActualizarDescuentosMouseEntered
 
     private void lblEliminarDescuentosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarDescuentosMouseEntered
         if (!contEliminarDescuentos.isEnabled() || !lblEliminarDescuentos.isEnabled()) {return;}
-        contEliminarDescuentos.setBackground(mbtn.getDefaultButtonWarningHover());
+        contEliminarDescuentos.setBackground(mbtn.getButtonDangerHover());
     }//GEN-LAST:event_lblEliminarDescuentosMouseEntered
 
     private void lblEliminarDescuentosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarDescuentosMouseExited
         if (!contEliminarDescuentos.isEnabled() || !lblEliminarDescuentos.isEnabled()) {return;}
-        contEliminarDescuentos.setBackground(mbtn.getDefaultButtonWarning());
+        contEliminarDescuentos.setBackground(mbtn.getButtonDanger());
     }//GEN-LAST:event_lblEliminarDescuentosMouseExited
 
     private void lblCancelarDescuentosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarDescuentosMouseEntered
-       contCancelarDescuentos.setBackground(mbtn.getDefaultButtonHover());
+       contCancelarDescuentos.setBackground(mbtn.getButtonWarningHover());
     }//GEN-LAST:event_lblCancelarDescuentosMouseEntered
 
     private void lblCancelarDescuentosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarDescuentosMouseExited
-        contCancelarDescuentos.setBackground(mbtn.getDefaultButton());
+        contCancelarDescuentos.setBackground(mbtn.getButtonWarning());
     }//GEN-LAST:event_lblCancelarDescuentosMouseExited
-    
+
     /**
      * Carga los datos de descuentos desde la base de datos y los muestra en la tabla de la interfaz.
      * 
@@ -3166,7 +3682,6 @@ public class MenuAdminForm extends javax.swing.JFrame {
      */
     private void cargarDatosTablaDescuentos(String busqueda) {
         DefaultTableModel modelo = new TablaNoEditable();
-        modelo.addColumn("ID Descuento");
         modelo.addColumn("Nombre de Descuento");
         modelo.addColumn("Código de Descuento");
         modelo.addColumn("Porcentaje de Descuento");
@@ -3178,10 +3693,11 @@ public class MenuAdminForm extends javax.swing.JFrame {
         tablaDescuentos.setModel(modelo);
         tablaDescuentos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        String consultasql = mb.obtenerConsulta("descuentos", "nombre_descuento", "LIKE UPPER('%" + busqueda + "%')", "ASC;");
+        
+        String consultasql = "SELECT nombre_descuento, codigo_descuento, porcentaje_descuento, valor_descuento, fecha_inicio, fecha_fin, activo FROM descuentos WHERE UPPER(nombre_descuento) LIKE UPPER('%" + busqueda + "%') ORDER BY nombre_descuento ASC";
         System.out.println(consultasql);
 
-        String data[] = new String[8];
+        String data[] = new String[7];
 
         Statement st;
 
@@ -3190,14 +3706,13 @@ public class MenuAdminForm extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery(consultasql);
 
             while (rs.next()) {
-                data[0] = rs.getString("id_descuento");
-                data[1] = rs.getString("nombre_descuento");
-                data[2] = rs.getString("codigo_descuento");
-                data[3] = rs.getString("porcentaje_descuento");
-                data[4] = rs.getString("valor_descuento");
-                data[5] = rs.getString("fecha_inicio");
-                data[6] = rs.getString("fecha_fin");
-                data[7] = rs.getString("activo");
+                data[0] = rs.getString("nombre_descuento");
+                data[1] = rs.getString("codigo_descuento");
+                data[2] = rs.getString("porcentaje_descuento");
+                data[3] = rs.getString("valor_descuento");
+                data[4] = rs.getString("fecha_inicio");
+                data[5] = rs.getString("fecha_fin");
+                data[6] = rs.getString("activo");
                 modelo.addRow(data);
             }
         } catch (SQLException e) {
@@ -3211,9 +3726,10 @@ public class MenuAdminForm extends javax.swing.JFrame {
      * Limpia los campos en la interfaz de descuentos y restablece los valores por defecto.
      */
     private void limpiarCamposDescuentos() {
-        mbtn.deshabilitarBoton(contEliminarDescuentos, lblEliminarDescuentos, mbtn.getDefaultButtonWarningDisabled(), mbtn.getDefaultTextDisabled());
-        mbtn.deshabilitarBotonDefault(contActualizarDescuentos, lblActualizarDescuentos);
-        mbtn.habilitarBotonDefault(contRegistrarDescuentos, lblRegistrarDescuentos);
+        mbtn.deshabilitarBoton(contEliminarDescuentos, lblEliminarDescuentos, mbtn.getButtonDangerDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.deshabilitarBoton(contActualizarDescuentos, lblActualizarDescuentos, mbtn.getButtonPrimaryDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.habilitarBoton(contRegistrarDescuentos, lblRegistrarDescuentos, mbtn.getButtonSuccess(), mbtn.getDefaultText());
+        txtCodigoDescuentos.setEnabled(true);
         
         mtf.reiniciarTexto(txtNombreDescuentos, "Nombre");
         mtf.reiniciarTexto(txtCodigoDescuentos, "Código");
@@ -3226,6 +3742,7 @@ public class MenuAdminForm extends javax.swing.JFrame {
         comboActivoDescuentos.setSelectedIndex(0);
         
         mtf.reiniciarTexto(txtBuscarDescuentos, "Buscar");
+        cargarDatosTablaDescuentos("");
     }
 
     /**
@@ -3236,7 +3753,860 @@ public class MenuAdminForm extends javax.swing.JFrame {
         cargarDatosTablaDescuentos("");
     }
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Métodos de la pestaña de Informes">
+    
+    /**
+     * Este método se ejecuta cuando se selecciona una opción en el combo de tipo de informes.
+     * Dependiendo de la opción seleccionada, habilita o deshabilita los combos de período, año y mes.
+     * 
+     * @param evt El evento que desencadenó esta acción.
+     */
+    private void comboTipoInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoInformesActionPerformed
+        String opcionSeleccionada = comboTipoInformes.getSelectedItem().toString();
+        
+        if (!opcionSeleccionada.equals("Tipo de Informe")) {
+            comboPeriodoInformes.setEnabled(true);
+        } else {
+            comboPeriodoInformes.setEnabled(false);
+            comboPeriodoInformes.setSelectedIndex(0);
+            
+            comboYearInformes.setEnabled(false);
+            comboYearInformes.setSelectedIndex(0);
+            
+            comboMonthInformes.setEnabled(false);
+            comboMonthInformes.setSelectedIndex(0); 
+        }
+    }//GEN-LAST:event_comboTipoInformesActionPerformed
+    
+    /**
+     * Este método se ejecuta cuando se selecciona una opción en el combo de período de informes.
+     * Dependiendo de la opción seleccionada, habilita o deshabilita los combos de año y mes, y realiza consultas si es necesario.
+     * @param evt El evento que desencadenó esta acción.
+     */
+    private void comboPeriodoInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboPeriodoInformesActionPerformed
+        String opcionSeleccionada = comboPeriodoInformes.getSelectedItem().toString();
+        String yearSeleccionado = comboYearInformes.getSelectedItem().toString();
+        String monthSeleccionado = comboMonthInformes.getSelectedItem().toString();
+        String periodoSeleccionado = comboPeriodoInformes.getSelectedItem().toString();
+        
+        switch (opcionSeleccionada) {
+            case "Periodo del Informe":
+                comboYearInformes.setEnabled(false);
+                comboYearInformes.setSelectedIndex(0);
+                comboMonthInformes.setEnabled(false);
+                comboMonthInformes.setSelectedIndex(0); 
+                break;
+            case "Anual":
+                comboYearInformes.setEnabled(true);
+                comboMonthInformes.setEnabled(false);
+                comboMonthInformes.setSelectedIndex(0); 
+                
+                if (!yearSeleccionado.equals("Año") && periodoSeleccionado.equals("Anual")) {
+                    consultaInformeInventarioAnual(yearSeleccionado);
+                }
+                    
+                break;
+            case "Mensual":
+                comboYearInformes.setEnabled(true);
+                comboMonthInformes.setEnabled(true);
+                break;
+        }
+    }//GEN-LAST:event_comboPeriodoInformesActionPerformed
+    
+    /**
+     * Este método se ejecuta cuando se selecciona una opción en el combo de año de informes.
+     * Realiza una consulta del informe anual si se selecciona un año válido y la opción es "Anual".
+     * @param evt El evento que desencadenó esta acción.
+     */
+    private void comboYearInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboYearInformesActionPerformed
+        String yearSeleccionado = comboYearInformes.getSelectedItem().toString();
+        String periodoSeleccionado = comboPeriodoInformes.getSelectedItem().toString();
+        
+        if (!yearSeleccionado.equals("Año") && periodoSeleccionado.equals("Anual")) {
+            consultaInformeInventarioAnual(yearSeleccionado);
+        }
+    }//GEN-LAST:event_comboYearInformesActionPerformed
+    
+    /**
+     * Este método se ejecuta cuando se selecciona una opción en el combo de mes de informes.
+     * Realiza una consulta del informe mensual si se selecciona un año válido, un mes válido y la opción es "Mensual".
+     * @param evt El evento que desencadenó esta acción.
+     */
+    private void comboMonthInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMonthInformesActionPerformed
+        String yearSeleccionado = comboYearInformes.getSelectedItem().toString();
+        String monthSeleccionado = comboMonthInformes.getSelectedItem().toString();
+        String periodoSeleccionado = comboPeriodoInformes.getSelectedItem().toString();
+        
+        if (!yearSeleccionado.equals("Año") && !monthSeleccionado.equals("Mes") && periodoSeleccionado.equals("Mensual")) {
+            consultaInformeInventarioMensual(yearSeleccionado, obtenerNumeroMes(monthSeleccionado));
+        }
+    }//GEN-LAST:event_comboMonthInformesActionPerformed
 
+    /**
+     * Realiza una consulta del informe de inventario mensual para un año y mes específicos y muestra los resultados en una tabla.
+     * 
+     * @param year El año para el cual se desea obtener el informe de inventario mensual.
+     * @param month El mes para el cual se desea obtener el informe de inventario mensual.
+     */
+    private void consultaInformeInventarioMensual(String year, String month) {
+        DefaultTableModel modelo = new TablaNoEditable();
+        
+        modelo.addColumn("Año");
+        modelo.addColumn("Mes");
+        modelo.addColumn("Categoría");
+        modelo.addColumn("Productos de esta Categoría");
+        modelo.addColumn("Cantidad Total Disponible");
+        modelo.addColumn("Valor en el Inventario");
+        
+        tablaInformes.setModel(modelo);
+        tablaInformes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
+        String datos[] = new String[6];
+        
+        String consultasql = "SELECT * FROM informe_inventario WHERE year = ? AND month = ?";
+        
+        System.out.println(consultasql);
+        
+        try {
+            PreparedStatement st = cn.prepareStatement(consultasql);
+            
+            st.setString(1, year);
+            st.setString(2, month);
+            
+            ResultSet rs = st.executeQuery();
+            
+            while (rs.next()) {
+                datos[0] = rs.getString("year");
+                datos[1] = rs.getString("month");
+                datos[2] = rs.getString("categoria");
+                datos[3] = rs.getString("total_productos");
+                datos[4] = rs.getString("total_cantidad_disponible");
+                datos[5] = rs.getString("valor_inventario");
+                modelo.addRow(datos);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar datos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error: ", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Realiza una consulta del informe de inventario anual para un año específico y muestra los resultados en una tabla.
+     * @param year El año para el cual se desea obtener el informe de inventario anual.
+     */
+    private void consultaInformeInventarioAnual(String year) {
+        DefaultTableModel modelo = new TablaNoEditable();
+        
+        modelo.addColumn("Año");
+        modelo.addColumn("Categoría");
+        modelo.addColumn("Productos de esta Categoría");
+        modelo.addColumn("Cantidad Total Disponible");
+        modelo.addColumn("Valor en el Inventario");
+        
+        tablaInformes.setModel(modelo);
+        tablaInformes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
+        String datos[] = new String[5];
+        
+        String consultasql = "SELECT * FROM informe_inventario WHERE year = ?";
+        
+        System.out.println(consultasql);
+        
+        try {
+            PreparedStatement st = cn.prepareStatement(consultasql);
+            
+            st.setString(1, year);
+            
+            ResultSet rs = st.executeQuery();
+            
+            while (rs.next()) {
+                datos[0] = rs.getString("year");
+                datos[1] = rs.getString("categoria");
+                datos[2] = rs.getString("total_productos");
+                datos[3] = rs.getString("total_cantidad_disponible");
+                datos[4] = rs.getString("valor_inventario");
+                modelo.addRow(datos);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar datos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error: ", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * 
+     */
+    private void consultaInformeVentasMensual() {
+        
+    }
+    
+    /**
+     * 
+     */
+    private void consultaInformeVentasAnual() {
+        
+    }
+    
+    /**
+     * Obtiene el número de mes correspondiente al nombre del mes dado.
+     * @param mes El nombre del mes en español (Enero, Febrero, etc.).
+     * @return El número del mes en formato de dos dígitos (01, 02, ..., 12).
+     *                Retorna "-1" si el nombre del mes no es válido.
+     */
+    private String obtenerNumeroMes(String mes) {
+        switch (mes) {
+            case "Enero": return "01";
+            case "Febrero": return "02";
+            case "Marzo": return "03";
+            case "Abril": return "04";
+            case "Mayo": return "05";
+            case "Junio": return "06";
+            case "Julio": return "07";
+            case "Agosto": return "08";
+            case "Septiembre": return "09";
+            case "Octubre": return "10";
+            case "Noviembre": return "11";
+            case "Diciembre": return "12";
+            default: return "-1";
+        }
+    }
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Métodos de la pestaña de Caja">
+    
+    // Animaciones para los botones de la ventana
+    private void lblAgregarProductoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAgregarProductoCajaMouseEntered
+        if (!contAgregarProductoCaja.isEnabled() || !lblAgregarProductoCaja.isEnabled()) {return;}
+        contAgregarProductoCaja.setBackground(mbtn.getButtonPrimaryHover());
+    }//GEN-LAST:event_lblAgregarProductoCajaMouseEntered
+
+    private void lblAgregarProductoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAgregarProductoCajaMouseExited
+        if (!contAgregarProductoCaja.isEnabled() || !lblAgregarProductoCaja.isEnabled()) {return;}
+        contAgregarProductoCaja.setBackground(mbtn.getButtonPrimary());
+    }//GEN-LAST:event_lblAgregarProductoCajaMouseExited
+
+    private void lblAplicarDescuentoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAplicarDescuentoCajaMouseEntered
+        if (!contAplicarDescuentoCaja.isEnabled() || !lblAplicarDescuentoCaja.isEnabled()) {return;}
+        contAplicarDescuentoCaja.setBackground(mbtn.getButtonPrimaryHover());
+    }//GEN-LAST:event_lblAplicarDescuentoCajaMouseEntered
+
+    private void lblAplicarDescuentoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAplicarDescuentoCajaMouseExited
+        if (!contAplicarDescuentoCaja.isEnabled() || !lblAplicarDescuentoCaja.isEnabled()) {return;}
+        contAplicarDescuentoCaja.setBackground(mbtn.getButtonPrimary());
+    }//GEN-LAST:event_lblAplicarDescuentoCajaMouseExited
+
+    private void lblCancelarPagoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarPagoCajaMouseEntered
+        if (!contCancelarPagoCaja.isEnabled() || !lblCancelarPagoCaja.isEnabled()) {return;}
+        contCancelarPagoCaja.setBackground(mbtn.getButtonWarningHover());
+    }//GEN-LAST:event_lblCancelarPagoCajaMouseEntered
+
+    private void lblCancelarPagoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarPagoCajaMouseExited
+        if (!contCancelarPagoCaja.isEnabled() || !lblCancelarPagoCaja.isEnabled()) {return;}
+        contCancelarPagoCaja.setBackground(mbtn.getButtonWarning());
+    }//GEN-LAST:event_lblCancelarPagoCajaMouseExited
+
+    private void lblEliminarProductoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarProductoCajaMouseEntered
+        if (!contEliminarProductoCaja.isEnabled() || !lblEliminarProductoCaja.isEnabled()) {return;}
+        contEliminarProductoCaja.setBackground(mbtn.getButtonDangerHover());
+    }//GEN-LAST:event_lblEliminarProductoCajaMouseEntered
+
+    private void lblEliminarProductoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarProductoCajaMouseExited
+        if (!contEliminarProductoCaja.isEnabled() || !lblEliminarProductoCaja.isEnabled()) {return;}
+        contEliminarProductoCaja.setBackground(mbtn.getButtonDanger());
+    }//GEN-LAST:event_lblEliminarProductoCajaMouseExited
+
+    private void lblProcesarPagoCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProcesarPagoCajaMouseEntered
+        if (!contProcesarPagoCaja.isEnabled() || !lblProcesarPagoCaja.isEnabled()) {return;}
+        contProcesarPagoCaja.setBackground(mbtn.getButtonSuccessHover());
+    }//GEN-LAST:event_lblProcesarPagoCajaMouseEntered
+
+    private void lblProcesarPagoCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProcesarPagoCajaMouseExited
+        if (!contProcesarPagoCaja.isEnabled() || !lblProcesarPagoCaja.isEnabled()) {return;}
+        contProcesarPagoCaja.setBackground(mbtn.getButtonSuccess());
+    }//GEN-LAST:event_lblProcesarPagoCajaMouseExited
+
+    // FocusListeners para establecer un texto predeterminado en los campos de la ventana
+    private void txtCantidadCajaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCantidadCajaFocusGained
+        mtf.establecerTextoPredeterminado(txtCantidadCaja, "Cantidad");
+    }//GEN-LAST:event_txtCantidadCajaFocusGained
+
+    private void txtCodigoDescuentoCajaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoDescuentoCajaFocusGained
+        mtf.establecerTextoPredeterminado(txtCodigoDescuentoCaja, "Código de Descuento");
+    }//GEN-LAST:event_txtCodigoDescuentoCajaFocusGained
+
+    // EventListeners de los botones de la ventana
+    
+    /**
+     * Acción al hacer clic en el botón "Agregar Producto" en la caja.
+     * Si el botón de agregar producto está habilitado, se intenta agregar el producto a la venta.
+     * 
+     * @param evt El evento de clic del mouse en el botón "Agregar Producto".
+     */
+    private void lblAgregarProductoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAgregarProductoCajaMouseClicked
+        if (!contAgregarProductoCaja.isEnabled() || !lblAgregarProductoCaja.isEnabled()) {return;}
+        
+        String producto = txtCodigoCaja.getText();
+        String cantidadStr = txtCantidadCaja.getText();
+        int cantidad = 0;
+        
+        try {
+            cantidad = Integer.parseInt(cantidadStr);
+            agregarProductoCaja(producto, cantidad);
+            calcularSubtotalCaja(txtSubtotalCaja);
+            calcularTotalCaja(txtTotalCaja);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "La cantidad debe ser un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_lblAgregarProductoCajaMouseClicked
+
+    /**
+     * Acción al hacer clic en el botón "Aplicar Descuento" en la caja.
+     * Si el botón de aplicar descuento está habilitado, se obtiene y aplica el descuento correspondiente a la venta.
+     * 
+     * @param evt El evento de clic del mouse en el botón "Aplicar Descuento".
+     */
+    private void lblAplicarDescuentoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAplicarDescuentoCajaMouseClicked
+        if (!contAplicarDescuentoCaja.isEnabled() || !lblAplicarDescuentoCaja.isEnabled()) {return;}
+        
+        String codigoDescuento = txtCodigoDescuentoCaja.getText();
+        float valorDescuento;
+        
+        if (!validarDescuentoCaja(codigoDescuento)) {
+            return;
+        }
+        
+        valorDescuento = obtenerDescuentoCaja(codigoDescuento);
+        txtDescuentoTotalCaja.setText(String.valueOf(valorDescuento));
+        
+        calcularSubtotalCaja(txtSubtotalCaja);
+        calcularTotalCaja(txtTotalCaja);
+        JOptionPane.showMessageDialog(null, "Descuento aplicado correctamente.", "Descuento", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_lblAplicarDescuentoCajaMouseClicked
+
+    /**
+     * Acción al hacer clic en el botón "Procesar Pago" en la caja.
+     * Si el botón de procesar pago está habilitado, se realiza el registro de la venta y sus detalles en la base de datos.
+     * 
+     * @param evt El evento de clic del mouse en el botón "Procesar Pago".
+     */
+    private void lblProcesarPagoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblProcesarPagoCajaMouseClicked
+        if (!contProcesarPagoCaja.isEnabled() || !lblProcesarPagoCaja.isEnabled()) {return;}
+        
+        boolean registroVentas = false;
+        boolean registroDetallesVentas = false;
+        
+        // Primera consulta para guardar los datos en la tabla de ventas
+        String nombre_usuario = txtVendedorCaja.getText();
+        String totalVenta = txtSubtotalCaja.getText();
+        String totalDescuento = txtDescuentoTotalCaja.getText();
+        String totalPagado = txtTotalCaja.getText();
+        String metodoPago = obtenerMetodoPago();
+        String sentenciaVentas = "INSERT INTO ventas (nombre_usuario, total_venta, total_descuento, total_pagado, metodo_pago) VALUES (?, ?, ?, ?, ?);";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(sentenciaVentas);
+            
+            ps.setString(1, nombre_usuario);
+            ps.setString(2, totalVenta);
+            ps.setString(3, totalDescuento);
+            ps.setString(4, totalPagado);
+            ps.setString(5, metodoPago);
+            
+            ps.executeUpdate();
+            
+            registroVentas = true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo agregar la venta a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        // Segunda consulta para guardar los productos comprados en la tabla de detalles_ventas
+        String idVenta = obtenerIdUltimaVenta();
+        String sentenciaDetallesVentas = "INSERT INTO detalles_ventas (id_venta, codigo_barras_producto, cantidad_vendida, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?);";
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaCaja.getModel();
+        int filas = modeloTabla.getRowCount();
+        try {
+            PreparedStatement ps = cn.prepareStatement(sentenciaDetallesVentas);
+            
+            for (int i = 0; i < filas; i++) {
+                String codigoBarrasProducto = modeloTabla.getValueAt(i, 1).toString();
+                String cantidadVendida = modeloTabla.getValueAt(i, 3).toString();
+                String precioUnitario = modeloTabla.getValueAt(i, 2).toString();
+                String subtotal = modeloTabla.getValueAt(i, 4).toString();
+                
+                ps.setString(1, idVenta);
+                ps.setString(2, codigoBarrasProducto);
+                ps.setString(3, cantidadVendida);
+                ps.setString(4, precioUnitario);
+                ps.setString(5, subtotal);
+                
+                ps.executeUpdate();
+            }
+            registroVentas = true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo agregar los detalles de la venta a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        // Mensaje de transacción satisfactoria
+        if (registroVentas == true && registroDetallesVentas == true) {
+            JOptionPane.showMessageDialog(null, "La transacción se realizó satisfactoriamente", "Descuento", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_lblProcesarPagoCajaMouseClicked
+
+    /**
+     * Acción al hacer clic en el botón "Cancelar Pago".
+     * Si el botón de cancelar pago está habilitado, se procede a limpiar los campos de la caja.
+     * 
+     * @param evt El evento de clic del mouse en el botón "Cancelar Pago".
+     */
+    private void lblCancelarPagoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCancelarPagoCajaMouseClicked
+        if (!contCancelarPagoCaja.isEnabled() || !lblCancelarPagoCaja.isEnabled()) {return;}
+        limpiarCamposCaja();
+    }//GEN-LAST:event_lblCancelarPagoCajaMouseClicked
+
+    /**
+     * Acción al hacer clic en el botón "Eliminar Producto".
+     * Si el botón de eliminar producto está habilitado, se procede a eliminar la fila seleccionada de la tabla.
+     * Además, se actualiza el estado del botón de "Procesar Pago".
+     * 
+     * @param evt El evento de clic del mouse en el botón "Eliminar Producto".
+     */
+    private void lblEliminarProductoCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarProductoCajaMouseClicked
+        if (!contEliminarProductoCaja.isEnabled() || !lblEliminarProductoCaja.isEnabled()) {return;}
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaCaja.getModel();
+        int fila = tablaCaja.getSelectedRow();
+        
+        modeloTabla.removeRow(fila);
+        modeloTabla.fireTableDataChanged();
+        
+        mbtn.habilitarBoton(contProcesarPagoCaja, lblProcesarPagoCaja, mbtn.getButtonSuccess(), mbtn.getDefaultText());
+        
+    }//GEN-LAST:event_lblEliminarProductoCajaMouseClicked
+
+    // Establece un texto predeterminado para txtCodigoCaja
+    private void txtCodigoCajaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoCajaFocusGained
+        mtf.establecerTextoPredeterminado(txtCodigoCaja, "Código del Producto");
+    }//GEN-LAST:event_txtCodigoCajaFocusGained
+
+    // Se asegura de que en estos campos solo se ingresen enteros
+    private void txtCodigoCajaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoCajaKeyTyped
+        me.validarEntero(evt);
+    }//GEN-LAST:event_txtCodigoCajaKeyTyped
+
+    private void txtCantidadCajaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadCajaKeyTyped
+        me.validarEntero(evt);
+    }//GEN-LAST:event_txtCantidadCajaKeyTyped
+
+    
+    /**
+     * Acción al hacer clic en una fila de la tabla de la caja.
+     * Se habilitan los botones de "Actualizar" y "Eliminar" mientras se deshabilita el de "Procesar Pago".
+     * Los campos de código y cantidad se deshabilitan para evitar edición accidental.
+     * Se obtiene la información de la fila seleccionada en la tabla, como el código del producto y la cantidad.
+     * Esta información se refleja en los campos de código y cantidad para facilitar la edición.
+     * 
+     * @param evt El evento de clic del mouse en la tabla.
+     */
+    private void tablaCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaCajaMouseClicked
+        mbtn.habilitarBoton(contActualizarCaja, lblActualizarCaja, mbtn.getButtonPrimary(), mbtn.getDefaultText());
+        mbtn.habilitarBoton(contEliminarProductoCaja, lblEliminarProductoCaja, mbtn.getButtonDanger(), mbtn.getDefaultText());
+        mbtn.deshabilitarBoton(contProcesarPagoCaja, lblProcesarPagoCaja, mbtn.getButtonSuccessDisabled(), mbtn.getDefaultTextDisabled());
+        txtCodigoCaja.setEnabled(false);
+        comboMetodoPagoCaja.setEnabled(false);
+        
+        int fila = this.tablaCaja.getSelectedRow();
+        
+        String codigoProducto = tablaCaja.getValueAt(fila, 1).toString();
+        String cantidadProducto = tablaCaja.getValueAt(fila, 3).toString();
+        
+        txtCodigoCaja.setText(codigoProducto);
+        txtCantidadCaja.setText(cantidadProducto);
+    }//GEN-LAST:event_tablaCajaMouseClicked
+
+    /**
+     * Acción al hacer clic en el botón de "Actualizar" en la sección de la caja.
+     * Se realiza cuando se busca actualizar la cantidad de un producto en la tabla.
+     * Se verifica si el botón y etiqueta de "Actualizar" están habilitados antes de continuar.
+     * Se actualiza la cantidad del producto en la tabla y se refleja el cambio en la interfaz.
+     * Los campos de código y cantidad se habilitan para edición y se establecen a valores predeterminados.
+     * Se deshabilita el botón de "Actualizar" y su etiqueta, así como el botón de "Eliminar".
+     * Se habilita el botón de "Procesar Pago".
+     */
+    private void lblActualizarCajaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblActualizarCajaMouseClicked
+        if (!contActualizarCaja.isEnabled() || !lblActualizarCaja.isEnabled()) {return;}
+        
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaCaja.getModel();
+        int fila = tablaCaja.getSelectedRow();
+        int columna = 3;
+        
+        String cantidadNueva = txtCantidadCaja.getText();
+        
+        modeloTabla.setValueAt(cantidadNueva, fila, columna);
+        modeloTabla.fireTableCellUpdated(fila, columna);
+        
+        txtCodigoCaja.setEnabled(true);
+        txtCantidadCaja.setEnabled(true);
+        mtf.establecerTextoPredeterminado(txtCodigoCaja, "Código del Producto");
+        mtf.establecerTextoPredeterminado(txtCantidadCaja, "Cantidad");
+        
+        mbtn.deshabilitarBoton(contActualizarCaja, lblActualizarCaja, mbtn.getButtonPrimaryDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.deshabilitarBoton(contEliminarProductoCaja, lblEliminarProductoCaja, mbtn.getButtonDangerDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.habilitarBoton(contProcesarPagoCaja, lblProcesarPagoCaja, mbtn.getButtonSuccess(), mbtn.getDefaultText());
+    }//GEN-LAST:event_lblActualizarCajaMouseClicked
+
+    // Animaciones del botón para actualizar los artículos de la caja
+    private void lblActualizarCajaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblActualizarCajaMouseEntered
+        if (!contProcesarPagoCaja.isEnabled() || !lblProcesarPagoCaja.isEnabled()) {return;}
+        contActualizarCaja.setBackground(mbtn.getButtonPrimaryHover());
+    }//GEN-LAST:event_lblActualizarCajaMouseEntered
+
+    private void lblActualizarCajaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblActualizarCajaMouseExited
+        if (!contActualizarCaja.isEnabled() || !lblActualizarCaja.isEnabled()) {return;}
+        contActualizarCaja.setBackground(mbtn.getButtonPrimary());
+    }//GEN-LAST:event_lblActualizarCajaMouseExited
+
+    // Se asegura de que en txtCodigoDescuento solo se ingresen mayúsculas
+    private void txtCodigoDescuentoCajaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoDescuentoCajaKeyTyped
+        me.convertirMayuscula(evt, txtCodigoDescuentoCaja);
+    }//GEN-LAST:event_txtCodigoDescuentoCajaKeyTyped
+    
+    // Métodos de la ventana de Caja
+    
+    /**
+     * Carga el modelo de la tabla de la caja con las columnas necesarias.
+     */
+    public void cargarModeloTablaCaja() {
+        DefaultTableModel modelo = new TablaNoEditable();
+        modelo.addColumn("Nombre del Producto");
+        modelo.addColumn("Código de Barras");
+        modelo.addColumn("Precio Unitario");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Subtotal del Producto");
+        tablaCaja.setModel(modelo);
+    }
+    
+    /**
+     * Limpia los campos y elementos de la ventana de la caja.
+     */
+    public void limpiarCamposCaja() {
+        mbtn.deshabilitarBoton(contEliminarProductoCaja, lblEliminarProductoCaja, mbtn.getButtonDangerDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.deshabilitarBoton(contActualizarCaja, lblActualizarCaja, mbtn.getButtonPrimaryDisabled(), mbtn.getDefaultTextDisabled());
+        mbtn.habilitarBoton(contProcesarPagoCaja, lblProcesarPagoCaja, mbtn.getButtonSuccess(), mbtn.getDefaultText());
+        
+        mtf.reiniciarTexto(txtCodigoCaja, "Código del Producto");
+        mtf.reiniciarTexto(txtCantidadCaja, "Cantidad");
+        mtf.reiniciarTexto(txtCodigoDescuentoCaja, "Código de Descuento");
+        
+        mtf.reiniciarTexto(txtSubtotalCaja, "Subtotal");
+        mtf.reiniciarTexto(txtDescuentoTotalCaja ,"Descuento");
+        mtf.reiniciarTexto(txtTotalCaja, "Total");
+        
+        comboMetodoPagoCaja.setSelectedIndex(0);
+        
+        cargarNombreCajero();
+        cargarFechaCaja();
+        cargarModeloTablaCaja();
+    }
+    
+    /**
+     * Configura la ventana de la caja.
+     * Limpia los campos y carga el modelo de la tabla de caja.
+     */
+    public void configurarVentanaCaja() {
+        cargarModeloTablaCaja();
+        limpiarCamposCaja();
+    }
+    
+    /**
+     * Valida si un producto es válido para agregar a la caja.
+     * @param codigoProducto El código de barras del producto a validar.
+     * @param cantidad La cantidad del producto a validar.
+     * @return true si el producto es válido, false en caso contrario.
+     */
+    private boolean validarProductoCaja(String codigoProducto, int cantidad) {
+        String consultasql = "SELECT cantidad_disponible FROM productos WHERE codigo_barras = ?";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(consultasql);
+            
+            ps.setString(1, codigoProducto);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                int cantidadDisponible = rs.getInt("cantidad_disponible");
+                
+                if (cantidad <= cantidadDisponible) {
+                    return true;
+                } else {
+                    String mensaje = "No hay suficientes unidades, solo quedan " + cantidadDisponible; 
+                    JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El producto no existe en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    /**
+     * Agrega un producto a la tabla de caja si es válido.
+     * @param codigoProducto El código de barras del producto a agregar.
+     * @param cantidad La cantidad del producto a agregar.
+     */
+    private void agregarProductoCaja(String codigoProducto, int cantidad) {
+        if (validarProductoCaja(codigoProducto, cantidad) == false) {  
+            return;
+        }
+        
+        String consultasql = "SELECT nombre_producto, codigo_barras, precio_unitario FROM productos WHERE codigo_barras='"+ codigoProducto +"';";
+        String[] datos = new String[5];
+
+        try {
+            PreparedStatement ps = cn.prepareStatement(consultasql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                datos[0] = rs.getString("nombre_producto");
+                datos[1] = rs.getString("codigo_barras");
+                datos[2] = rs.getString("precio_unitario");
+            }
+            datos[3] = String.valueOf(cantidad);
+
+            try {
+                int precioUnitarioEntero = Integer.parseInt(datos[2]);
+                datos[4] = String.valueOf(cantidad * precioUnitarioEntero);
+            } catch (NumberFormatException ex) {
+                System.out.println("No se pudo convertir el precio unitario a entero");
+                return;
+            }
+
+            DefaultTableModel modelo = (DefaultTableModel) tablaCaja.getModel();
+            modelo.addRow(datos);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo agregar el producto", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    /**
+     * Valida si un código de descuento es válido y está activo en un período específico.
+     * @param codigoDescuento El código de descuento a validar.
+     * @return true si el descuento es válido y está activo, false en caso contrario.
+     */
+    private boolean validarDescuentoCaja(String codigoDescuento) {
+        if (codigoDescuento == null) {
+            return false;
+        }
+
+        String consultasql = "SELECT fecha_inicio, fecha_fin, activo FROM descuentos WHERE codigo_descuento = ?";
+
+        try {
+            PreparedStatement ps = cn.prepareStatement(consultasql);
+
+            ps.setString(1, codigoDescuento);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(null, "El código de descuento no existe en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            String fechaInicioStr = rs.getString("fecha_inicio");
+            String fechaFinStr = rs.getString("fecha_fin");
+            String activo = rs.getString("activo");
+
+            System.out.println(fechaInicioStr + " " + fechaFinStr + " " + activo);
+
+            java.util.Date fechaActual = new java.util.Date();
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date fechaInicio = dateFormat.parse(fechaInicioStr);
+            java.util.Date fechaFin = dateFormat.parse(fechaFinStr);
+
+            System.out.println(fechaInicio + " " + fechaFin + " " + activo);
+
+            if (!activo.equals("SI") || fechaActual.before(fechaInicio) || fechaActual.after(fechaFin)) {
+                String mensaje = !activo.equals("SI") ? "El descuento está fuera del período válido." : "El descuento no está activo.";
+                JOptionPane.showMessageDialog(null, mensaje, "Descuento no válido", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+
+            System.out.println("Descuento aplicado correctamente");
+            return true;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, "Error al parsear las fechas.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    /**
+     * Obtiene el descuento asociado a un código de descuento.
+     * @param codigoDescuento El código de descuento del cual se desea obtener el descuento.
+     * @return El descuento asociado al código o 0 si no se encuentra o hay un error.
+     */
+    private float obtenerDescuentoCaja(String codigoDescuento) {
+        if (codigoDescuento == null) {
+            return 0;
+        }
+
+        String consultasql = "SELECT porcentaje_descuento, valor_descuento FROM descuentos WHERE codigo_descuento = ?";
+
+        try {
+            PreparedStatement ps = cn.prepareStatement(consultasql);
+
+            ps.setString(1, codigoDescuento);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                return 0;
+            }
+
+            float porcentajeDescuento = rs.getFloat("porcentaje_descuento");
+            int valorDescuento = rs.getInt("valor_descuento");
+            return porcentajeDescuento != 0.0 ? porcentajeDescuento : (float) valorDescuento;
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al consultar la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return 0;
+        }
+    }
+    
+    /**
+     * Calcula y muestra el subtotal en el campo de texto especificado.
+     * @param campoSubtotal El campo de texto donde se mostrará el subtotal calculado.
+     */
+    private void calcularSubtotalCaja(JTextField campoSubtotal) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaCaja.getModel();
+        float total = 0;
+        int indiceColumnaSubtotal = 4;
+        
+        for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
+            Object valorCelda = modeloTabla.getValueAt(fila, indiceColumnaSubtotal);
+        
+            if (!(valorCelda instanceof String)) {
+                return;
+            }
+            
+            try {
+                float subtotal = Float.parseFloat((String) valorCelda);
+                total += subtotal;
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo calcular el subtotal", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+        campoSubtotal.setText(String.valueOf(total));
+    }
+    
+    /**
+     * Calcula y actualiza el total en el campo de texto especificado.
+     * @param campoTotal El campo de texto donde se mostrará el total calculado.
+     */
+    private void calcularTotalCaja(JTextField campoTotal) {
+        float subtotal = Float.parseFloat(txtSubtotalCaja.getText());
+        String descuentoString = txtDescuentoTotalCaja.getText();
+        float valorDescuento = 0;
+        float total;
+
+        if (!descuentoString.equals("Descuento")) {
+            try {
+                float descuento = Float.parseFloat(descuentoString);
+
+                if (descuento > 1) {
+                    valorDescuento = descuento;
+                } else {
+                    valorDescuento = subtotal * descuento;
+                }
+            } catch (NumberFormatException ex) {
+                System.out.println(ex);
+            }
+        }
+
+        total = subtotal - valorDescuento;
+        campoTotal.setText(String.valueOf(total));
+    }
+    
+    /**
+     * Carga el nombre del cajero en el campo de texto txtVendedorCaja.
+     */
+    private void cargarNombreCajero() {
+        txtVendedorCaja.setText(this.usuario);
+    }
+    
+    /**
+     * Carga la fecha actual formateada en el campo de texto txtFechaCaja.
+     */
+    private void cargarFechaCaja() {
+        java.util.Date fecha = new java.util.Date();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+        String fechaFormateada = sdf.format(fecha);
+        
+        txtFechaCaja.setText(fechaFormateada);
+    }
+    
+    /**
+     * Obtiene el método de pago seleccionado del combo box.
+     * @return El método de pago seleccionado o null si no se seleccionó ninguno.
+     */
+    private String obtenerMetodoPago() {
+        String metodoPago = comboMetodoPagoCaja.getSelectedItem().toString();
+        
+        switch (metodoPago) {
+            case "Efectivo":
+                return "Efectivo";
+            case "Tarjeta":
+                return "Tarjeta";
+            case "Método de Pago":
+                JOptionPane.showMessageDialog(null, "Debe seleccionar un método de pago.", "Error", JOptionPane.ERROR_MESSAGE);
+                return null;
+        }
+        return null;
+    }
+    
+    /**
+     * Obtiene el último ID de venta insertado en la tabla de ventas.
+     * @return El último ID de venta o null en caso de error.
+     */
+    private String obtenerIdUltimaVenta() {
+        String consultasql = "SELECT LAST_INSERT_ROWID()";
+        
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(consultasql);
+            
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo obtener la información de la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return null;
+    }
+// </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Declaracion de variables de los componentes">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel barraLateral;
@@ -3252,24 +4622,34 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboActivoDescuentos;
     private javax.swing.JComboBox<String> comboBuscarPorProductos;
     private javax.swing.JComboBox<String> comboEstadoCuentaUsuarios;
+    private javax.swing.JComboBox<String> comboMetodoPagoCaja;
+    private javax.swing.JComboBox<String> comboMonthInformes;
     private javax.swing.JComboBox<String> comboNivelAccesoUsuarios;
     private javax.swing.JComboBox<String> comboOrdenarProductos;
+    private javax.swing.JComboBox<String> comboPeriodoInformes;
     private javax.swing.JComboBox<String> comboTipoBusquedaProductos;
+    private javax.swing.JComboBox<String> comboTipoInformes;
+    private javax.swing.JComboBox<String> comboYearInformes;
+    private javax.swing.JPanel contActualizarCaja;
     private javax.swing.JPanel contActualizarDescuentos;
     private javax.swing.JPanel contActualizarProductos;
     private javax.swing.JPanel contActualizarUsuarios;
+    private javax.swing.JPanel contAgregarProductoCaja;
+    private javax.swing.JPanel contAplicarDescuentoCaja;
     private javax.swing.JPanel contBarraLateral;
     private javax.swing.JPanel contBotonBarraLateral;
     private javax.swing.JPanel contCancelarDescuentos;
+    private javax.swing.JPanel contCancelarPagoCaja;
     private javax.swing.JPanel contCancelarUsuarios;
     private javax.swing.JPanel contCerrar;
     private javax.swing.JPanel contCerrarSesion;
-    private javax.swing.JPanel contConfiguracion;
     private javax.swing.JPanel contEliminarDescuentos;
+    private javax.swing.JPanel contEliminarProductoCaja;
     private javax.swing.JPanel contEliminarUsuarios;
     private javax.swing.JPanel contLimpiarSeleccionProductos;
     private javax.swing.JPanel contMaximizar;
     private javax.swing.JPanel contOcultar;
+    private javax.swing.JPanel contProcesarPagoCaja;
     private javax.swing.JPanel contRegistrarDescuentos;
     private javax.swing.JPanel contRegistrarProductos;
     private javax.swing.JPanel contRegistrarUsuarios;
@@ -3280,10 +4660,19 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JLabel iconoUsuarios;
     private javax.swing.JLabel iconoVentas;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3296,29 +4685,37 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JLabel labelCaja;
     private javax.swing.JLabel labelDescuentos;
     private javax.swing.JLabel labelInformes;
     private javax.swing.JLabel labelProductos;
     private javax.swing.JLabel labelUsuarios;
     private javax.swing.JLabel labelVentas;
+    private javax.swing.JLabel lblActualizarCaja;
     private javax.swing.JLabel lblActualizarDescuentos;
     private javax.swing.JLabel lblActualizarProductos;
     private javax.swing.JLabel lblActualizarUsuarios;
+    private javax.swing.JLabel lblAgregarProductoCaja;
+    private javax.swing.JLabel lblAplicarDescuentoCaja;
     private javax.swing.JLabel lblBotonBarraLateral;
     private javax.swing.JLabel lblCancelarDescuentos;
+    private javax.swing.JLabel lblCancelarPagoCaja;
     private javax.swing.JLabel lblCancelarUsuarios;
     private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblCerrarSesion;
-    private javax.swing.JLabel lblConfiguracion;
     private javax.swing.JLabel lblEliminarDescuentos;
+    private javax.swing.JLabel lblEliminarProductoCaja;
     private javax.swing.JLabel lblEliminarUsuarios;
     private javax.swing.JLabel lblLimpiarSeleccionProductos;
     private javax.swing.JLabel lblMaximizar;
     private javax.swing.JLabel lblOcultar;
+    private javax.swing.JLabel lblProcesarPagoCaja;
     private javax.swing.JLabel lblRegistrarDescuentos;
     private javax.swing.JLabel lblRegistrarProductos;
     private javax.swing.JLabel lblRegistrarUsuarios;
+    private javax.swing.JLabel logoMenuPrincipal;
     private javax.swing.JPopupMenu menuClickDerechoProductos;
     private javax.swing.JLayeredPane panelBarraLateral;
     private javax.swing.JLayeredPane panelCaja;
@@ -3331,21 +4728,26 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JPanel panelVentana;
     private javax.swing.JPanel panelVentanaPaneles;
     private javax.swing.JLayeredPane panelVentas;
-    private com.toedter.calendar.JDateChooser selectorFechaProductos;
+    private javax.swing.JTable tablaCaja;
     private javax.swing.JTable tablaDescuentos;
+    private javax.swing.JTable tablaInformes;
     private javax.swing.JTable tablaProductos;
     private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtBuscarDescuentos;
     private javax.swing.JTextField txtBuscarProductos;
     private javax.swing.JTextField txtBuscarUsuarios;
+    private javax.swing.JTextField txtCantidadCaja;
     private javax.swing.JTextField txtCantidadProductos;
     private javax.swing.JTextField txtCategoriaProductos;
     private javax.swing.JPasswordField txtClaveUsuarios;
     private javax.swing.JTextField txtCodigoBarrasProductos;
+    private javax.swing.JTextField txtCodigoCaja;
+    private javax.swing.JTextField txtCodigoDescuentoCaja;
     private javax.swing.JTextField txtCodigoDescuentos;
     private javax.swing.JTextArea txtDescripcionProductos;
+    private javax.swing.JTextField txtDescuentoTotalCaja;
     private javax.swing.JTextField txtEmailUsuarios;
-    private javax.swing.JTextField txtEstadoProductos;
+    private javax.swing.JTextField txtFechaCaja;
     private javax.swing.JFormattedTextField txtFechaFinDescuentos;
     private javax.swing.JFormattedTextField txtFechaInicioDescuentos;
     private javax.swing.JTextField txtIdProductos;
@@ -3355,9 +4757,12 @@ public class MenuAdminForm extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtNumeroUsuarios;
     private javax.swing.JTextField txtPorcentajeDescuentos;
     private javax.swing.JTextField txtPrecioProductos;
+    private javax.swing.JTextField txtSubtotalCaja;
     private javax.swing.JLabel txtTitulo;
+    private javax.swing.JTextField txtTotalCaja;
     private javax.swing.JTextField txtUserNameUsuarios;
     private javax.swing.JTextField txtValorDescuentos;
+    private javax.swing.JTextField txtVendedorCaja;
     // End of variables declaration//GEN-END:variables
     // </editor-fold>
 }

@@ -1,5 +1,6 @@
 package ventanas;
 
+import clases.MetodosBotones;
 import clases.MetodosTextField;
 import clases.MetodosValidacion;
 import java.sql.Connection;
@@ -25,6 +26,8 @@ public class LoginForm extends javax.swing.JFrame {
     // Instancia de la clase MetodosTextField para establecer los textos predeterminados
     MetodosTextField mtf = new MetodosTextField();
     
+    MetodosBotones mbtn = new MetodosBotones();
+    
     // Variable para almacenar la conexion que se genero en la clase main QuickCheck
     private Connection cn;
     
@@ -41,7 +44,7 @@ public class LoginForm extends javax.swing.JFrame {
         this.cn = cn;
         
         // Configura el ícono de la ventana
-        ImageIcon icon = new ImageIcon(this.getClass().getResource("/quickcheck/assets/ventana/icons8-checkout-50.png"));
+        ImageIcon icon = new ImageIcon(this.getClass().getResource("/quickcheck/assets/ventana/checkout-64px.png"));
         this.setIconImage(icon.getImage());
         
         // Inicializa los componentes del formulario
@@ -70,6 +73,7 @@ public class LoginForm extends javax.swing.JFrame {
         barraTitulo = new javax.swing.JPanel();
         contCerrar = new javax.swing.JPanel();
         lblCerrar = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -78,7 +82,7 @@ public class LoginForm extends javax.swing.JFrame {
         loginPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         lblTitulo.setFont(new java.awt.Font("Ubuntu Medium", 1, 40)); // NOI18N
-        lblTitulo.setForeground(new java.awt.Color(92, 164, 169));
+        lblTitulo.setForeground(new java.awt.Color(89, 135, 198));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Inicio de Sesión");
 
@@ -122,7 +126,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        contIniciarSesion.setBackground(new java.awt.Color(92, 164, 169));
+        contIniciarSesion.setBackground(new java.awt.Color(89, 135, 198));
 
         lblIniciarSesion.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lblIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
@@ -216,6 +220,10 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(contCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quickcheck/assets/ventana/checkout-128px.png"))); // NOI18N
+        jLabel1.setToolTipText("");
+
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
@@ -239,14 +247,17 @@ public class LoginForm extends javax.swing.JFrame {
                             .addComponent(lblNombreUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(80, 80, 80))
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addComponent(barraTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(lblTitulo)
-                .addGap(50, 50, 50)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addGap(32, 32, 32)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(lblNombreUsuario)
                 .addGap(18, 18, 18)
                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,7 +271,7 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(separador2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(contIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -271,7 +282,9 @@ public class LoginForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -311,11 +324,11 @@ public class LoginForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Animaciones del botón iniciar sesión">
     
     private void lblIniciarSesionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseEntered
-        contIniciarSesion.setBackground(new Color(111, 197, 203));
+        contIniciarSesion.setBackground(mbtn.getButtonPrimaryHover());
     }//GEN-LAST:event_lblIniciarSesionMouseEntered
 
     private void lblIniciarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblIniciarSesionMouseExited
-        contIniciarSesion.setBackground(new Color(92,164,169));
+        contIniciarSesion.setBackground(mbtn.getButtonPrimary());
     }//GEN-LAST:event_lblIniciarSesionMouseExited
     // </editor-fold>
     
@@ -377,6 +390,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JPanel barraTitulo;
     private javax.swing.JPanel contCerrar;
     private javax.swing.JPanel contIniciarSesion;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblCerrar;
     private javax.swing.JLabel lblIniciarSesion;
     private javax.swing.JLabel lblNombreUsuario;
@@ -486,6 +500,7 @@ public class LoginForm extends javax.swing.JFrame {
     public void iniciarSesion() {
         String usuario = txtUsuario.getText();
         String clave = String.valueOf(txtClave.getPassword());
+        String nombreCompleto = obtenerNombreCompletoUsuario(usuario);
         
         if (mv.validarDatos(usuario, "Ingrese su nombre de usuario", "usuario") || mv.validarDatos(clave, "**********", "contraseña")) {
             return;
@@ -503,7 +518,7 @@ public class LoginForm extends javax.swing.JFrame {
         
         switch (verificarNivelAcceso(usuario, clave)) {
             case "Administrador":
-                MenuAdminForm menuAdminForm = new MenuAdminForm(cn);
+                MenuAdminForm menuAdminForm = new MenuAdminForm(cn, nombreCompleto);
                 menuAdminForm.setVisible(true);
                 menuAdminForm.setLocationRelativeTo(null);
                 
@@ -512,14 +527,62 @@ public class LoginForm extends javax.swing.JFrame {
                 System.out.println("Conectado al panel de Administrador");
                 break;
             case "Supervisor":
-                System.out.println("Aún no está preparado");
+                System.out.println("No está preparado");
+//                MenuSupervisorForm menuSupervisorForm = new MenuSupervisorForm(cn, nombreCompleto);
+//                menuSupervisorForm.setVisible(true);
+//                menuSupervisorForm.setLocationRelativeTo(null);
+//                
+//                this.dispose();
+//                
+//                System.out.println("Conectado al panel de Supervisor");
                 break;
             case "Inventario":
-                System.out.println("Aún no está preparado");
+                System.out.println("No está preparado");
+//                MenuInventarioForm menuInventarioForm = new MenuInventarioForm(cn, nombreCompleto);
+//                menuInventarioForm.setVisible(true);
+//                menuInventarioForm.setLocationRelativeTo(null);
+//                
+//                this.dispose();
+//                
+//                System.out.println("Conectado al panel de Inventario");
                 break;
             case "Cajero":
-                System.out.println("Aún no está preparado");
+                System.out.println("No está preparado");
+//                MenuCajeroForm menuCajeroForm = new MenuCajeroForm(cn, nombreCompleto);
+//                menuCajeroForm.setVisible(true);
+//                menuCajeroForm.setLocationRelativeTo(null);
+//                
+//                this.dispose();
+//                
+//                System.out.println("Conectado al panel de Cajero");
                 break;
+        }
+    }
+    
+    /**
+     * Obtiene el nombre completo de un usuario a partir de su nombre de usuario.
+     * 
+     * @param usuario El nombre de usuario para el cual se busca el nombre completo.
+     * @return El nombre completo del usuario si se encuentra, o null si no se encuentra.
+     */
+    public String obtenerNombreCompletoUsuario(String usuario) {
+        String sentenciasql = "SELECT nombre_completo FROM usuarios WHERE nombre_usuario = ?";
+        
+        try {
+            PreparedStatement ps = cn.prepareStatement(sentenciasql);
+            ps.setString(1, usuario);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("nombre_completo");
+            } else {
+                return null; // Usuario no encontrado en la base de datos
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo obtener el nombre completo del usuario", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
     }
     // </editor-fold>

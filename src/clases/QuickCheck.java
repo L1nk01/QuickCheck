@@ -1,6 +1,6 @@
 package clases;
 
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneLightIJTheme;
 import java.sql.Connection;
 import ventanas.LoginForm;
 
@@ -16,7 +16,7 @@ public class QuickCheck {
      */
     public static void main(String[] args) {
         try {
-            FlatMaterialLighterIJTheme.setup();
+            FlatAtomOneLightIJTheme.setup();
         } catch(Exception ex) {
             System.err.println("Failed to initialize LaF");
         }

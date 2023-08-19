@@ -76,7 +76,7 @@ public class MetodosValidacion {
     public boolean validarComboBox(String input, String nombreCampo) {
         String mensaje = "El selector de " + nombreCampo + " no puede estar vacio";
 
-        if (input == null || input.equals("Elegir")) {
+        if (input == null || input.equals("Elegir") || input.equals("Disponibilidad")) {
             JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
             return true;
         }
@@ -92,7 +92,7 @@ public class MetodosValidacion {
      * @return true si el valor float es válido (distinto de 0), false si es igual a 0.
      */
     public boolean validarFloat(float input, String nombreCampo) {
-        String mensaje = "El selector de " + nombreCampo + " no puede estar vacio";
+        String mensaje = "El campo de " + nombreCampo + " no puede estar vacio";
         if (input == 0) {
             JOptionPane.showMessageDialog(null, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
             return true;
